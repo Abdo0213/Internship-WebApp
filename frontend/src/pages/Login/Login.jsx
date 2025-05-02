@@ -41,12 +41,13 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+    
 
-    /*try {
-      const response = await axios.post('http://localhost:5000/login', formData, {
+    try {
+      const response = await axios.post('http://localhost:8765/user-service/auth/login', formData, {
         validateStatus: (status) => status < 500
       });
-
+      console.log("Login response:", response.data);
       if (response.status === 200) {
         login(response.data);
         // Use location from useLocation hook instead of global location
@@ -60,7 +61,7 @@ export default function Login() {
       setError('An unexpected error occurred. Please try again later.');
     } finally {
       setIsLoading(false);
-    }*/
+    }
   };
 
   return (

@@ -34,8 +34,11 @@ public class AuthService {
 
     public void registerUser(String username, String password, String email) {
         Optional<User> userOpt = userRepository.findByUsername(username);
+        Optional<User> userOpt2 = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             throw new RuntimeException("Username exists");
+        } else if (userOpt2.isPresent()){
+            throw new RuntimeException("Email exists");
         }
         User user = new User();
         user.setUsername(username);

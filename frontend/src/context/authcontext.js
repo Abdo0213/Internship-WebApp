@@ -31,16 +31,16 @@ export function AuthProvider({ children }) {
   });
 
   const login = (authData) => {
+    console.log(authData);
     localStorage.setItem('accessToken', authData.accessToken);
-    localStorage.setItem('refreshToken', authData.refreshToken);
     localStorage.setItem('userData', JSON.stringify({
       userId: authData.userId,
       username: authData.username,
-      roles: authData.roles
+      //roles: authData.roles
     }));
     setAuth({
       isAuthenticated: true,
-      roles: authData.roles,
+      //roles: authData.roles,
       userId: authData.userId,
       username: authData.username
     });
@@ -48,7 +48,6 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
     localStorage.removeItem('userData');
     setAuth({
       isAuthenticated: false,

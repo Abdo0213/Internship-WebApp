@@ -9,7 +9,7 @@ export default function Register() {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
-    roles: ['user'] // Default role
+    email:'',
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -45,21 +45,28 @@ export default function Register() {
       [name]: value
     }));
   };
-  const [selectedRole, setSelectedRole] = useState('user'); // Default role
-  const handleRoleChange = (e) => {
-    setSelectedRole(e.target.value);
-  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
-    /*try {
-      await axios.post('http://localhost:5000/register', formData);
-      alert('Registration successful! Please login.');
-      navigate('/login');
+    try {
+        await axios.post(
+            'http://localhost:8765/user-service/auth/register',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true // If using cookies/sessions
+            }
+        );
+        alert('Registration successful! Please login.');
+        navigate('/login');
     } catch (error) {
-      setError(error.response?.data || 'Registration failed. Please try again.');
-    }*/
+        console.error('Registration error:', error);
+        setError(error.response?.data?.message || 
+              'Registration failed. Please try again.');
+    }
   };
 
   return (
@@ -81,6 +88,17 @@ export default function Register() {
               placeholder="Choose a username"
             />
           </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="auth-input full-width"
+              placeholder="Choose a email"
+            />
+          </div>
           
           <div className="form-group">
             <input
@@ -92,31 +110,6 @@ export default function Register() {
               className="auth-input full-width"
               placeholder="Create a password"
             />
-          </div>
-
-          <div className="form-group">
-            <label className="roles-label">Select Roles:</label>
-            <div className="roles-options">
-              <label className="role-option">
-                <input
-                  type="radio"
-                  value="user"
-                  checked={selectedRole === 'user'}
-                  onChange={handleRoleChange}
-                />
-                <span className="role-badge user">User</span>
-              </label>
-              
-              <label className="role-option">
-                <input
-                  type="radio"
-                  value="editor"
-                  checked={selectedRole === 'editor'}
-                  onChange={handleRoleChange}
-                />
-                <span className="role-badge editor">Editor</span>
-              </label>
-            </div>
           </div>
           
           <button type="submit" className="auth-button primary full-width">
