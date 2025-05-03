@@ -7,6 +7,9 @@ public class RegisterRequest {
     private String username;
     private String password;
     private String email;
+    private String company;
+    private String cv;
+    private String fName;
 
     public String getUsername() {
         return username;
@@ -18,5 +21,17 @@ public class RegisterRequest {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public String getfName() {
+        return fName;
+    }
+
+    public String getCv() {
+        return cv;
     }
 }

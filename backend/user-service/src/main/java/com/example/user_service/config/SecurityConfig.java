@@ -1,5 +1,6 @@
 package com.example.user_service.config;
 
+import com.example.user_service.repository.StudentRepository;
 import com.example.user_service.repository.UserRepository;
 import com.example.user_service.services.CustomUserDetailsService;
 import feign.Request;
@@ -31,8 +32,8 @@ public class SecurityConfig {
 
     // Register your CustomUserDetailsService
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
-        return new CustomUserDetailsService(userRepository);
+    public UserDetailsService userDetailsService(UserRepository userRepository, StudentRepository studentRepository) {
+        return new CustomUserDetailsService(userRepository, studentRepository);
     }
 
     // Authentication Provider that uses your custom user details service
@@ -61,21 +62,4 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-
-    // CORS Configuration Source
-    /*@Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Your React app's origin
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }*/
 }
-/*
-
- */

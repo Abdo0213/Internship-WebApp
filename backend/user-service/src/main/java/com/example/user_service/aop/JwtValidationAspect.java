@@ -5,41 +5,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-/*
-@Aspect
-@Component
-public class JwtValidationAspect{
-    private final JwtUtil jwtUtil;
+import com.example.user_service.exception.JwtAuthenticationException;
 
-    public JwtValidationAspect(JwtUtil jwtUtil) {
-        this.jwtUtil = jwtUtil;
-    }
 
-    @Around("@annotation(jwtValidation)")
-    public Object validateJwt(ProceedingJoinPoint joinPoint, JwtValidation jwtValidation) throws Throwable {
-        HttpServletRequest request = ((ServletRequestAttributes)
-                RequestContextHolder.currentRequestAttributes()).getRequest();
+import java.lang.reflect.Method;
 
-        String token = request.getHeader("Authorization");
-        if (token == null || !token.startsWith("Bearer ")) {
-            throw new RuntimeException("Missing token");
-        }
-
-        token = token.substring(7);
-        if (!jwtUtil.validateToken(token)) {
-            throw new RuntimeException("Invalid token");
-        }
-
-        String username = jwtUtil.getUsernameFromToken(token);
-        request.setAttribute("username", username); // Pass to controller
-
-        return joinPoint.proceed();
-    }
-}
-*/
 @Aspect
 @Component
 public class JwtValidationAspect {
@@ -57,23 +31,50 @@ public class JwtValidationAspect {
         String requestURI = request.getRequestURI();
 
         // Skip validation for registration endpoint
-        if (requestURI.startsWith("/api/auth/")) {
+        if (requestURI.startsWith("/auth/")) {
             return joinPoint.proceed();  // Skip token validation and proceed with the method
         }
 
-        String token = request.getHeader("Authorization");
-        if (token == null || !token.startsWith("Bearer ")) {
-            throw new RuntimeException("Missing token");
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.toLowerCase().startsWith("bearer ")) {
+            throw new JwtAuthenticationException("Missing or malformed Authorization header");
         }
 
-        token = token.substring(7);  // Extract the token part
+        String token = authHeader.substring(7);  // Remove "Bearer "
         if (!jwtUtil.validateToken(token)) {
-            throw new RuntimeException("Invalid token");
+            throw new JwtAuthenticationException("Invalid token");
         }
 
         String username = jwtUtil.getUsernameFromToken(token);
+        String role = jwtUtil.getRoleFromToken(token);
+        if (!isValidRole(role)) {
+            throw new JwtAuthenticationException("Invalid role in token");
+        }
         request.setAttribute("username", username); // Pass username to the controller
+        request.setAttribute("role", role);
 
-        return joinPoint.proceed();  // Proceed with method execution
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+
+        if (jwtValidation.requiredRoles().length > 0) {
+            boolean hasRequiredRole = false;
+            for (String requiredRole : jwtValidation.requiredRoles()) {
+                if (requiredRole.equalsIgnoreCase(role)) {
+                    hasRequiredRole = true;
+                    break;
+                }
+            }
+            if (!hasRequiredRole) {
+                throw new JwtAuthenticationException("Insufficient privileges");
+            }
+        }
+
+        return joinPoint.proceed();
+    }
+    private boolean isValidRole(String role) {
+        return role != null &&
+                (role.equalsIgnoreCase("admin") ||
+                        role.equalsIgnoreCase("hr") ||
+                        role.equalsIgnoreCase("student"));
     }
 }
