@@ -21,6 +21,14 @@ public class InternshipController {
     public ResponseEntity<Internship> createInternship(@RequestBody Internship internship) {
         return ResponseEntity.ok(internshipService.createInternship(internship));
     }
+    @GetMapping
+    public ResponseEntity<List<Internship>> getAllInternships() {
+        return ResponseEntity.ok(internshipService.getAllInternships());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Internship> getOneInternship(@PathVariable Long id) {
+        return ResponseEntity.ok(internshipService.getOneInternship(id));
+    }
 
     @GetMapping("/active")
     public ResponseEntity<List<Internship>> getActiveInternships() {
@@ -31,4 +39,23 @@ public class InternshipController {
     public ResponseEntity<List<Internship>> getByHr(@PathVariable Long hrId) {
         return ResponseEntity.ok(internshipService.getInternshipsByHr(hrId));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Internship> updateInternship(@PathVariable Long id) {
+        return ResponseEntity.ok(internshipService.updateInternship(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Internship> deleteInternship(@PathVariable Long id) {
+        return ResponseEntity.ok(internshipService.deleteInternship(id));
+    }
+
 }
+/*
+Post create intern ----> create
+get getAll --> get all (student)
+get getwihthr --> get all intern with hr id == {id} (hr)
+get oneIntern ---> get one intern (student)
+Put Update --> update
+Delete delete ---> delete
+*/

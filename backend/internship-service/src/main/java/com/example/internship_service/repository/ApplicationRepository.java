@@ -8,6 +8,6 @@ import java.util.List;
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
     List<Application> findByStudentId(Long studentId);
     List<Application> findByInternshipId(Long internshipId);
-    List<Application> findByStatus(Status status);
+    List<Application> findByInternshipIdIn(List<Long> internshipIds);
     boolean existsByStudentIdAndInternshipId(Long studentId, Long internshipId);
 }

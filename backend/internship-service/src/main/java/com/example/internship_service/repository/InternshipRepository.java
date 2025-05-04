@@ -15,7 +15,6 @@ public interface InternshipRepository extends JpaRepository<Internship, Long> {
     // Active internships (not expired)
     @Query("SELECT i FROM Internship i WHERE i.status = 'ACTIVE' AND i.expiresAt > ?1")
     List<Internship> findActiveInternships(LocalDateTime now);
-
     // Expiration batch update
     @Transactional
     @Modifying
