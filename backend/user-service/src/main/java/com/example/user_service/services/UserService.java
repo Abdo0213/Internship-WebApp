@@ -1,20 +1,25 @@
 package com.example.user_service.services;
 
 
+import com.example.user_service.model.Student;
 import com.example.user_service.model.User;
 import com.example.user_service.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -23,23 +28,83 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
-    public List<User> getUserAllUsers(Long id) {
-        // get all the users and return it in list ----> 6
-        return null;
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
+    public Boolean AddUser(String username, String password, String email, String company){
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        Optional<User> userOpt2 = userRepository.findByEmail(email);
+        if(userOpt.isPresent()){
+            throw new RuntimeException("User Name Is Already Exists");
+        }
+        if(userOpt2.isPresent()){
+            throw new RuntimeException("Email Is Already Exists");
+        }
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(passwordEncoder.encode(password));
+        newUser.setEmail(email);
+        newUser.setCompany(company);
+        newUser.setRole("hr");
 
-    // not assigned
-    public Boolean AddUser(String userName, String password, String email, String company){
-        // need to add the new hr user with the bcrypt password ----> 5
-        return false;
+        userRepository.save(newUser);
+        return true;
     }
-    public Boolean UpdateUser(String userName, String password, String email, String company){
-        // need to add the new hr user with the bcrypt password ----> 4
+    public Boolean UpdateUser(Long id, String userName, String password, String email, String company) {
+        // 1. Find the existing user by ID (or throw an exception if not found)
+        boolean isChanged = false;
+        Optional<User> existingUserOpt = userRepository.findById(id);
+        if (existingUserOpt.isEmpty()) {
+            throw new RuntimeException("User not found with ID: " + id);
+        }
+        User existingUser = existingUserOpt.get();
+
+        // 2. Check if the new username or email already exists (excluding the current user)
+        if (userName != null && !userName.equals(existingUser.getUsername())) {
+            Optional<User> userWithSameUsername = userRepository.findByUsername(userName);
+            if (userWithSameUsername.isPresent()) {
+                throw new RuntimeException("Username already taken");
+            }
+        }
+
+        if (email != null && !email.equals(existingUser.getEmail())) {
+            Optional<User> userWithSameEmail = userRepository.findByEmail(email);
+            if (userWithSameEmail.isPresent()) {
+                throw new RuntimeException("Email already in use");
+            }
+        }
+
+        // 3. Update fields if they are provided (non-null)
+        if (userName != null) {
+            existingUser.setUsername(userName);
+            isChanged = true;
+        }
+        if (password != null && !password.isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(password)); // Hash new password
+            isChanged = true;
+        }
+        if (email != null) {
+            existingUser.setEmail(email);
+            isChanged = true;
+        }
+        if (company != null) {
+            existingUser.setCompany(company);
+            isChanged = true;
+        }
+
+        // 4. Save the updated user
+        if (isChanged) {
+            userRepository.save(existingUser);
+            return true;
+        }
         return false;
     }
     public Boolean DeleteUser(Long id){
-        // need to delete hr user with the id
-        return false;
+        if(!userRepository.existsById(id)){
+            return false;
+        }
+        userRepository.deleteById(id);
+        return true;
     }
 
 }
