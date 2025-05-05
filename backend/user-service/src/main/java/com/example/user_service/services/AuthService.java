@@ -1,7 +1,11 @@
 package com.example.user_service.services;
 
+import com.example.user_service.model.Company;
+import com.example.user_service.model.Role;
 import com.example.user_service.model.Student;
 import com.example.user_service.model.User;
+import com.example.user_service.repository.CompanyRepository;
+import com.example.user_service.repository.RoleRepository;
 import com.example.user_service.repository.StudentRepository;
 import com.example.user_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +29,12 @@ public class AuthService {
 
     @Autowired
     private StudentRepository studentRepository;
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -54,21 +63,44 @@ public class AuthService {
         return result;
     }
 
-    public void registerUser(String username, String password, String email, String fName, String cv) {
-        Optional<Student> userOpt = studentRepository.findByUsername(username);
-        Optional<Student> userOpt2 = studentRepository.findByEmail(email);
+    public void registerUser(String username, String password, String email, String fName, String roleName) {
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        Optional<User> userOpt2 = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
             throw new RuntimeException("Username exists");
         } else if (userOpt2.isPresent()){
             throw new RuntimeException("Email exists");
         }
-        Student student = new Student();
-        student.setUsername(username);
-        student.setPassword(passwordEncoder.encode(password));
-        student.setEmail(email);
-        student.setFName(fName);
-        student.setCv(cv);
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
 
-        studentRepository.save(student);
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setEmail(email);
+        user.setFname(fName);
+        user.setRole(role);
+        userRepository.save(user);
+
+        Optional<User> newUser = userRepository.findByEmail(user.getEmail());
+        if(newUser.isEmpty()){
+            throw new RuntimeException("User hasnt saved");
+        }
+        if(roleName.equals("STUDENT"))
+        {
+            Student student = new Student();
+            student.setUser(newUser.get());
+            studentRepository.save(student);
+        }
+        else if(roleName.equals("Company"))
+        {
+            Company company = new Company();
+            company.setUser(newUser.get());
+            companyRepository.save(company);
+        }
+        else{
+            throw new RuntimeException("Role not found");
+        }
+
     }
 }

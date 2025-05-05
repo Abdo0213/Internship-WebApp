@@ -19,8 +19,14 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
-    private String company;
-    private String role;
+
+
+
+    private String fname;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     public Long getId() {
         return id;
@@ -50,19 +56,20 @@ public class User {
         this.email = email;
     }
 
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
 }

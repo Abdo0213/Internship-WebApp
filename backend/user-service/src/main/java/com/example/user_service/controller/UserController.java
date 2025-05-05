@@ -1,20 +1,16 @@
 package com.example.user_service.controller;
 
 import com.example.user_service.annotation.JwtValidation;
-import com.example.user_service.dto.LoginRequest;
 import com.example.user_service.dto.RegisterRequest;
 import com.example.user_service.model.User;
 import com.example.user_service.services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -77,7 +73,8 @@ public class UserController {
                     registerRequest.getUsername(),
                     registerRequest.getPassword(),
                     registerRequest.getEmail(),
-                    registerRequest.getCompany()
+                    registerRequest.getfName(),
+                    registerRequest.getRoleName()
             );
 
             if (isAdded) {
@@ -101,7 +98,8 @@ public class UserController {
                     request.getUsername(),
                     request.getPassword(),
                     request.getEmail(),
-                    request.getCompany()
+                    request.getfName(),
+                    request.getRoleName()
             );
 
             if (isUpdated) {
