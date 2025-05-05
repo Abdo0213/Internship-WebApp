@@ -4,7 +4,6 @@ import com.example.user_service.model.Student;
 import com.example.user_service.model.User;
 import com.example.user_service.repository.StudentRepository;
 import com.example.user_service.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,22 +46,22 @@ public class CustomUserDetailsService implements UserDetailsService {
             builder.password(appUser.getPassword());
 
             // Assuming your User entity has a getRole() method
-            builder.roles(appUser.getRole().toUpperCase()); // e.g., ADMIN, HR
+            builder.roles(appUser.getRole().getName().toUpperCase()); // e.g., ADMIN, HR
             return builder.build();
         }
 
-        // If not in userRepository, check studentRepository
-        Optional<Student> optionalStudent = studentRepository.findByUsername(username);
-
-        if (optionalStudent.isPresent()) {
-            Student student = optionalStudent.get();
-
-            UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(student.getUsername());
-            builder.password(student.getPassword());
-            builder.roles("STUDENT");
-
-            return builder.build();
-        }
+//        // If not in userRepository, check studentRepository
+//        Optional<Student> optionalStudent = studentRepository.findByUserUsername(username);
+//
+//        if (optionalStudent.isPresent()) {
+//            Student student = optionalStudent.get();
+//
+//            UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(student.getUsername());
+//            builder.password(student.getPassword());
+//            builder.roles("STUDENT");
+//
+//            return builder.build();
+//        }
 
         // Not found in either repo
         throw new UsernameNotFoundException("User not found in either user or student repository");

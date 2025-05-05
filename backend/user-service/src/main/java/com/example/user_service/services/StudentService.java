@@ -1,6 +1,8 @@
 package com.example.user_service.services;
 
+import com.example.user_service.dto.StudentDto;
 import com.example.user_service.model.Student;
+import com.example.user_service.model.User;
 import com.example.user_service.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,14 +14,16 @@ import java.util.Optional;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
+    private final UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, UserService userService) {
         this.studentRepository = studentRepository;
+        this.userService = userService;
     }
     public Student getUserByUsername(String username) {
-        return studentRepository.findByUsername(username)
+        return studentRepository.findByUserUsername(username)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
     }
     public List<Student> getAllStudents() {
@@ -30,7 +34,21 @@ public class StudentService {
         return studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
     }
-    public boolean updateStudent(Long id, Student updatedStudent) {
+    public void addStudent(StudentDto dto) {
+        userService.AddUser(dto.getUsername(), dto.getEmail(), dto.getPassword(), dto.getfName(),"STUDENT");
+
+        User user =  userService.getUserByUsername(dto.getUsername());
+        Student student = new Student();
+        student.setUser(user);
+        student.setFaculty(dto.getFaculty());
+        student.setCollege(dto.getCollege());
+        student.setGrade(dto.getGrade());
+        student.setYearOfGraduation(dto.getYearOfGraduation());
+        student.setPhone(dto.getPhone());
+        student.setCv(dto.getCv());
+        studentRepository.save(student);
+    }
+    public boolean updateStudent(Long id, StudentDto updatedStudent) {
         Optional<Student> existingStudentOpt = studentRepository.findById(id);
 
         if (existingStudentOpt.isEmpty()) {
@@ -41,10 +59,7 @@ public class StudentService {
         boolean wasUpdated = false;
 
         // Check and update each field
-        if (updatedStudent.getFName() != null && !updatedStudent.getFName().equals(existingStudent.getFName())) {
-            existingStudent.setFName(updatedStudent.getFName());
-            wasUpdated = true;
-        }
+
         if (updatedStudent.getPhone() != null && !updatedStudent.getPhone().equals(existingStudent.getPhone())) {
             existingStudent.setPhone(updatedStudent.getPhone());
             wasUpdated = true;
@@ -69,14 +84,26 @@ public class StudentService {
             existingStudent.setCv(updatedStudent.getCv());
             wasUpdated = true;
         }
-
+        User user = existingStudent.getUser();
         // Handle password separately
         if (updatedStudent.getPassword() != null && !updatedStudent.getPassword().isEmpty()) {
-            existingStudent.setPassword(passwordEncoder.encode(updatedStudent.getPassword()));
+            user.setPassword(passwordEncoder.encode(updatedStudent.getPassword()));
             wasUpdated = true;
         }
-
+        if (updatedStudent.getEmail() != null && !updatedStudent.getEmail().isEmpty()) {
+            user.setEmail(updatedStudent.getEmail());
+            wasUpdated = true;
+        }
+        if (updatedStudent.getUsername() != null && !updatedStudent.getUsername().isEmpty()) {
+            user.setUsername(updatedStudent.getUsername());
+            wasUpdated = true;
+        }
+        if (updatedStudent.getfName() != null && !updatedStudent.getfName().equals(user.getFname())) {
+            user.setFname(updatedStudent.getfName());
+            wasUpdated = true;
+        }
         if (wasUpdated) {
+            userService.UpdateUser(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getFname(), user.getRole().getName());
             studentRepository.save(existingStudent);
         }
 

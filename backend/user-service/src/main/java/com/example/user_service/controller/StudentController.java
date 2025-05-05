@@ -1,11 +1,9 @@
 package com.example.user_service.controller;
 
 import com.example.user_service.annotation.JwtValidation;
-import com.example.user_service.dto.RegisterRequest;
+import com.example.user_service.dto.StudentDto;
 import com.example.user_service.model.Student;
-import com.example.user_service.model.User;
 import com.example.user_service.services.StudentService;
-import com.example.user_service.services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -70,7 +68,7 @@ public class StudentController {
 
     @PutMapping("/{id}")
     @JwtValidation(requiredRoles = {"student"})
-    public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody Student request) {
+    public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody StudentDto request) {
         try {
             boolean isUpdated = studentService.updateStudent(id, request);
             if (isUpdated) {

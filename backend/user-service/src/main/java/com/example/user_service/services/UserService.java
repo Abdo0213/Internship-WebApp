@@ -1,8 +1,9 @@
 package com.example.user_service.services;
 
 
-import com.example.user_service.model.Student;
+import com.example.user_service.model.Role;
 import com.example.user_service.model.User;
+import com.example.user_service.repository.RoleRepository;
 import com.example.user_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,11 +15,13 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
@@ -31,7 +34,7 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-    public Boolean AddUser(String username, String password, String email, String company){
+    public Boolean AddUser(String username, String password, String email, String FName, String roleName){
         Optional<User> userOpt = userRepository.findByUsername(username);
         Optional<User> userOpt2 = userRepository.findByEmail(email);
         if(userOpt.isPresent()){
@@ -40,17 +43,19 @@ public class UserService {
         if(userOpt2.isPresent()){
             throw new RuntimeException("Email Is Already Exists");
         }
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setEmail(email);
-        newUser.setCompany(company);
-        newUser.setRole("hr");
+        newUser.setFname(FName);
+        newUser.setRole(role);
 
         userRepository.save(newUser);
         return true;
     }
-    public Boolean UpdateUser(Long id, String userName, String password, String email, String company) {
+    public Boolean UpdateUser(Long id, String userName, String password, String email, String FName, String roleName) {
         // 1. Find the existing user by ID (or throw an exception if not found)
         boolean isChanged = false;
         Optional<User> existingUserOpt = userRepository.findById(id);
@@ -73,7 +78,8 @@ public class UserService {
                 throw new RuntimeException("Email already in use");
             }
         }
-
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
         // 3. Update fields if they are provided (non-null)
         if (userName != null) {
             existingUser.setUsername(userName);
@@ -87,8 +93,12 @@ public class UserService {
             existingUser.setEmail(email);
             isChanged = true;
         }
-        if (company != null) {
-            existingUser.setCompany(company);
+        if (FName != null) {
+            existingUser.setFname(FName);
+            isChanged = true;
+        }
+        if (role != null) {
+            existingUser.setRole(role);
             isChanged = true;
         }
 

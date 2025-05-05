@@ -6,7 +6,6 @@ import com.example.user_service.dto.RegisterRequest;
 import com.example.user_service.model.Student;
 import com.example.user_service.model.User;
 import com.example.user_service.services.AuthService;
-import com.example.user_service.annotation.JwtValidation;  // Make sure you import your custom annotation
 import com.example.user_service.services.StudentService;
 import com.example.user_service.services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -79,8 +78,7 @@ public class AuthController {
                 request.getPassword(),
                 request.getEmail(),
                 request.getfName(),
-                request.getCv()
-
+                request.getRoleName()
         );
         return ResponseEntity.ok("User registered");
     }
