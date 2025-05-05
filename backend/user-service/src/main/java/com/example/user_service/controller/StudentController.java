@@ -21,7 +21,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<String> getAllStudents() throws JsonProcessingException {
         try {
             List<Student> students = studentService.getAllStudents();
@@ -65,7 +65,13 @@ public class StudentController {
                     .body("Error retrieving student: " + e.getMessage());
         }
     }
-
+    @GetMapping("/exists/{id}")
+    @JwtValidation(requiredRoles = {"student"}) // Adjust roles as needed
+    public ResponseEntity<Void> checkHrExists(@PathVariable Long id) {
+        return studentService.studentExists(id)
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.notFound().build();
+    }
     @PutMapping("/{id}")
     @JwtValidation(requiredRoles = {"student"})
     public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody StudentDto request) {
@@ -81,7 +87,7 @@ public class StudentController {
         }
     }
     @DeleteMapping("/{id}")
-    @JwtValidation(requiredRoles = {"admin", "student"})
+    @JwtValidation(requiredRoles = {"student"})
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) throws JsonProcessingException {
         try {
             boolean isDeleted = studentService.DeleteStudent(id);

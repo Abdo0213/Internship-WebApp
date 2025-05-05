@@ -3,6 +3,7 @@ package com.example.user_service.controller;
 import com.example.user_service.config.JwtUtil;
 import com.example.user_service.dto.LoginRequest;
 import com.example.user_service.dto.RegisterRequest;
+import com.example.user_service.model.Role;
 import com.example.user_service.model.Student;
 import com.example.user_service.model.User;
 import com.example.user_service.services.AuthService;
@@ -27,8 +28,6 @@ public class AuthController {
     private AuthService authService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private StudentService studentService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -40,30 +39,14 @@ public class AuthController {
                 request.getUsername(),
                 request.getPassword()
         );
-
-        if (Objects.equals(data.get("role"), "STUDENT")){
-            String token = jwtUtil.generateToken(data.get("username"), "student");
-            System.out.println(request.getUsername() + "---------------------------------------------------------------------------");
-            Student student = studentService.getUserByUsername(request.getUsername());
-            Map<String, Object> response = new HashMap<>();
-            response.put("accessToken", token);
-            response.put("userId", student.getId());
-            response.put("username", data.get("username"));
-            response.put("role", "student");
-
-            String jsonResponse = new ObjectMapper().writeValueAsString(response);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(jsonResponse);
-        }
-        // change role
-        String token = jwtUtil.generateToken(data.get("username"), data.get("role"));
         User user = userService.getUserByUsername(request.getUsername());
+        String role = user.getRole().getName();
+        String token = jwtUtil.generateToken(data.get("username"), role);
         Map<String, Object> response = new HashMap<>();
         response.put("accessToken", token);
         response.put("userId", user.getId());
         response.put("username", data.get("username"));
-        response.put("role", user.getRole());
+        response.put("role", role);
 
         String jsonResponse = new ObjectMapper().writeValueAsString(response);
         return ResponseEntity.ok()
@@ -78,7 +61,7 @@ public class AuthController {
                 request.getPassword(),
                 request.getEmail(),
                 request.getfName(),
-                request.getRoleName()
+                request.getCv()
         );
         return ResponseEntity.ok("User registered");
     }

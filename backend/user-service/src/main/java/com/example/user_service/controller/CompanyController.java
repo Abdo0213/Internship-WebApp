@@ -29,10 +29,7 @@ public class CompanyController {
         return companyService.getCompanyById(id);
     }
 
-    @GetMapping("/by-username/{username}")
-    public Company getCompanyByUsername(@PathVariable String username) {
-        return companyService.getCompanyByUsername(username);
-    }
+
 
     @PostMapping
     public void addCompany(@RequestBody CompanyDto companyDto) {

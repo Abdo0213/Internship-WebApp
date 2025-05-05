@@ -109,6 +109,9 @@ public class StudentService {
 
         return wasUpdated;
     }
+    public boolean studentExists(Long id) {
+        return studentRepository.existsById(id);
+    }
     public Boolean DeleteStudent(Long id){
         if(studentRepository.existsById(id)){
             studentRepository.deleteById(id);

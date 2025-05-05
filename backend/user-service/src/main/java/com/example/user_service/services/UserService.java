@@ -1,8 +1,9 @@
 package com.example.user_service.services;
 
 
-import com.example.user_service.model.Role;
-import com.example.user_service.model.User;
+import com.example.user_service.model.*;
+import com.example.user_service.repository.CompanyRepository;
+import com.example.user_service.repository.HrRepository;
 import com.example.user_service.repository.RoleRepository;
 import com.example.user_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, HrRepository hrRepository, CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
@@ -43,7 +44,7 @@ public class UserService {
         if(userOpt2.isPresent()){
             throw new RuntimeException("Email Is Already Exists");
         }
-        Role role = roleRepository.findByName(roleName)
+        Role role = roleRepository.findByName("ADMIN")
                 .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
         User newUser = new User();
         newUser.setUsername(username);

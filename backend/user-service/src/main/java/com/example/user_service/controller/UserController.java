@@ -20,31 +20,9 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    @GetMapping("/hr")
-    public ResponseEntity<String> getALlUsers() throws JsonProcessingException {
-        try {
-            List<User> users = userService.getAllUsers();
-
-            if (users.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                        .body("No users found");
-            }
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            String usersJson = objectMapper.writeValueAsString(users);
-            return ResponseEntity.ok(usersJson);
-
-        } catch (JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error processing user data");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest()
-                    .body("Error retrieving users: " + e.getMessage());
-        }
-    }
 
     @GetMapping("/{id}")
-    @JwtValidation(requiredRoles = {"hr", "admin"})
+    @JwtValidation(requiredRoles = {"admin"})
     public ResponseEntity<String> getOneUser(@PathVariable Long id) throws JsonProcessingException {
         try {
             User user = userService.getUserById(id);  // Returns null if not found
@@ -65,7 +43,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/hr")
+    @PostMapping
     @JwtValidation(requiredRoles = {"admin"})
     public ResponseEntity<String> addUser(@RequestBody RegisterRequest registerRequest) throws JsonProcessingException {
         try {
@@ -89,8 +67,8 @@ public class UserController {
                     .body(e.getMessage());
         }
     }
-    @PutMapping("/hr/{id}")
-    @JwtValidation(requiredRoles = {"hr", "admin"})
+    @PutMapping("/{id}")
+    @JwtValidation(requiredRoles = {"admin"})
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody RegisterRequest request) {
         try {
             boolean isUpdated = userService.UpdateUser(
@@ -112,7 +90,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/hr/{id}")
+    @DeleteMapping("/{id}")
     @JwtValidation(requiredRoles = {"admin"})
     public ResponseEntity<String> deleteUser(@PathVariable Long id) throws JsonProcessingException {
         try {

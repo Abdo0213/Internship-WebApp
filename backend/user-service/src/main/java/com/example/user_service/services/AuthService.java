@@ -63,7 +63,7 @@ public class AuthService {
         return result;
     }
 
-    public void registerUser(String username, String password, String email, String fName, String roleName) {
+    public void registerUser(String username, String password, String email, String fName, String cv) {
         Optional<User> userOpt = userRepository.findByUsername(username);
         Optional<User> userOpt2 = userRepository.findByEmail(email);
         if (userOpt.isPresent()) {
@@ -71,8 +71,8 @@ public class AuthService {
         } else if (userOpt2.isPresent()){
             throw new RuntimeException("Email exists");
         }
-        Role role = roleRepository.findByName(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+        Role role = roleRepository.findByName("STUDENT")
+                .orElseThrow(() -> new RuntimeException("Role not found: " + "STUDENT"));
 
         User user = new User();
         user.setUsername(username);
@@ -84,23 +84,13 @@ public class AuthService {
 
         Optional<User> newUser = userRepository.findByEmail(user.getEmail());
         if(newUser.isEmpty()){
-            throw new RuntimeException("User hasnt saved");
+            throw new RuntimeException("User hasn't saved");
         }
-        if(roleName.equals("STUDENT"))
-        {
-            Student student = new Student();
-            student.setUser(newUser.get());
-            studentRepository.save(student);
-        }
-        else if(roleName.equals("Company"))
-        {
-            Company company = new Company();
-            company.setUser(newUser.get());
-            companyRepository.save(company);
-        }
-        else{
-            throw new RuntimeException("Role not found");
-        }
+
+        Student student = new Student();
+        student.setCv(cv);
+        student.setUser(newUser.get());
+        studentRepository.save(student);
 
     }
 }

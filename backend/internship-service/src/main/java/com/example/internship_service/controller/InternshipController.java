@@ -1,5 +1,6 @@
 package com.example.internship_service.controller;
 
+import com.example.internship_service.annotation.JwtValidation;
 import com.example.internship_service.model.Internship;
 import com.example.internship_service.services.InternshipService;
 import org.springframework.http.HttpStatus;
@@ -19,28 +20,39 @@ public class InternshipController {
     }
 
     @GetMapping
+    @JwtValidation(requiredRoles = {"student","admin"})
     public ResponseEntity<List<Internship>> getAllInternships() {
         return ResponseEntity.ok(internshipService.getAllInternships());
     }
     @GetMapping("/{id}")
+    @JwtValidation(requiredRoles = {"hr","student","admin"})
     public ResponseEntity<Internship> getOneInternship(@PathVariable Long id) {
         return ResponseEntity.ok(internshipService.getOneInternship(id));
     }
     @GetMapping("/active")
+    @JwtValidation(requiredRoles = {"hr","student","admin"})
     public ResponseEntity<List<Internship>> getActiveInternships() {
         return ResponseEntity.ok(internshipService.getActiveInternships());
     }
 
     @GetMapping("/hr/{hrId}")
+    @JwtValidation(requiredRoles = {"hr"})
     public ResponseEntity<List<Internship>> getByHr(@PathVariable Long hrId) {
         return ResponseEntity.ok(internshipService.getInternshipsByHr(hrId));
     }
     @PostMapping
-    public ResponseEntity<Internship> createInternship(@RequestBody Internship internship) {
-        return ResponseEntity.ok(internshipService.createInternship(internship));
+    @JwtValidation(requiredRoles = {"hr"})
+    public ResponseEntity<?> createInternship(@RequestBody Internship internship, @RequestHeader("Authorization") String token) {
+        try {
+            Internship created = internshipService.createInternship(internship, token);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
+    @JwtValidation(requiredRoles = {"hr","admin"})
     public ResponseEntity<String> updateInternship(@PathVariable Long id, @RequestBody Internship internship) {
         try {
             boolean isUpdated = internshipService.updateInternship(id, internship);
@@ -55,6 +67,7 @@ public class InternshipController {
     }
 
     @DeleteMapping("/{id}")
+    @JwtValidation(requiredRoles = {"hr","admin"})
     public ResponseEntity<String> deleteInternship(@PathVariable Long id) {
         try {
             boolean isDeleted = internshipService.deleteInternship(id);

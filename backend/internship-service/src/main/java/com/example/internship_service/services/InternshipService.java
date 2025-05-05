@@ -1,8 +1,13 @@
 package com.example.internship_service.services;
 
+import com.example.internship_service.config.UserServiceClient;
 import com.example.internship_service.model.Internship;
 import com.example.internship_service.repository.InternshipRepository;
+import feign.FeignException;
 import jakarta.transaction.Transactional;
+import org.apache.catalina.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +17,26 @@ import java.util.List;
 @Service
 public class InternshipService {
     private final InternshipRepository internshipRepository;
+    private final UserServiceClient userServiceClient;
 
-    public InternshipService(InternshipRepository internshipRepository) {
+    public InternshipService(InternshipRepository internshipRepository, UserServiceClient hrServiceClient) {
         this.internshipRepository = internshipRepository;
+        this.userServiceClient = hrServiceClient;
     }
 
     // Create new internship (auto-sets 1-hour expiry)
-    public Internship createInternship(Internship internship) {
+    public Internship createInternship(Internship internship, String authToken) {
+        try {
+            ResponseEntity<Void> response = userServiceClient.checkHrExists(
+                    internship.getHrId(),
+                    authToken);
+
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                throw new RuntimeException("HR not found with ID: " + internship.getHrId());
+            }
+        } catch (FeignException.NotFound e) {
+            throw new RuntimeException("HR not found with ID: " + internship.getHrId());
+        }
         return internshipRepository.save(internship);
     }
     // Get active internships

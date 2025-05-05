@@ -8,7 +8,7 @@ spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:mysql://localhost:3306/internship
+    url: jdbc:mysql://localhost:3306/internshipApp
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -21,8 +21,9 @@ public class Application {
     private Long studentId;
 
     // Internship reference (ID only)
-    @Column(name = "internship_id", nullable = false)
-    private Long internshipId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "internship_id", nullable = false)
+    private Internship internship;
 
     // Application status
     @Enumerated(EnumType.STRING)
@@ -52,12 +53,12 @@ public class Application {
         this.studentId = studentId;
     }
 
-    public Long getInternshipId() {
-        return internshipId;
+    public Internship getInternship() {
+        return internship;
     }
 
-    public void setInternshipId(Long internshipId) {
-        this.internshipId = internshipId;
+    public void setInternship(Internship internship) {
+        this.internship = internship;
     }
 
     public Status getStatus() {
@@ -100,9 +101,9 @@ public class Application {
     }
 
     // Constructor for easy creation
-    public Application(Long studentId, Long internshipId) {
+    public Application(Long studentId, Internship internship) {
         this.studentId = studentId;
-        this.internshipId = internshipId;
+        this.internship = internship;
     }
 
     // Default constructor for JPA
