@@ -17,7 +17,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
+jwt:
+  secret: "2adf8923abcde9f8a7234efab394bdf2910aa1234bb2344ccdefff1123456789"  # Change this!
+  expiration: 86400000           # 24 hours
 eureka:
   client:
     service-url:
