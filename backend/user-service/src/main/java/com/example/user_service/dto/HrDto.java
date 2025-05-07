@@ -4,7 +4,7 @@ public class HrDto {
     private String email;
     private String username;
     private String password;
-    private String fname;
+    private String fName;
     private String company;
 
     public String getEmail() {
@@ -32,11 +32,11 @@ public class HrDto {
     }
 
     public String getFname() {
-        return fname;
+        return fName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setFame(String fName) {
+        this.fName = fName;
     }
 
     public String getCompany() {

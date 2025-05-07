@@ -2,6 +2,7 @@ package com.example.user_service.controller;
 
 import com.example.user_service.annotation.JwtValidation;
 import com.example.user_service.dto.StudentDto;
+import com.example.user_service.model.Hr;
 import com.example.user_service.model.Student;
 import com.example.user_service.services.StudentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/students")
@@ -84,6 +87,32 @@ public class StudentController {
             }
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @GetMapping("/public-student/{id}")
+    public ResponseEntity<?> getPublicInfoStudent(@PathVariable Long id) {
+        try {
+            Student student = studentService.getStudentById(id);  // Returns null if not found
+
+            if (student == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "HR not found with ID: " + id));
+            }
+
+            // Create a response DTO with public fields only
+            Map<String, Object> publicHrInfo = new HashMap<>();
+            publicHrInfo.put("id", student.getId());
+            publicHrInfo.put("name", student.getUser().getFname());
+            publicHrInfo.put("college", student.getCollege());
+            publicHrInfo.put("grade", student.getGrade());
+            publicHrInfo.put("cv", student.getCv());
+            publicHrInfo.put("faculty", student.getFaculty());
+
+            return ResponseEntity.ok(publicHrInfo);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error retrieving HR: " + e.getMessage()));
         }
     }
     @DeleteMapping("/{id}")

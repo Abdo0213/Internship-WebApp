@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import './Landing.css';
+import { Link } from 'react-router-dom';
 
 const Landing = () => {
     const scrollToAbout = () => {
@@ -25,7 +26,7 @@ const Landing = () => {
                     <h1>Launch Your Tech Career</h1>
                     <p>Join our elite internship program designed to bridge the gap between academia and industry</p>
                     <div className="cta-buttons">
-                        <button className="primary-btn">JOIN US</button>
+                        {localStorage.getItem("accessToken") ? null : <Link to="/login"><button className="primary-btn">Join US</button></Link>}
                         <button className="secondary-btn" onClick={scrollToAbout}>Learn More</button>
                     </div>
                 </div>
@@ -58,7 +59,7 @@ const Landing = () => {
                 <h2>Ready to Begin Your Journey?</h2>
                 <p>Applications for our next cohort close June 30th</p>
                 <div className="cta-buttons">
-                    <button className="primary-btn">JOIN US Now</button>
+                    {localStorage.getItem("accessToken") ? null : <Link to="/login"><button className="primary-btn">Join US</button></Link>}
                 </div>
             </section>
         </div>

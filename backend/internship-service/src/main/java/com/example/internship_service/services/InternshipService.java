@@ -6,6 +6,10 @@ import com.example.internship_service.repository.InternshipRepository;
 import feign.FeignException;
 import jakarta.transaction.Transactional;
 import org.apache.catalina.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -43,8 +47,18 @@ public class InternshipService {
     public List<Internship> getActiveInternships() {
         return internshipRepository.findActiveInternships(LocalDateTime.now());
     }
-    public List<Internship> getAllInternships() {
+    /*public List<Internship> getAllInternships() {
         return internshipRepository.findAll();
+    }*/
+    public Page<Internship> getAllInternships(int page, int size, String search) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+        if (search != null && !search.isEmpty()) {
+            return internshipRepository.findByTitleContainingIgnoreCaseOrCompanyNameContainingIgnoreCase(
+                    search, search, pageable);
+        }
+
+        return internshipRepository.findAll(pageable);
     }
     public Internship getOneInternship(Long id) {
         return internshipRepository.findById(id)
@@ -53,6 +67,9 @@ public class InternshipService {
     // Get internships by HR
     public List<Internship> getInternshipsByHr(Long hrId) {
         return internshipRepository.findByHrId(hrId);
+    }
+    public Page<Internship> getInternshipsByHr(Long hrId, Pageable pageable) {
+        return internshipRepository.findByHrId(hrId, pageable);
     }
     @Transactional
     public boolean updateInternship(Long id, Internship updatedInternship) {

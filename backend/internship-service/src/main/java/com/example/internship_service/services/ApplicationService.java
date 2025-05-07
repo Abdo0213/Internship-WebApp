@@ -5,8 +5,11 @@ import com.example.internship_service.model.Application;
 import com.example.internship_service.model.Internship;
 import com.example.internship_service.repository.ApplicationRepository;
 import com.example.internship_service.repository.InternshipRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -45,36 +48,31 @@ public class ApplicationService {
         // Then get applications for these internships
         return applicationRepository.findByInternshipIdIn(internshipIds);
     }
+    public List<Application> getApplicationsByInternship(Long internshipId) {
+        return applicationRepository.findByInternshipId(internshipId);
+    }
     public Application createApplication(Long studentId, Long internshipId, String authToken) {
         Internship internship = internshipRepository.findById(internshipId)
-                .orElseThrow(() -> new RuntimeException("Internship not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Internship not found"));
 
-        // 2. Verify student exists (remote call)
-        ResponseEntity<Void> response = userServiceClient.checkStudentExists(
-                studentId,
-                authToken
-        );
-
+        ResponseEntity<Void> response = userServiceClient.checkStudentExists(studentId, authToken);
         if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Student not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
         }
 
-        // 3. Check for duplicate application
-        if (applicationRepository.existsByStudentIdAndInternshipId(
-                studentId,
-                internshipId)) {
-            throw new RuntimeException("Already applied to this internship");
+        if (applicationRepository.existsByStudentIdAndInternshipId(studentId, internshipId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Already applied to this internship");
         }
 
-        // Create and save new application
         Application application = new Application(studentId, internship);
         return applicationRepository.save(application);
     }
 
+
     // Update application status (e.g., PENDING → ACCEPTED/REJECTED)
-    public Application updateApplication(Long id, Application.Status newStatus) {
-        Application application = getOneApplication(id);
-        application.setStatus(newStatus);
-        return applicationRepository.save(application);
-    }
+        public Application updateApplication(Long id, Application.Status status) {
+            Application application = getOneApplication(id);
+            application.setStatus(status);
+            return applicationRepository.save(application);
+        }
 }

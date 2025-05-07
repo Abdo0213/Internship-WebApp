@@ -85,6 +85,7 @@ public class StudentService {
             wasUpdated = true;
         }
         User user = existingStudent.getUser();
+        System.out.println(updatedStudent.getfName() + "-------------------------------");
         // Handle password separately
         if (updatedStudent.getPassword() != null && !updatedStudent.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(updatedStudent.getPassword()));
@@ -103,7 +104,7 @@ public class StudentService {
             wasUpdated = true;
         }
         if (wasUpdated) {
-            userService.UpdateUser(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getFname(), user.getRole().getName());
+            userService.UpdateUser(user.getId(), user.getUsername(), updatedStudent.getPassword(), user.getEmail(), user.getFname(), user.getRole().getName());
             studentRepository.save(existingStudent);
         }
 

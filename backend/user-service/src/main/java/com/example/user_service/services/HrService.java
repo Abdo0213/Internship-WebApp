@@ -42,29 +42,35 @@ public class HrService {
     }
 
     @Transactional
-    public boolean updateHr(Long id, HrDto request) {
+    public boolean updateHr(Long id, User updatedHr) {
         Optional<Hr> optionalHr = hrRepository.findById(id);
         if (optionalHr.isEmpty()) {
             throw new RuntimeException("HR not found with ID: " + id);
         }
 
-        Hr hr = optionalHr.get();
-        User user = hr.getUser();
+        Hr existingHr = optionalHr.get();
+        User user = existingHr.getUser();
 
+        System.out.println(updatedHr.getFname());
+        System.out.println("------------************");
         // Update user fields
-        if (request.getUsername() != null) {
-            user.setUsername(request.getUsername());
+        if (updatedHr.getUsername() != null) {
+            user.setUsername(updatedHr.getUsername());
         }
-        if (request.getEmail() != null) {
-            user.setEmail(request.getEmail());
+        if (updatedHr.getEmail() != null) {
+            user.setEmail(updatedHr.getEmail());
         }
-        if (request.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(request.getPassword())); // Make sure to hash the password
+        if (updatedHr.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(updatedHr.getPassword())); // Make sure to hash the password
         }
+        if (updatedHr.getFname() != null) {
+            user.setFname(updatedHr.getFname());
+        }
+
 
         try {
             userRepository.save(user);
-            hrRepository.save(hr);
+            hrRepository.save(existingHr);
             return true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to update HR: " + e.getMessage());

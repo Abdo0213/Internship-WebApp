@@ -3,6 +3,7 @@ package com.example.user_service.controller;
 import com.example.user_service.annotation.JwtValidation;
 import com.example.user_service.dto.HrDto;
 import com.example.user_service.model.Hr;
+import com.example.user_service.model.User;
 import com.example.user_service.services.HrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/hr")
@@ -83,6 +86,29 @@ public class HrController {
                     .body("Error retrieving hr: " + e.getMessage());
         }
     }
+    @GetMapping("/public-hr/{id}")
+    public ResponseEntity<?> getPublicInfoHr(@PathVariable Long id) {
+        try {
+            Hr hr = hrService.getHrById(id);  // Returns null if not found
+
+            if (hr == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "HR not found with ID: " + id));
+            }
+
+            // Create a response DTO with public fields only
+            Map<String, Object> publicHrInfo = new HashMap<>();
+            publicHrInfo.put("id", hr.getId());
+            publicHrInfo.put("name", hr.getUser().getFname());
+            publicHrInfo.put("companyName", hr.getCompany().getName());
+
+            return ResponseEntity.ok(publicHrInfo);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error retrieving HR: " + e.getMessage()));
+        }
+    }
     @GetMapping("/exists/{id}")
     @JwtValidation(requiredRoles = {"hr"}) // Adjust roles as needed
     public ResponseEntity<Void> checkHrExists(@PathVariable Long id) {
@@ -92,7 +118,7 @@ public class HrController {
     }
     @PutMapping("/{id}")
     @JwtValidation(requiredRoles = {"hr", "admin"})
-    public ResponseEntity<String> updateHr(@PathVariable Long id, @RequestBody HrDto request) {
+    public ResponseEntity<String> updateHr(@PathVariable Long id, @RequestBody User request) {
         try {
             boolean isUpdated = hrService.updateHr(id, request);
             if (isUpdated) {

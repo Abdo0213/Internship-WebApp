@@ -1,0 +1,141 @@
+/* Modern Black & White Profile Styles */
+.user-profile-card {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.user-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.user-name {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+}
+
+/* Button Styles */
+.edit-btn, .save-btn {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.cancel-btn {
+    background-color: transparent;
+    color: #000000;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    border: 1px solid #000000;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.edit-btn:hover, .save-btn:hover {
+    background-color: #333333;
+    transform: translateY(-1px);
+}
+
+.cancel-btn:hover {
+    background-color: #f8f8f8;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.field-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555555;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.field-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.field-input:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.password-input {
+    letter-spacing: 0.1em;
+}
+
+.read-only-value {
+    font-size: 1.1rem;
+    color: #000000;
+    padding: 0.75rem 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+/* Transitions */
+.transition-effect {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .user-profile-card {
+    padding: 1.5rem;
+    margin: 1rem;
+    }
+    
+    .form-grid {
+    grid-template-columns: 1fr;
+    }
+    
+    .user-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    }
+    
+    .button-group {
+    width: 100%;
+    justify-content: flex-end;
+    }
+}

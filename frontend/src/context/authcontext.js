@@ -31,7 +31,6 @@ export function AuthProvider({ children }) {
   });
 
   const login = (authData) => {
-    console.log(authData);
     localStorage.setItem('accessToken', authData.accessToken);
     localStorage.setItem('userData', JSON.stringify({
       userId: authData.userId,
