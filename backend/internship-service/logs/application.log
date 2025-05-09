@@ -1,0 +1,90 @@
+2025-05-06 16:17:37 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Starting InternshipServiceApplication using Java 21.0.7 with PID 12392 (D:\anas\collage\SW2\projects\intern WebApp forked\Internship-WebApp\backend\internship-service\target\classes started by USER in D:\anas\collage\SW2\projects\intern WebApp forked\Internship-WebApp\backend\internship-service)
+2025-05-06 16:17:37 [restartedMain] INFO  c.e.i.InternshipServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-06 16:17:42 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-06 16:17:42 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-06 16:17:42 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-06 16:17:43 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-06 16:17:43 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7e560adb
+2025-05-06 16:17:43 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-06 16:17:47 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-06 16:17:47 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-05-06 16:17:47 [restartedMain] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 1d6d8a63-88dd-486d-98a5-62dd1a8121f6
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-06 16:17:49 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2025-05-06 16:17:49 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2025-05-06 16:17:49 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-05-06 16:17:50 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-05-06 16:17:50 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2025-05-06 16:17:50 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-05-06 16:17:50 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1746537470327 with initial instances count: 2
+2025-05-06 16:17:50 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1746537470351, current=UP, previous=STARTING]
+2025-05-06 16:17:50 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081: registering service...
+2025-05-06 16:17:50 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Started InternshipServiceApplication in 13.544 seconds (process running for 14.725)
+2025-05-06 16:17:50 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081 - registration status: 204
+2025-05-06 16:22:49 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-06 16:26:18 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1746537978671, current=DOWN, previous=UP]
+2025-05-06 16:26:18 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081: registering service...
+2025-05-06 16:26:18 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081 - registration status: 204
+2025-05-06 16:26:18 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-06 16:26:18 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-06 16:26:18 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-05-06 16:26:21 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+2025-05-06 16:26:21 [DiscoveryClient-%d] WARN  c.n.discovery.TimedSupervisorTask - task supervisor shutting down, can't accept the task
+2025-05-06 16:26:21 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081 - deregister  status: 200
+2025-05-06 16:26:21 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2025-05-06 16:28:09 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Starting InternshipServiceApplication using Java 21.0.7 with PID 2784 (D:\anas\collage\SW2\projects\intern WebApp forked\Internship-WebApp\backend\internship-service\target\classes started by USER in D:\anas\collage\SW2\projects\intern WebApp forked\Internship-WebApp\backend\internship-service)
+2025-05-06 16:28:09 [restartedMain] INFO  c.e.i.InternshipServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-06 16:28:13 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-06 16:28:13 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-06 16:28:13 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-06 16:28:14 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-06 16:28:14 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7ff61365
+2025-05-06 16:28:14 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-06 16:28:18 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-06 16:28:18 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-05-06 16:28:18 [restartedMain] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 36436be6-a704-4748-be17-d5efa75d8f6f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-06 16:28:20 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2025-05-06 16:28:20 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-05-06 16:28:20 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2025-05-06 16:28:21 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-05-06 16:28:21 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1746538101011 with initial instances count: 2
+2025-05-06 16:28:21 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1746538101025, current=UP, previous=STARTING]
+2025-05-06 16:28:21 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081: registering service...
+2025-05-06 16:28:21 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Started InternshipServiceApplication in 12.076 seconds (process running for 13.268)
+2025-05-06 16:28:21 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081 - registration status: 204
+2025-05-06 16:33:20 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-06 16:38:20 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-06 16:40:16 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1746538816418, current=DOWN, previous=UP]
+2025-05-06 16:40:16 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081: registering service...
+2025-05-06 16:40:16 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-06 16:40:16 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-06 16:40:16 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-05-06 16:40:16 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081 - registration status: 204
+2025-05-06 16:40:16 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+2025-05-06 16:40:16 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-5JC2MA4:internship-service:8081 - deregister  status: 200
+2025-05-06 16:40:16 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
