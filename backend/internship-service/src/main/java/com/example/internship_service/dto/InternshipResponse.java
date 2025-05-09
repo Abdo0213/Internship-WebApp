@@ -11,7 +11,6 @@ public class InternshipResponse {
     private String stipend;
     private String status;
     private String createdAt;
-    private String expiresAt;
 
     private Long hrId;
     private String hrName;
@@ -95,14 +94,6 @@ public class InternshipResponse {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public String getExpiresAt() {
-        return expiresAt;
-    }
-
-    public void setExpiresAt(String expiresAt) {
-        this.expiresAt = expiresAt;
     }
 
     public Long getHrId() {

@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/authcontext';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
+import { jwtDecode } from 'jwt-decode';
+import { flushSync } from 'react-dom';
 
 const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { isAuthenticated, logout, username } = useAuth();
-    const [userPhoto, setUserPhoto] = useState('');
+    const { isAuthenticated, logout, username, roles } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-
-    useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-        if (userData?.photo) {
-            setUserPhoto(userData.photo);
-        }
-    }, [isAuthenticated]);
+    const token = localStorage.getItem("accessToken");
+    const decoded = token ? jwtDecode(token) : null;
+    const role = decoded?.role; // Safely access role
 
     const handleScrollTo = (sectionId) => {
         setIsMobileMenuOpen(false);
@@ -42,7 +39,9 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
-        logout();
+        flushSync(() => {
+            logout();
+        });
         setIsDropdownOpen(false);
         setIsMobileMenuOpen(false);
         navigate('/login');
@@ -52,43 +51,61 @@ const Navbar = () => {
         <nav className="mono-nav">
             <div className="nav-container">
                 <div className="nav-logo"><Link to='/'>InternConnect</Link></div>
-                
+
                 {/* Desktop Navigation */}
                 <div className="nav-links">
                     <button onClick={() => handleScrollTo('about')} className="nav-link">
                         About
                     </button>
-                    <Link to="/internship" className="nav-link">
-                        Internships
-                    </Link>
-                    <Link to="/notfications" className="nav-link">
-                        Notifications
-                    </Link>
-                    
+                    {!role ? (
+                        <Link to="/internship" className="nav-link">
+                            Internships
+                        </Link>
+                    ) : (role === "HR" ? (
+                        <Link to={"/hr"} className="nav-link">
+                            Dashboard
+                        </Link>
+                    ) : (role === "ADMIN") ?
+                        <>
+                            <Link to="/admin" className="nav-link">Dashboard</Link>
+                            <Link to="/companies" className="nav-link">Companies</Link>
+                            <Link to="/hrs" className="nav-link">HRs</Link>
+                            <Link to="/internships" className="nav-link">Internships</Link>
+                        </>
+                    : (
+                        <>
+                            <Link to="/internship" className="nav-link">
+                                Internships
+                            </Link>
+                            <Link to="/notifications" className="nav-link">
+                                Notifications
+                            </Link>
+                        </>
+                    ))}
                     {isAuthenticated ? (
                         <div className="profile-dropdown">
-                            <button 
+                            <button
                                 className="profile-button"
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 aria-label="User menu"
                             >
-                                <img 
-                                    src={userPhoto || `https://ui-avatars.com/api/?name=${username}&background=random`} 
-                                    alt="Profile" 
+                                <img
+                                    src={`https://ui-avatars.com/api/?name=${username}&background=random`}
+                                    alt="Profile"
                                     className="profile-photo"
                                 />
                             </button>
-                            
+
                             {isDropdownOpen && (
                                 <div className="dropdown-menu">
-                                    <Link 
-                                        to="/profile" 
+                                    <Link
+                                        to="/profile"
                                         className="dropdown-item"
                                         onClick={() => setIsDropdownOpen(false)}
                                     >
                                         Profile
                                     </Link>
-                                    <button 
+                                    <button
                                         className="dropdown-item"
                                         onClick={handleLogout}
                                     >
@@ -104,36 +121,37 @@ const Navbar = () => {
 
                 {/* Mobile Navigation */}
                 <div className="mobile-menu">
-                    <button 
+                    <button
                         className="hamburger"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         aria-label="Menu"
                     >
                         {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
                     </button>
-                    
+
                     {isMobileMenuOpen && (
                         <div className="mobile-dropdown">
                             <button onClick={() => handleScrollTo('about')} className="mobile-nav-link">
                                 About
                             </button>
-                            <button onClick={() => handleScrollTo('benefits')} className="mobile-nav-link">
+                            <Link to="/internship" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
                                 Internships
-                            </button>
-                            <button onClick={() => handleScrollTo('testimonials')} className="mobile-nav-link">
-                                Notifications
-                            </button>
-                            
+                            </Link>
+                            {isAuthenticated && roles?.includes("STUDENT") && (
+                                <Link to="/notifications" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Notifications
+                                </Link>
+                            )}
                             {isAuthenticated ? (
                                 <>
-                                    <Link 
-                                        to="/profile" 
+                                    <Link
+                                        to="/profile"
                                         className="mobile-nav-link"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         Profile
                                     </Link>
-                                    <button 
+                                    <button
                                         className="mobile-nav-link"
                                         onClick={handleLogout}
                                     >
@@ -141,8 +159,8 @@ const Navbar = () => {
                                     </button>
                                 </>
                             ) : (
-                                <Link 
-                                    to="/login" 
+                                <Link
+                                    to="/login"
                                     className="mobile-nav-cta"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >

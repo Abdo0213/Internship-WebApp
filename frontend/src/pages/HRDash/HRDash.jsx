@@ -2,7 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './HRDash.css';
 import Navbar from "../../components/Navbar/Navbar";
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'; // Import arrow icons
+import EditInternshipModal from '../../components/EditInternshipModal/EditInternshipModal';
+import ApplicationsList from '../../components/ApplicationListbyIntern/ApplicationListbyIntern';
+import InternshipDetails from '../../components/InternshipDetails/InternshipDetails';
+import CreateInternshipModal from '../../components/CreateInternshipModal/CreateInternshipModal';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { FaPlus } from 'react-icons/fa';
 
 
 const HRDash = () => {
@@ -18,59 +23,94 @@ const HRDash = () => {
     const [error, setError] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editedInternship, setEditedInternship] = useState(null);
-    const [isExpanded, setIsExpanded] = useState(false);
-    
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [companyName, setCompanyName] = useState(null);
+
     const token = localStorage.getItem('accessToken');
     const hrId = JSON.parse(localStorage.getItem("userData"))?.userId;
+    const navigate = useNavigate(); // Initialize useNavigate
+
+    useEffect(() => {
+        // Check if token exists on component mount
+        if (!token) {
+            // Redirect to login page if no token
+            navigate('/login'); // Replace '/login' with your actual login route
+            return; // Stop further execution of the component
+        }
+    }, [token, navigate]);
 
     // Fetch internships with pagination and search
     const fetchInternships = useCallback(async (pageNum, search = '') => {
+        if (!token) {
+            console.error('No access token available');
+            return;
+        }
         setIsLoading(true);
         setError(null);
-    
+        let isMounted = true; // Add this flag
+
         try {
-            const config = {
-                params: {
-                    page: pageNum - 1, // Spring pages are 0-indexed
-                    size: 10,
-                    search: search
-                },
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const params = {
+                page: pageNum - 1,
+                size: 10
             };
-    
+
+            if (search.trim() !== '') {
+                params.search = search.trim();
+            }
+
             const response = await axios.get(
                 `http://localhost:8765/internship-service/internships/hr/${hrId}`,
-                config
+                {
+                    params,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
             );
-            
+
             const newInternships = response.data?.content || [];
-            if (pageNum === 1) {
-                setInternships(newInternships);
-            } else {
-                setInternships(prev => [...prev, ...newInternships]);
-            }
-    
-            setHasMore(!response.data.last); // Check if it's the last page
-            setPage(pageNum);
-    
-            // Auto-select first internship if none selected
-            if (newInternships.length > 0 && !selectedInternship) {
-                setSelectedInternship(newInternships[0]);
+            if (isMounted) { // Check if component is mounted
+                if (pageNum === 1) {
+                    setInternships(newInternships);
+                    if (newInternships.length > 0) {
+                        setSelectedInternship(newInternships[0]);
+                        setCompanyName(newInternships[0].companyName);
+                    } else {
+                        setSelectedInternship(null);
+                        setCompanyName(null);
+                    }
+                } else {
+                    setInternships(prev => [...prev, ...newInternships]);
+                }
+                setHasMore(!response.data.last);
+                setPage(pageNum);
             }
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to fetch internships');
+            if (isMounted) { // Check if component is mounted
+                setError(err.response?.data?.message || 'Failed to fetch internships');
+                console.error('Search error:', err);
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted) { // Check if component is mounted
+                setIsLoading(false);
+            }
         }
-    }, [token, hrId, selectedInternship]);
+        return () => {
+            isMounted = false; // Set flag to false on unmount
+        };
+    }, [token, hrId]); // Added navigate to dependencies
 
     // Fetch applications for selected internship
     const fetchApplications = useCallback(async () => {
+        if (!token) {
+            console.error('No access token available');
+            return;
+        }
         if (!selectedInternship) return;
-        
+
         setIsLoading(true);
+        let isMounted = true;
         try {
             const response = await axios.get(
                 `http://localhost:8765/internship-service/applications/internship/${selectedInternship.id}`,
@@ -80,12 +120,21 @@ const HRDash = () => {
                     }
                 }
             );
-            setApplications(response.data);
+            if (isMounted) {
+                setApplications(response.data);
+            }
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to fetch applications');
+            if (isMounted) {
+                setError(err.response?.data?.message || 'Failed to fetch applications');
+            }
         } finally {
-            setIsLoading(false);
+            if (isMounted) {
+                setIsLoading(false);
+            }
         }
+        return () => {
+            isMounted = false;
+        };
     }, [selectedInternship, token]);
 
     // Debounce search input
@@ -96,7 +145,7 @@ const HRDash = () => {
         return () => clearTimeout(handler);
     }, [searchTerm]);
 
-    // Fetch internships when debounced search term changes
+    // Trigger fetch when debounced search term changes
     useEffect(() => {
         setPage(1);
         fetchInternships(1, debouncedSearchTerm);
@@ -116,13 +165,13 @@ const HRDash = () => {
 
     // Infinite scroll handler
     const handleScroll = useCallback(() => {
-        if (isLoading || !hasMore) return;
-        
+        if (isLoading || !hasMore || !token) return; // Check for token
+
         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
         if (scrollTop + clientHeight >= scrollHeight - 100) {
             setPage(prev => prev + 1);
         }
-    }, [isLoading, hasMore]);
+    }, [isLoading, hasMore, token]);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -138,6 +187,10 @@ const HRDash = () => {
 
     // Handle application status change
     const handleStatusChange = async (applicationId, newStatus) => {
+        if (!token) {
+            console.error('No access token available');
+            return;
+        }
         try {
             await axios.put(
                 `http://localhost:8765/internship-service/applications/${applicationId}`,
@@ -158,6 +211,10 @@ const HRDash = () => {
 
     // Handle internship edit save
     const handleSaveInternship = async () => {
+        if (!token) {
+            console.error('No access token available');
+            return;
+        }
         try {
             const response = await axios.put(
                 `http://localhost:8765/internship-service/internships/${editedInternship.id}`,
@@ -168,15 +225,15 @@ const HRDash = () => {
                     }
                 }
             );
-            
+
             // Update the selected internship
             setSelectedInternship(response.data);
-            
+
             // Update the internships list
-            setInternships(internships.map(internship => 
-                internship.id === response.data.id ? response.data : internship)
-            );
-            
+            setInternships(internships.map(internship =>
+                internship.id === response.data.id ? response.data : internship
+            ));
+
             setShowEditModal(false);
             // Optionally show success message
         } catch (error) {
@@ -193,7 +250,34 @@ const HRDash = () => {
         }));
     };
 
-    // Render your component UI here
+    const handleCreateInternship = async (internshipData) => {
+        if (!token) {
+            console.error('No access token available');
+            return;
+        }
+        try {
+            const response = await axios.post(
+                `http://localhost:8765/internship-service/internships`,
+                { ...internshipData, hrId: hrId, companyName: companyName }, // Include companyName here
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            // Add the new internship to the list and select it
+            setInternships(prev => [response.data, ...prev]);
+            setSelectedInternship(response.data);
+            setShowCreateModal(false);
+
+            // Optionally show success message
+        } catch (error) {
+            console.error('Error creating internship:', error);
+            setError('Failed to create internship');
+        }
+    };
+    
     return (
         <>
             <Navbar/>
@@ -208,6 +292,7 @@ const HRDash = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="search-input"
                         />
+                        {isLoading && <span className="search-loading">Searching...</span>}
                     </div>
 
                     <div className="internship-list">
@@ -225,8 +310,7 @@ const HRDash = () => {
                                     <h3>{internship.title}</h3>
                                     <p className="company">{internship.companyName}</p>
                                     <p className="dates">
-                                        {new Date(internship.createdAt).toLocaleDateString()} -{' '}
-                                        {new Date(internship.expiresAt).toLocaleDateString()}
+                                        {new Date(internship.createdAt).toLocaleDateString()}
                                     </p>
                                 </div>
                             ))
@@ -237,232 +321,50 @@ const HRDash = () => {
 
                 {/* Main Content - Internship Details and Applications */}
                 <div className="main-content">
-                    {selectedInternship && (
+                    <div className="main-content-header">
+                        <button
+                            className="new-internship-button"
+                            onClick={() => setShowCreateModal(true)}
+                        >
+                            Create New Internship <FaPlus/>
+                        </button>
+                    </div>
+                    {selectedInternship ? (
                         <>
-                            {/* Internship Details */}
-                            <div className="details-section">
-                                <div className="content-header">
-                                    <h2>{selectedInternship.title}</h2>
-                                    <button 
-                                        className="edit-btn" 
-                                        onClick={() => setShowEditModal(true)}
-                                    >
-                                        Edit Internship
-                                    </button>
-                                </div>
+                            <InternshipDetails
+                                internship={selectedInternship}
+                                onEditClick={() => setShowEditModal(true)}
+                            />
 
-                                <div className="internship-details">
-                                    <div className='details-grid'>
-                                        <div className="detail-item">
-                                            <span className="detail-label">Company:</span>
-                                            <span className="detail-value">{selectedInternship.companyName}</span>
-                                        </div>
-                                        <div className="detail-item">
-                                            <span className="detail-label">Type:</span>
-                                            <span className="detail-value">{selectedInternship.type}</span>
-                                        </div>
-                                        <div className="detail-item">
-                                            <span className="detail-label">Stipend:</span>
-                                            <span className="detail-value">{selectedInternship.stipend}</span>
-                                        </div>
-                                        <div className="detail-item">
-                                            <span className="detail-label">Location:</span>
-                                            <span className="detail-value">{selectedInternship.location}</span>
-                                        </div>
-                                        <div className="detail-item">
-                                            <span className="detail-label">Duration:</span>
-                                            <span className="detail-value">{selectedInternship.duration}</span>
-                                        </div>
-                                        <div className="detail-item">
-                                            <span className="detail-label">Posted:</span>
-                                            <span className="detail-value">
-                                                {new Date(selectedInternship.createdAt).toLocaleDateString()}
-                                            </span>
-                                        </div>
-                                        <div className="detail-item">
-                                            <span className="detail-label">Apply by:</span>
-                                            <span className="detail-value">
-                                                {new Date(selectedInternship.expiresAt).toLocaleDateString()}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="description-section">
-                                    <h3>Description</h3>
-                                    <p>{selectedInternship.description}</p>
-                                </div>
-                            </div>
-
-                            {/* Applications List */}
-                            <div className="applications-section">
-                                <div 
-                                    className="section-header" 
-                                    onClick={() => setIsExpanded(!isExpanded)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <h2>Applications</h2>
-                                    <span className="toggle-arrow">
-                                    {isExpanded ? <FiChevronUp size={24} /> : <FiChevronDown size={24} />}
-                                    </span>
-                                </div>
-                                
-                                { !isExpanded ? null : applications.length === 0 ? (
-                                    <p className="no-applications">No applications found</p>
-                                ) : (
-                                    <div className="applications-list">
-                                        {applications.map((application) => (
-                                            <div key={application.id} className="application-card">
-                                                <div className="student-info">
-                                                    <h3>{application.studentName}</h3>
-                                                    <div className="student-details">
-                                                        <p><strong>College:</strong> {application.studentCollege}</p>
-                                                        <p><strong>Faculty:</strong> {application.studentFaculty}</p>
-                                                        <p><strong>Grade:</strong> {application.studentGrade}</p>
-                                                        <p><strong>CV:</strong> 
-                                                            <a href={`/path/to/cvs/${application.studentCV}`} target="_blank" rel="noopener noreferrer">
-                                                                {application.studentCV}
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div className="application-meta">
-                                                    <div className={`status-badge ${application.status.toLowerCase()}`}>
-                                                        {application.status}
-                                                    </div>
-                                                    <p className="applied-date">
-                                                        Applied: {new Date(application.appliedAt).toLocaleDateString()}
-                                                    </p>
-                                                </div>
-                                                
-                                                {application.status === "PENDING" && (
-                                                    <div className="application-actions">
-                                                        <button 
-                                                            className="accept-btn"
-                                                            onClick={() => handleStatusChange(application.id, 'ACCEPTED')}
-                                                            disabled={application.status === 'ACCEPTED'}
-                                                        >
-                                                            Accept
-                                                        </button>
-                                                        <button 
-                                                            className="reject-btn"
-                                                            onClick={() => handleStatusChange(application.id, 'REJECTED')}
-                                                            disabled={application.status === 'REJECTED'}
-                                                        >
-                                                            Reject
-                                                        </button>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            <ApplicationsList
+                                applications={applications}
+                                onStatusChange={handleStatusChange}
+                            />
                         </>
+                    ) : (
+                        <div className="no-internship-selected">
+                            <p>Select an internship from the list or create a new one</p>
+                        </div>
                     )}
                 </div>
             </div>
 
             {/* Edit Internship Modal */}
             {showEditModal && editedInternship && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h2>Edit Internship</h2>
-                        
-                        <form onSubmit={(e) => {
-                            e.preventDefault();
-                            handleSaveInternship();
-                        }}>
-                            <div className="form-group">
-                                <label>Title</label>
-                                <input
-                                    type="text"
-                                    name="title"
-                                    value={editedInternship.title || ''}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Stipend</label>
-                                    <input
-                                        type="text"
-                                        name="stipend"
-                                        value={editedInternship.stipend || ''}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Type</label>
-                                    <select
-                                        name="type"
-                                        value={editedInternship.type || ''}
-                                        onChange={handleInputChange}
-                                        required
-                                    >
-                                        <option value="REMOTE">Remote</option>
-                                        <option value="HYBRID">Hybrid</option>
-                                        <option value="ONSITE">On-site</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="form-row">
-                                <div className="form-group">
-                                    <label>Location</label>
-                                    <input
-                                        type="text"
-                                        name="location"
-                                        value={editedInternship.location || ''}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Duration</label>
-                                    <input
-                                        type="text"
-                                        name="duration"
-                                        value={editedInternship.duration || ''}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="form-group">
-                                <label>Description</label>
-                                <textarea
-                                    name="description"
-                                    value={editedInternship.description || ''}
-                                    onChange={handleInputChange}
-                                    rows={5}
-                                    required
-                                />
-                            </div>
-
-                            <div className="modal-actions">
-                                <button 
-                                    type="button" 
-                                    className="cancel-button"
-                                    onClick={() => setShowEditModal(false)}
-                                >
-                                    Cancel
-                                </button>
-                                <button 
-                                    type="submit" 
-                                    className="submit-button"
-                                >
-                                    Save Changes
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <EditInternshipModal
+                    internship={editedInternship}
+                    onSave={handleSaveInternship}
+                    onCancel={() => setShowEditModal(false)}
+                    onInputChange={handleInputChange}
+                />
+            )}
+            {showCreateModal && (
+                <CreateInternshipModal
+                    show={showCreateModal}
+                    onClose={() => setShowCreateModal(false)}
+                    onCreate={handleCreateInternship}
+                    modalType={"internship"}
+                />
             )}
         </>
     );

@@ -1,0 +1,88 @@
+/* Base Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Common Page Styles */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-container {
+    padding: 2rem;
+    flex: 1;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.two-column-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-add {
+    background-color: #000;
+    color: white;
+}
+
+.btn-add:hover {
+    background-color: #333;
+}
+
+.btn-view {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.btn-view:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-edit {
+    background-color: #000;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #333;
+}
+
+.btn-delete {
+    background-color: #fff;
+    color: #ff4444;
+    border: 1px solid #ff4444;
+}
+
+.btn-delete:hover {
+    background-color: #ffeeee;
+}

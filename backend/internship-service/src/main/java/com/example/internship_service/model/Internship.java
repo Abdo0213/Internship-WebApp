@@ -31,8 +31,6 @@ public class Internship {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime expiresAt; // 1-hour duration
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACTIVE;
@@ -101,13 +99,6 @@ public class Internship {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getExpiresAt() {
-        return expiresAt;
-    }
-
-    public void setExpiresAt(LocalDateTime expiresAt) {
-        this.expiresAt = expiresAt;
-    }
 
     public Status getStatus() {
         return status;
@@ -157,14 +148,9 @@ public class Internship {
         this.hrId = hrId;
     }
 
-    // Automatic expiration setup
-    @PrePersist
-    protected void setExpiration() {
-        this.expiresAt = LocalDateTime.now().plusHours(1);
-    }
 
     // Status check
     public boolean isActive() {
-        return status == Status.ACTIVE && LocalDateTime.now().isBefore(expiresAt);
+        return status == Status.ACTIVE;
     }
 }

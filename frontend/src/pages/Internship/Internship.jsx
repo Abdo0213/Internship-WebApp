@@ -356,14 +356,14 @@ export default function Internship() {
                     <div className="right-sidebar">
                     {selectedInternship ? (
                             <div className="internship-details">
-                            <div className="detail-header">
-                                <h1 className="detail-title">{selectedInternship.title}</h1>
-                                <span className={`status-badge ${selectedInternship.status.toLowerCase()}`}>
-                                {selectedInternship.status}
-                                </span>
-                            </div>
+                                <div className="detail-header">
+                                    <h1 className="detail-title">{selectedInternship.title}</h1>
+                                    <span className={`status-badge ${selectedInternship.status.toLowerCase()}`}>
+                                    {selectedInternship.status}
+                                    </span>
+                                </div>
                             
-                            <div className="detail-meta">
+                                <div className="detail-meta">
                                     <div className="meta-row">
                                         <div className="meta-item">
                                             <span className="meta-label">Company:</span>
@@ -402,16 +402,6 @@ export default function Internship() {
                                             <span className="meta-label">Posted:</span>
                                             <span className="meta-value">
                                                 {new Date(selectedInternship.createdAt).toLocaleDateString(undefined, {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric'
-                                                })}
-                                            </span>
-                                        </div>
-                                        <div className="meta-item">
-                                            <span className="meta-label">Apply by:</span>
-                                            <span className="meta-value">
-                                                {new Date(selectedInternship.expiresAt).toLocaleDateString(undefined, {
                                                     year: 'numeric',
                                                     month: 'long',
                                                     day: 'numeric'

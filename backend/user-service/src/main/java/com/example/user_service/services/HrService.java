@@ -83,7 +83,7 @@ public class HrService {
             throw new RuntimeException("Email already in use");
         }
         if (companyRepository.findByName(hrDto.getCompany()).isEmpty()) {
-            throw new RuntimeException("Email already in use");
+            throw new RuntimeException("Company is not exist");
         }
 
         // 2. Find the company
@@ -133,5 +133,8 @@ public class HrService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete HR: " + e.getMessage());
         }
+    }
+    public Long getHrCount(){
+        return hrRepository.count();
     }
 }

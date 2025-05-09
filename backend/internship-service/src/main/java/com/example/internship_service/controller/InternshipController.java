@@ -54,7 +54,6 @@ public class InternshipController {
             dto.setStipend(internship.getStipend());
             dto.setStatus(internship.getStatus().toString());
             dto.setCreatedAt(internship.getCreatedAt().toString());
-            dto.setExpiresAt(internship.getExpiresAt().toString());
             dto.setHrId(internship.getHrId());
 
             try {
@@ -77,12 +76,12 @@ public class InternshipController {
 
         return ResponseEntity.ok(responsePage);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"hr","student","admin"})
     public ResponseEntity<Internship> getOneInternship(@PathVariable Long id) {
         return ResponseEntity.ok(internshipService.getOneInternship(id));
     }
-    @GetMapping("/active")
+    @GetMapping("/active") // done
     @JwtValidation(requiredRoles = {"hr","student","admin"})
     public ResponseEntity<List<Internship>> getActiveInternships() {
         return ResponseEntity.ok(internshipService.getActiveInternships());
@@ -100,17 +99,18 @@ public class InternshipController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String direction) {
+            @RequestParam(required = false) String direction,
+            @RequestParam(required = false) String search) { // Add the search parameter
 
         Pageable pageable = PageRequest.of(page, size,
                 direction != null && sortBy != null
                         ? Sort.by(Sort.Direction.fromString(direction), sortBy)
                         : Sort.unsorted());
 
-        return ResponseEntity.ok(internshipService.getInternshipsByHr(hrId, pageable));
+        return ResponseEntity.ok(internshipService.getInternshipsByHr(hrId, pageable, search));
     }
-    @PostMapping
-    @JwtValidation(requiredRoles = {"hr"})
+    @PostMapping // done
+    @JwtValidation(requiredRoles = {"hr", "admin"})
     public ResponseEntity<?> createInternship(@RequestBody Internship internship, @RequestHeader("Authorization") String token) {
         try {
             Internship created = internshipService.createInternship(internship, token);
@@ -120,13 +120,13 @@ public class InternshipController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"hr","admin"})
-    public ResponseEntity<String> updateInternship(@PathVariable Long id, @RequestBody Internship internship) {
+    public ResponseEntity<?> updateInternship(@PathVariable Long id, @RequestBody Internship internship) {
         try {
             boolean isUpdated = internshipService.updateInternship(id, internship);
             if (isUpdated) {
-                return ResponseEntity.ok("Internship updated successfully");
+                return ResponseEntity.ok(internshipService.getOneInternship(id));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("No changes detected");
             }
@@ -135,7 +135,7 @@ public class InternshipController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"hr","admin"})
     public ResponseEntity<String> deleteInternship(@PathVariable Long id) {
         try {
@@ -148,6 +148,19 @@ public class InternshipController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("Internship not found with ID: " + id);
             }
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/count")
+    @JwtValidation(requiredRoles = {"hr","admin"})
+    public ResponseEntity<?> getCount() {
+        try {
+            Long count = internshipService.getInternshipCount();
+            return ResponseEntity.ok(count); // Return the count with a 200 OK status
+
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
                     .body(e.getMessage());

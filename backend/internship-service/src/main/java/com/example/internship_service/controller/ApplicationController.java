@@ -33,7 +33,7 @@ public class ApplicationController {
     }
 
     @PostMapping
-    @JwtValidation(requiredRoles = {"student"})
+    @JwtValidation(requiredRoles = {"student"}) // done
     public ResponseEntity<?> createApplication(@RequestBody ApplicationRequest request, @RequestHeader("Authorization") String token) {
         try {
             Application application = applicationService.createApplication(
@@ -47,25 +47,25 @@ public class ApplicationController {
         }
     }
     // for student
-    @GetMapping("/student/{id}")
+    @GetMapping("/student/{id}") // done
     @JwtValidation(requiredRoles = {"student"})
     public ResponseEntity<List<Application>> getStudentApplications(@PathVariable Long id) {
         return ResponseEntity.ok(applicationService.getStudentApplications(id));
     }
 
     // get one application student or hr
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"hr","student"})
     public ResponseEntity<Application> getOneApplication(@PathVariable Long id) {
         return ResponseEntity.ok(applicationService.getOneApplication(id));
     }
 
-    @GetMapping("/hr/{hrId}")
+    @GetMapping("/hr/{hrId}") // done
     @JwtValidation(requiredRoles = {"hr"})
     public ResponseEntity<List<Application>> getApplicationsByHr(@PathVariable Long hrId) {
         return ResponseEntity.ok(applicationService.getApplicationsByHr(hrId));
     }
-    @GetMapping("/internship/{internshipId}")
+    @GetMapping("/internship/{internshipId}") // done
     @JwtValidation(requiredRoles = {"hr"})
     public ResponseEntity<List<ApplicationResponse>> getApplicationsByInternship(@PathVariable Long internshipId) {
         List<Application> applications = applicationService.getApplicationsByInternship(internshipId);
@@ -104,7 +104,7 @@ public class ApplicationController {
         return ResponseEntity.ok(applicationResponses);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"hr"})
     public ResponseEntity<Application> updateApplication(
             @PathVariable Long id,

@@ -22,9 +22,9 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"admin"})
-    public ResponseEntity<String> getOneStudent(@PathVariable Long id) throws JsonProcessingException {
+    public ResponseEntity<String> getOneAdmin(@PathVariable Long id) throws JsonProcessingException {
         try {
             Admin admin = adminService.getOneAdmin(id);  // Returns null if not found
 
@@ -44,9 +44,9 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"admin"})
-    public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody User request) {
+    public ResponseEntity<String> updateAdmin(@PathVariable Long id, @RequestBody User request) {
         try {
             boolean isUpdated = adminService.updateAdmin(id, request);
             if (isUpdated) {

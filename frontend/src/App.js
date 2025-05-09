@@ -6,9 +6,12 @@ import Register from './pages/Register/Register';
 import Landing from './pages/Landing/Landing';
 import Profile from './pages/Profile/Profile';
 import Notifications from './pages/Notification/Notifications';
-import AdminDash from './pages/AdminDash/AdminDash';
+import AdminDash from './pages/Admin/AdminDash/AdminDash';
 import HRDash from './pages/HRDash/HRDash';
 import Internship from './pages/Internship/Internship';
+import Companies from './pages/Admin/Companies/Companies';
+import HRsPageAdmin from './pages/Admin/HRsPageAdmin/HRsPageAdmin';
+import InternshipsPage from './pages/Admin/InternshipsPageAdmin/InternshipsPageAdmin';
 
 function App() {
     return (
@@ -24,7 +27,10 @@ function App() {
           <Route path="/hr" element={<HRDash />} />
           <Route path="/internship" element={<Internship />} />
           <Route path="/profile" element={<Profile />} />
-          {/*<Route path="/unauthorized" element={<Unauthorized />} />*/}
+          <Route path="/companies" element={<Companies />} />
+          <Route path="/hrs" element={<HRsPageAdmin />} />
+          <Route path="/internships" element={<InternshipsPage />} />
+          {/*<Route path="/unauthorized" element={<Unauthorized />} />
           
           {/* Protected Routes 
           <Route 

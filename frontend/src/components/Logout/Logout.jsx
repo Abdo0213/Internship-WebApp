@@ -6,9 +6,9 @@ export default function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("I ama here")
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('userRoles');
+    localStorage.removeItem('userData');
     navigate('/login');
   }, [navigate]);
 

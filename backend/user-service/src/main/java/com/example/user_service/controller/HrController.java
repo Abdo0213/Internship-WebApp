@@ -23,7 +23,7 @@ public class HrController {
     public HrController(HrService hrService) {
         this.hrService = hrService;
     }
-    @GetMapping
+    @GetMapping // done
     public ResponseEntity<String> getAllHr() throws JsonProcessingException {
         try {
             List<Hr> hrs = hrService.getAllHr();
@@ -45,7 +45,7 @@ public class HrController {
                     .body("Error retrieving users: " + e.getMessage());
         }
     }
-    @PostMapping
+    @PostMapping // done
     @JwtValidation(requiredRoles = {"admin"})
     public ResponseEntity<String> addHr(@RequestBody HrDto registerRequest) throws JsonProcessingException {
         try {
@@ -65,8 +65,8 @@ public class HrController {
                     .body(e.getMessage());
         }
     }
-    @GetMapping("/{id}")
-    @JwtValidation(requiredRoles = {"hr"})
+    @GetMapping("/{id}") // done
+    @JwtValidation(requiredRoles = {"hr","admin"})
     public ResponseEntity<String> getOneHr(@PathVariable Long id) throws JsonProcessingException {
         try {
             Hr hr = hrService.getHrById(id);  // Returns null if not found
@@ -86,7 +86,7 @@ public class HrController {
                     .body("Error retrieving hr: " + e.getMessage());
         }
     }
-    @GetMapping("/public-hr/{id}")
+    @GetMapping("/public-hr/{id}") // done
     public ResponseEntity<?> getPublicInfoHr(@PathVariable Long id) {
         try {
             Hr hr = hrService.getHrById(id);  // Returns null if not found
@@ -109,14 +109,14 @@ public class HrController {
                     .body(Map.of("error", "Error retrieving HR: " + e.getMessage()));
         }
     }
-    @GetMapping("/exists/{id}")
-    @JwtValidation(requiredRoles = {"hr"}) // Adjust roles as needed
+    @GetMapping("/exists/{id}") // done
+    @JwtValidation(requiredRoles = {"hr","admin"}) // Adjust roles as needed
     public ResponseEntity<Void> checkHrExists(@PathVariable Long id) {
         return hrService.hrExists(id)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"hr", "admin"})
     public ResponseEntity<String> updateHr(@PathVariable Long id, @RequestBody User request) {
         try {
@@ -130,7 +130,7 @@ public class HrController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"admin", "hr"})
     public ResponseEntity<String> deleteHr(@PathVariable Long id) throws JsonProcessingException {
         try {
@@ -143,6 +143,18 @@ public class HrController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("hr not found with ID: " + id);
             }
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(e.getMessage());
+        }
+    }
+    @GetMapping("/count")
+    @JwtValidation(requiredRoles = {"hr","admin"})
+    public ResponseEntity<?> getCount() {
+        try {
+            Long count = hrService.getHrCount();
+            return ResponseEntity.ok(count); // Return the count with a 200 OK status
+
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
                     .body(e.getMessage());

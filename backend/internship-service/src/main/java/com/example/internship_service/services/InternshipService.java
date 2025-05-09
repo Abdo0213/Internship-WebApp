@@ -47,9 +47,9 @@ public class InternshipService {
     public List<Internship> getActiveInternships() {
         return internshipRepository.findActiveInternships(LocalDateTime.now());
     }
-    /*public List<Internship> getAllInternships() {
+    public  List<Internship> getAllInternships() {
         return internshipRepository.findAll();
-    }*/
+    }
     public Page<Internship> getAllInternships(int page, int size, String search) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
 
@@ -68,8 +68,16 @@ public class InternshipService {
     public List<Internship> getInternshipsByHr(Long hrId) {
         return internshipRepository.findByHrId(hrId);
     }
-    public Page<Internship> getInternshipsByHr(Long hrId, Pageable pageable) {
-        return internshipRepository.findByHrId(hrId, pageable);
+    public Page<Internship> getInternshipsByHr(Long hrId, Pageable pageable, String search) {
+        if (search != null && !search.trim().isEmpty()) {
+            // Call a repository method that includes search criteria
+            return internshipRepository.findByHrIdAndTitleContainingIgnoreCaseOrCompanyNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                    hrId, search, search, search, pageable
+            );
+        } else {
+            // If no search term, just find by hrId
+            return internshipRepository.findByHrId(hrId, pageable);
+        }
     }
     @Transactional
     public boolean updateInternship(Long id, Internship updatedInternship) {
@@ -132,9 +140,8 @@ public class InternshipService {
         }
         return false;
     }
-    // Scheduled expiration check (runs every minute)
-    @Scheduled(fixedRate = 60000)
-    public void checkExpiredInternships() {
-        internshipRepository.expireOldInternships(LocalDateTime.now());
+    public Long getInternshipCount(){
+        return internshipRepository.count();
     }
+    // Scheduled expiration check (runs every minute)
 }

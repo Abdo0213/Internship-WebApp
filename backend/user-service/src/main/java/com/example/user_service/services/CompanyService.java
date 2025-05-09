@@ -81,4 +81,7 @@ public class CompanyService {
         }
         return false;
     }
+    public Long getCompanyCount(){
+        return companyRepository.count();
+    }
 }

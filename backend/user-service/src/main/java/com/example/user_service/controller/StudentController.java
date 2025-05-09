@@ -24,7 +24,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping
+    @GetMapping // done
     public ResponseEntity<String> getAllStudents() throws JsonProcessingException {
         try {
             List<Student> students = studentService.getAllStudents();
@@ -47,7 +47,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}") //done
     @JwtValidation(requiredRoles = {"student"})
     public ResponseEntity<String> getOneStudent(@PathVariable Long id) throws JsonProcessingException {
         try {
@@ -68,14 +68,14 @@ public class StudentController {
                     .body("Error retrieving student: " + e.getMessage());
         }
     }
-    @GetMapping("/exists/{id}")
+    @GetMapping("/exists/{id}") // done
     @JwtValidation(requiredRoles = {"student"}) // Adjust roles as needed
     public ResponseEntity<Void> checkHrExists(@PathVariable Long id) {
         return studentService.studentExists(id)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"student"})
     public ResponseEntity<String> updateStudent(@PathVariable Long id, @RequestBody StudentDto request) {
         try {
@@ -89,7 +89,7 @@ public class StudentController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/public-student/{id}")
+    @GetMapping("/public-student/{id}")// done
     public ResponseEntity<?> getPublicInfoStudent(@PathVariable Long id) {
         try {
             Student student = studentService.getStudentById(id);  // Returns null if not found
@@ -115,7 +115,7 @@ public class StudentController {
                     .body(Map.of("error", "Error retrieving HR: " + e.getMessage()));
         }
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // done
     @JwtValidation(requiredRoles = {"student"})
     public ResponseEntity<String> deleteStudent(@PathVariable Long id) throws JsonProcessingException {
         try {
