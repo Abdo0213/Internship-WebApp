@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class HrService {
@@ -35,6 +36,9 @@ public class HrService {
 
     public List<Hr> getAllHr() {
         return hrRepository.findAll();
+    }
+    public List<Long> getHrByCompanyId(Long companyId) {
+        return hrRepository.findByCompanyId(companyId);
     }
 
     public Hr getHrById(Long id) {
@@ -77,7 +81,7 @@ public class HrService {
         }
     }
     @Transactional
-    public boolean addHr(HrDto hrDto) {
+    public Hr addHr(HrDto hrDto) {
         // 1. Check if user with this email already exists
         if (userRepository.findByEmail(hrDto.getEmail()).isPresent()) {
             throw new RuntimeException("Email already in use");
@@ -109,7 +113,7 @@ public class HrService {
         hr.setCompany(company);
 
         hrRepository.save(hr);
-        return true;
+        return hr;
     }
     public boolean hrExists(Long id) {
         System.out.println(hrRepository.existsById(id));
@@ -132,6 +136,25 @@ public class HrService {
             return true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete HR: " + e.getMessage());
+        }
+    }
+    public void deleteAllByIds(List<Long> ids) {
+        List<Hr> hrs = hrRepository.findAllById(ids);
+
+        try {
+            // Extract all user IDs to delete
+            List<Long> userIds = hrs.stream()
+                    .map(hr -> hr.getUser().getId())
+                    .collect(Collectors.toList());
+
+            // Delete HRs first
+            hrRepository.deleteAll(hrs);
+
+            // Then delete associated users
+            userRepository.deleteAllById(userIds);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete HRs in bulk: " + e.getMessage());
         }
     }
     public Long getHrCount(){

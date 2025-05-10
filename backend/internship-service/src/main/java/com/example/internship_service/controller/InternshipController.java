@@ -4,12 +4,12 @@ import com.example.internship_service.annotation.JwtValidation;
 import com.example.internship_service.dto.InternshipResponse;
 import com.example.internship_service.model.Internship;
 import com.example.internship_service.services.InternshipService;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -87,11 +87,12 @@ public class InternshipController {
         return ResponseEntity.ok(internshipService.getActiveInternships());
     }
 
-    /*@GetMapping("/hr/{hrId}")
-    @JwtValidation(requiredRoles = {"hr"})
-    public ResponseEntity<List<Internship>> getByHr(@PathVariable Long hrId) {
-        return ResponseEntity.ok(internshipService.getInternshipsByHr(hrId));
-    }*/
+    @GetMapping("/hrId/{hrId}")
+    @JwtValidation(requiredRoles = {"hr", "admin"})
+    public ResponseEntity<?> getIdsByHr(@PathVariable Long hrId) {
+        return ResponseEntity.ok(internshipService.getInternshipsByHrId(hrId));
+    }
+
     @GetMapping("/hr/{hrId}")
     @JwtValidation(requiredRoles = {"hr"})
     public ResponseEntity<Page<Internship>> getByHr(
@@ -135,24 +136,7 @@ public class InternshipController {
         }
     }
 
-    @DeleteMapping("/{id}") // done
-    @JwtValidation(requiredRoles = {"hr","admin"})
-    public ResponseEntity<String> deleteInternship(@PathVariable Long id) {
-        try {
-            boolean isDeleted = internshipService.deleteInternship(id);
 
-            if (isDeleted) {
-                return ResponseEntity.status(HttpStatus.OK)
-                        .body("Internship deleted successfully");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Internship not found with ID: " + id);
-            }
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(e.getMessage());
-        }
-    }
 
     @GetMapping("/count")
     @JwtValidation(requiredRoles = {"hr","admin"})
@@ -167,6 +151,123 @@ public class InternshipController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    @JwtValidation(requiredRoles = {"hr","admin"})
+    public ResponseEntity<String> deleteInternship(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String authHeader) {
+
+        try {
+            // 1. Get all applications for this internship
+            String getHrIdsUrl = "http://localhost:8765/internship-service/applications/internshipIds/" + id;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", authHeader);
+
+            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+            ResponseEntity<List> response = restTemplate.exchange(
+                    getHrIdsUrl,
+                    HttpMethod.GET,
+                    requestEntity,
+                    List.class
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                List<Long> applicationIds = response.getBody();
+
+                // 2. Delete all applications if they exist
+                if (!applicationIds.isEmpty()) {
+                    String bulkDeleteUrl = "http://localhost:8765/internship-service/applications/bulk";
+
+                    HttpHeaders deleteHeaders = new HttpHeaders();
+                    deleteHeaders.setContentType(MediaType.APPLICATION_JSON);
+                    deleteHeaders.set("Authorization", authHeader);  // Add auth header here too
+
+                    HttpEntity<List<Long>> deleteRequestEntity = new HttpEntity<>(applicationIds, deleteHeaders);
+
+                    ResponseEntity<Void> deleteResponse = restTemplate.exchange(
+                            bulkDeleteUrl,
+                            HttpMethod.DELETE,
+                            deleteRequestEntity,
+                            Void.class
+                    );
+
+                    if (!deleteResponse.getStatusCode().is2xxSuccessful()) {
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body("Failed to delete related applications");
+                    }
+                }
+            }
+
+            // 3. Now delete the internship
+            boolean isDeleted = internshipService.deleteInternship(id);
+
+            if (isDeleted) {
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body("Internship deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Internship not found with ID: " + id);
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error deleting internship: " + e.getMessage());
+        }
+    }
+    @DeleteMapping("/bulk")
+    public ResponseEntity<String> deleteInternshipInBulk(
+            @RequestBody List<Long> internshipIds,
+            @RequestHeader("Authorization") String authHeader) {
+
+        try {
+            // 1. Get all applications associated with these internships
+            String getApplicationsUrl = "http://localhost:8765/internship-service/applications/internshipIds/bulk";
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", authHeader);
+
+            HttpEntity<List<Long>> requestEntity = new HttpEntity<>(internshipIds, headers);
+
+            ResponseEntity<List<Long>> response = restTemplate.exchange(
+                    getApplicationsUrl,
+                    HttpMethod.POST,
+                    requestEntity,
+                    new ParameterizedTypeReference<List<Long>>() {}
+            );
+
+            List<Long> applicationIds = response.getBody();
+
+            // 2. Delete all applications (if any exist)
+            if (applicationIds != null && !applicationIds.isEmpty()) {
+                String bulkDeleteUrl = "http://localhost:8765/internship-service/applications/bulk";
+
+                HttpEntity<List<Long>> deleteRequest = new HttpEntity<>(applicationIds, headers);
+
+                restTemplate.exchange(
+                        bulkDeleteUrl,
+                        HttpMethod.DELETE,
+                        deleteRequest,
+                        Void.class
+                );
+            }
+
+            // 3. Finally, delete the internships
+            internshipService.deleteAllByIds(internshipIds);
+
+            return ResponseEntity.ok("Deleted " + internshipIds.size() + " internships and their applications");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Failed to delete internships: " + e.getMessage());
+        }
+    }
+    @PostMapping("/hr/bulk") // New endpoint
+    public ResponseEntity<List<Long>> getInternshipIdsByHrIds(@RequestBody List<Long> hrIds) {
+        List<Long> internshipIds = internshipService.findIdsByHrIds(hrIds);
+        return ResponseEntity.ok(internshipIds);
+    }
 }
 /*
 Post create intern ----> create

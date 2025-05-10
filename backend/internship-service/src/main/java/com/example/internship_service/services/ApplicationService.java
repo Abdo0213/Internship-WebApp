@@ -51,6 +51,9 @@ public class ApplicationService {
     public List<Application> getApplicationsByInternship(Long internshipId) {
         return applicationRepository.findByInternshipId(internshipId);
     }
+    public List<Long> getApplicationsIdByInternship(Long internshipId) {
+        return applicationRepository.findByInternshipId2(internshipId);
+    }
     public Application createApplication(Long studentId, Long internshipId, String authToken) {
         Internship internship = internshipRepository.findById(internshipId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Internship not found"));
@@ -60,19 +63,30 @@ public class ApplicationService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Student not found");
         }
 
-        if (applicationRepository.existsByStudentIdAndInternshipId(studentId, internshipId)) {
+        boolean alreadyApplied = applicationRepository.existsByStudentIdAndInternshipId(studentId, internshipId);
+        if (alreadyApplied) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Already applied to this internship");
         }
 
         Application application = new Application(studentId, internship);
+        application.setStatus(Application.Status.PENDING); // explicitly set, though default exists
+
         return applicationRepository.save(application);
     }
 
 
+
     // Update application status (e.g., PENDING → ACCEPTED/REJECTED)
-        public Application updateApplication(Long id, Application.Status status) {
-            Application application = getOneApplication(id);
-            application.setStatus(status);
-            return applicationRepository.save(application);
-        }
+    public Application updateApplication(Long id, Application.Status status) {
+        Application application = getOneApplication(id);
+        application.setStatus(status);
+        return applicationRepository.save(application);
+    }
+    public void deleteAllByIds(List<Long> ids) {
+        List<Application> applications = applicationRepository.findAllById(ids);
+        applicationRepository.deleteAll(applications);
+    }
+    public List<Long> findIdsByInternshipIds(List<Long> internshipIds) {
+        return applicationRepository.findIdsByInternshipIdIn(internshipIds);
+    }
 }

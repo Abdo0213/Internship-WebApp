@@ -7,9 +7,10 @@ import com.example.user_service.model.User;
 import com.example.user_service.services.HrService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +20,12 @@ import java.util.Map;
 @RequestMapping("/hr")
 public class HrController {
     private final HrService hrService;
+    private final RestTemplate restTemplate;
 
-    public HrController(HrService hrService) {
+
+    public HrController(HrService hrService, RestTemplate restTemplate) {
         this.hrService = hrService;
+        this.restTemplate = restTemplate;
     }
     @GetMapping // done
     public ResponseEntity<String> getAllHr() throws JsonProcessingException {
@@ -45,17 +49,31 @@ public class HrController {
                     .body("Error retrieving users: " + e.getMessage());
         }
     }
+    @GetMapping("/company/{companyId}") // done
+    public ResponseEntity<?> getHrByCompanyId(@PathVariable Long companyId) throws JsonProcessingException {
+        try {
+            List<Long> hrs = hrService.getHrByCompanyId(companyId);
+
+            if (hrs.isEmpty()) {
+                return null;
+            }
+            return ResponseEntity.ok(hrs);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Error retrieving users: " + e.getMessage());
+        }
+    }
+
     @PostMapping // done
     @JwtValidation(requiredRoles = {"admin"})
-    public ResponseEntity<String> addHr(@RequestBody HrDto registerRequest) throws JsonProcessingException {
+    public ResponseEntity<?> addHr(@RequestBody HrDto registerRequest) throws JsonProcessingException {
         try {
-            Boolean isAdded = hrService.addHr(
-                    registerRequest
-            );
+            Hr hr = hrService.addHr(registerRequest);
 
-            if (isAdded) {
+            if (hr != null) {
                 return ResponseEntity.status(HttpStatus.CREATED)
-                        .body("User Added successfully");
+                        .body(hr);
             } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                         .body("User Added failed");
@@ -130,22 +148,111 @@ public class HrController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @DeleteMapping("/{id}") // done
+    @DeleteMapping("/{id}")
     @JwtValidation(requiredRoles = {"admin", "hr"})
-    public ResponseEntity<String> deleteHr(@PathVariable Long id) throws JsonProcessingException {
+    public ResponseEntity<String> deleteHr(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String authHeader) {  // Add authHeader parameter
         try {
-            boolean isDeleted = hrService.DeleteHr(id);
+            // 1. Get all internship IDs for this HR
+            String getHrIdsUrl = "http://localhost:8765/internship-service/internships/hrId/" + id;  // Use dynamic URL
 
-            if (isDeleted) {
-                return ResponseEntity.status(HttpStatus.OK)
-                        .body("hr deleted successfully");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("hr not found with ID: " + id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", authHeader);  // Pass JWT token
+
+            ResponseEntity<List<Long>> response = restTemplate.exchange(
+                    getHrIdsUrl,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    new ParameterizedTypeReference<List<Long>>() {}
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                List<Long> internshipIds = response.getBody();
+
+                // 2. Bulk delete internships
+                if (!internshipIds.isEmpty()) {
+                    String bulkDeleteUrl ="http://localhost:8765/internship-service/internships/bulk";
+
+                    HttpEntity<List<Long>> requestEntity = new HttpEntity<>(internshipIds, headers);
+                    ResponseEntity<Void> deleteResponse = restTemplate.exchange(
+                            bulkDeleteUrl,
+                            HttpMethod.DELETE,
+                            requestEntity,
+                            Void.class
+                    );
+
+                    if (!deleteResponse.getStatusCode().is2xxSuccessful()) {
+                        return ResponseEntity.internalServerError()
+                                .body("Failed to delete related internships");
+                    }
+                }
             }
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(e.getMessage());
+
+            // 3. Delete the HR
+            boolean isDeleted = hrService.DeleteHr(id);
+            if (isDeleted) {
+                return ResponseEntity.ok("HR deleted successfully");
+            } else {
+                return ResponseEntity.badRequest().body("HR not found with ID: " + id);
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Error deleting HR: " + e.getMessage());
+        }
+    }
+    @DeleteMapping("/bulk")
+    @JwtValidation(requiredRoles = {"admin"}) // Optional: Add role restriction
+    public ResponseEntity<String> deleteHrInBulk(
+            @RequestBody List<Long> hrIds,
+            @RequestHeader("Authorization") String authHeader) { // For internal API calls
+
+        try {
+            // 1. Get all internship IDs for these HRs
+            String getInternshipsUrl = "http://localhost:8765/internship-service/internships/hr/bulk"; // Endpoint to fetch internships by HR IDs
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", authHeader); // Forward JWT token
+
+            HttpEntity<List<Long>> requestEntity = new HttpEntity<>(hrIds, headers);
+
+            // Fetch internships linked to HRs
+            ResponseEntity<List<Long>> response = restTemplate.exchange(
+                    getInternshipsUrl,
+                    HttpMethod.POST,
+                    requestEntity,
+                    new ParameterizedTypeReference<List<Long>>() {}
+            );
+
+            List<Long> internshipIds = response.getBody();
+
+            // 2. Delete internships in bulk (if any exist)
+            if (internshipIds != null && !internshipIds.isEmpty()) {
+                String bulkDeleteInternshipsUrl = "http://localhost:8765/internship-service/internships/bulk";
+
+                HttpEntity<List<Long>> deleteRequest = new HttpEntity<>(internshipIds, headers);
+                restTemplate.exchange(
+                        bulkDeleteInternshipsUrl,
+                        HttpMethod.DELETE,
+                        deleteRequest,
+                        Void.class
+                );
+            }
+
+            // 3. Finally, delete the HRs
+            hrService.deleteAllByIds(hrIds);
+
+            return ResponseEntity.ok(
+                    "Deleted " + hrIds.size() + " HRs and " +
+                            (internshipIds != null ? internshipIds.size() : 0) + " linked internships."
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Failed to delete HRs: " + e.getMessage());
         }
     }
     @GetMapping("/count")

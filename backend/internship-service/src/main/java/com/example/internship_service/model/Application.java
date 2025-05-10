@@ -21,7 +21,7 @@ public class Application {
     private Long studentId;
 
     // Internship reference (ID only)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "internship_id", nullable = false)
     private Internship internship;
 

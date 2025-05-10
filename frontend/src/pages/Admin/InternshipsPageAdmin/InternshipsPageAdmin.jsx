@@ -160,6 +160,34 @@ const InternshipsPage = () => {
             return () => window.removeEventListener('scroll', handleScroll);
         }, [handleScroll]);
 
+    const handleDeleteInternship = async(id) => {
+        if (!token) {
+            console.error('No access token available');
+            return;
+        }
+        try {
+            setInternships(prev => prev.filter(internship => internship.id !== id));
+            if(internships?.length > 0 ){
+                setSelectedInternship(internships[0]);
+            } else {
+                setSelectedInternship(null);
+            }
+            await axios.delete(
+                `http://localhost:8765/internship-service/internships/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            setShowCreateModal(false);
+
+        } catch (error) {
+            console.error('Error deleting hr:', error);
+            setError('Failed to deleting hr');
+        }
+    }
+
     return (
         <>
             <Navbar />
@@ -191,7 +219,7 @@ const InternshipsPage = () => {
                                     />
                                     <div className="card-actions">
                                         {/*<button className="btn btn-edit">Edit</button>*/}
-                                        <button className="btn btn-delete">Delete</button>
+                                        <button className="btn btn-delete" onClick={() => handleDeleteInternship(selectedInternship.id)}>Delete</button>
                                     </div>
                                 </>
                             ) : (

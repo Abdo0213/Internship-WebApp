@@ -123,6 +123,7 @@ const ApplicationForm = ({ onClose, studentId, internshipId }) => {
             }
     
             // 2. Submit application
+            console.log(applicationRequest);
             const appResponse = await axios.post(
                 `http://localhost:8765/internship-service/applications`,
                 applicationRequest,

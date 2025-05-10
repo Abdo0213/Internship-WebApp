@@ -41,7 +41,7 @@ public class AuthController {
         );
         User user = userService.getUserByUsername(request.getUsername());
         String role = user.getRole().getName();
-        String token = jwtUtil.generateToken(data.get("username"), role);
+        String token = jwtUtil.generateToken(user.getId(), user.getUsername(), role);
         Map<String, Object> response = new HashMap<>();
         response.put("accessToken", token);
         response.put("userId", user.getId());
@@ -57,7 +57,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         System.out.println(request);
-        System.out.println(" -------------------------------------------------------------");
         authService.registerUser(
                 request.getUsername(),
                 request.getPassword(),

@@ -7,11 +7,16 @@ import com.example.internship_service.dto.InternshipResponse;
 import com.example.internship_service.dto.UpdatedApplicationRequest;
 import com.example.internship_service.model.Application;
 import com.example.internship_service.model.Internship;
+import com.example.internship_service.model.Notification;
 import com.example.internship_service.services.ApplicationService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.example.internship_service.services.NotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 
@@ -25,7 +30,8 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
     private final RestTemplate restTemplate;
-
+    @Autowired
+    private NotificationService notificationService;
 
     public ApplicationController(ApplicationService applicationService, RestTemplate restTemplate) {
         this.applicationService = applicationService;
@@ -65,6 +71,13 @@ public class ApplicationController {
     public ResponseEntity<List<Application>> getApplicationsByHr(@PathVariable Long hrId) {
         return ResponseEntity.ok(applicationService.getApplicationsByHr(hrId));
     }
+
+    @GetMapping("/internshipIds/{internshipId}")
+    @JwtValidation(requiredRoles = {"hr", "admin"})
+    public ResponseEntity<?> getIdsByInternship(@PathVariable Long internshipId) {
+        return ResponseEntity.ok(applicationService.getApplicationsIdByInternship(internshipId));
+    }
+
     @GetMapping("/internship/{internshipId}") // done
     @JwtValidation(requiredRoles = {"hr"})
     public ResponseEntity<List<ApplicationResponse>> getApplicationsByInternship(@PathVariable Long internshipId) {
@@ -109,7 +122,55 @@ public class ApplicationController {
     public ResponseEntity<Application> updateApplication(
             @PathVariable Long id,
             @RequestBody UpdatedApplicationRequest dto) {
-        return ResponseEntity.ok(applicationService.updateApplication(id, dto.getStatus()));
+
+        // Update the application
+        Application updatedApplication = applicationService.updateApplication(id, dto.getStatus());
+        // Only create notification if status actually changed
+            Notification notification = new Notification();
+            notification.setStudentId(updatedApplication.getStudentId());
+            notification.setInternshipTitle(updatedApplication.getInternship().getTitle());
+            notification.setApplication(updatedApplication);
+            notification.setRead(false);
+            notification.setCreatedAt(LocalDateTime.now());
+            notificationService.createNotification(notification);
+
+        return ResponseEntity.ok(updatedApplication);
+    }
+    @DeleteMapping("/bulk")
+    public ResponseEntity<String> deleteHrInBulk(@RequestBody List<Long> applicationIds) {
+        try {
+            // First delete associated notifications
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<List<Long>> request = new HttpEntity<>(applicationIds, headers);
+
+            ResponseEntity<Void> notificationResponse = restTemplate.exchange(
+                    "http://localhost:8765/internship-service/api/notifications/bulk",
+                    HttpMethod.DELETE,
+                    request,
+                    Void.class
+            );
+
+            // Only delete applications if notification deletion was successful
+            if (notificationResponse.getStatusCode().is2xxSuccessful()) {
+                applicationService.deleteAllByIds(applicationIds);
+                return ResponseEntity.noContent().build();
+            } else {
+                // Notification deletion failed
+                return ResponseEntity.status(notificationResponse.getStatusCode())
+                        .body("Failed to delete notifications");
+            }
+
+        } catch (RestClientException e) {
+            // Return error response without deleting applications
+            return ResponseEntity.internalServerError()
+                    .body("Failed to communicate with notification service");
+        }
+    }
+    @PostMapping("/internshipIds/bulk")
+    public ResponseEntity<List<Long>> getApplicationIdsByInternshipIds(@RequestBody List<Long> internshipIds) {
+        List<Long> applicationIds = applicationService.findIdsByInternshipIds(internshipIds);
+        return ResponseEntity.ok(applicationIds);
     }
 }
 /*

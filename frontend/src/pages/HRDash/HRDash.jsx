@@ -352,10 +352,11 @@ const HRDash = () => {
             {/* Edit Internship Modal */}
             {showEditModal && editedInternship && (
                 <EditInternshipModal
-                    internship={editedInternship}
+                    item={editedInternship}
                     onSave={handleSaveInternship}
                     onCancel={() => setShowEditModal(false)}
                     onInputChange={handleInputChange}
+                    modalType={"internship"}
                 />
             )}
             {showCreateModal && (

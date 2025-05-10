@@ -23,14 +23,16 @@ const HRsPageAdmin = () => {
                 const response = await axios.get('http://localhost:8765/user-service/hr', { headers });
                 const data = response.data;
                 
-                // Make sure data is an array
-                if (Array.isArray(data)) {
-                    setHrs(data);
-                    if (data.length > 0) {
-                        setSelectedHr(data[0]);
+                if(data){
+                    // Make sure data is an array
+                    if (Array.isArray(data)) {
+                        setHrs(data);
+                        if (data.length > 0) {
+                            setSelectedHr(data[0]);
+                        }
+                    } else {
+                        console.error('Expected an array but got:', data);
                     }
-                } else {
-                    console.error('Expected an array but got:', data);
                 }
             } catch (error) {
                 console.error('Error fetching HRs:', error);
@@ -63,11 +65,38 @@ const HRsPageAdmin = () => {
 
             // Optionally show success message
         } catch (error) {
-            console.error('Error creating internship:', error);
-            setError('Failed to create internship');
+            console.error('Error creating hr:', error);
+            setError('Failed to create hr');
         }
     };
+    
+    const handleDeleteHr = async(id) => {
+        if (!token) {
+            console.error('No access token available');
+            return;
+        }
+        try {
+            setHrs(prev => prev.filter(hr => hr.id !== id));
+            if(hrs?.length > 0 ){
+                setSelectedHr(hrs[0]);
+            } else {
+                setSelectedHr(null);
+            }
+            await axios.delete(
+                `http://localhost:8765/user-service/hr/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            setShowCreateModal(false);
 
+        } catch (error) {
+            console.error('Error deleting hr:', error);
+            setError('Failed to deleting hr');
+        }
+    }
     return (
         <>
             <Navbar />
@@ -108,7 +137,7 @@ const HRsPageAdmin = () => {
                                     </div>
                                     <div className="card-actions">
                                         {/*<button className="btn btn-edit">Edit</button>*/}
-                                        <button className="btn btn-delete">Delete</button>
+                                        <button className="btn btn-delete" onClick={() => handleDeleteHr(selectedHr.id)}>Delete</button>
                                     </div>
                                 </div>
                             ) : (

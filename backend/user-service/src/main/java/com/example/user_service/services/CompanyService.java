@@ -3,9 +3,12 @@ package com.example.user_service.services;
 import com.example.user_service.dto.CompanyDto;
 import com.example.user_service.model.Company;
 import com.example.user_service.repository.CompanyRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -32,20 +35,21 @@ public class CompanyService {
                 .orElseThrow(() -> new RuntimeException("Company not found"));
     }
 
-    public void addCompany(CompanyDto dto) {
+    public Company addCompany(CompanyDto dto) {
         Company company = new Company();
         company.setName(dto.getName());
         company.setIndustry(dto.getIndustry());
         company.setLocation(dto.getLocation());
 
         companyRepository.save(company);
+        return company;
     }
 
-    public boolean updateCompany(Long id, CompanyDto updatedDto) {
+    public Company updateCompany(Long id, CompanyDto updatedDto) {
         Optional<Company> existingCompanyOpt = companyRepository.findById(id);
 
         if (existingCompanyOpt.isEmpty()) {
-            return false;
+            return null;
         }
 
         Company existingCompany = existingCompanyOpt.get();
@@ -71,7 +75,7 @@ public class CompanyService {
             companyRepository.save(existingCompany);
         }
 
-        return wasUpdated;
+        return existingCompany;
     }
 
     public Boolean deleteCompany(Long id) {

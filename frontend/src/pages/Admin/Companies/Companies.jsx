@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../../../components/Navbar/Navbar';
 import SearchableList from '../../../components/SearchableList/SearchableList';
 import '../Admin.css';
@@ -12,16 +12,10 @@ const Companies = () => {
     const [companies, setCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState(null);
     const token = localStorage.getItem("accessToken");
-    const [internships, setInternships] = useState([]);
-        const [selectedInternship, setSelectedInternship] = useState(null);
-        const [page, setPage] = useState(1);
-        const [searchQuery, setSearchQuery] = useState('');
-        const [isLoading, setIsLoading] = useState(false);
-        const [error, setError] = useState(null);
-        const [hasMore, setHasMore] = useState(true);
-        const [showCreateModal, setShowCreateModal] = useState(false);
-        const [editedInternship, setEditedInternship] = useState(null);
-        const [showEditModal, setShowEditModal] = useState(false);
+    const [error, setError] = useState(null);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [editedCompany, setEditedCompany] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     useEffect(() => {
         // Replace with actual API call
@@ -32,7 +26,6 @@ const Companies = () => {
                 };
                 const response = await axios.get('http://localhost:8765/user-service/companies', { headers });
                 const data = response.data;
-                console.log(data);
                 // Make sure data is an array
                 if (Array.isArray(data)) {
                     setCompanies(data);
@@ -50,15 +43,15 @@ const Companies = () => {
         fetchCompanies();
     }, [token]);
 
-    const handleSaveInternship = async () => {
+    const handleSaveCompany = async () => {
         if (!token) {
             console.error('No access token available');
             return;
         }
         try {
             const response = await axios.put(
-                `http://localhost:8765/internship-service/internships/${editedInternship.id}`,
-                editedInternship,
+                `http://localhost:8765/user-service/companies/${editedCompany.id}`,
+                editedCompany,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -67,76 +60,85 @@ const Companies = () => {
             );
 
             // Update the selected internship
-            setSelectedInternship(response.data);
-
+            setSelectedCompany(response.data);
             // Update the internships list
-            setInternships(internships.map(internship =>
-                internship.id === response.data.id ? response.data : internship
+            setCompanies(companies.map(company =>
+                company.id === response.data.id ? response.data : company
             ));
 
             setShowEditModal(false);
             // Optionally show success message
         } catch (error) {
-            console.error('Error updating internship:', error);
-            setError('Failed to update internship');
+            console.error('Error updating company:', error);
+            setError('Failed to update company');
         }
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setEditedInternship(prev => ({
+        setEditedCompany(prev => ({
             ...prev,
             [name]: value
         }));
     };
 
-    const handleCreateInternship = async (internshipData) => {
+    const handleCreateCompany = async (companiesData) => {
         if (!token) {
             console.error('No access token available');
             return;
         }
         try {
             const response = await axios.post(
-                `http://localhost:8765/internship-service/internships`,
-                { ...internshipData }, // Include companyName here
+                `http://localhost:8765/user-service/companies`,
+                { ...companiesData }, // Include companyName here
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 }
             );
-
-            // Add the new internship to the list and select it
-            setInternships(prev => [response.data, ...prev]);
-            setSelectedInternship(response.data);
+            setCompanies(prev => [response.data, ...prev]);
+            setSelectedCompany(response.data);
             setShowCreateModal(false);
 
             // Optionally show success message
         } catch (error) {
-            console.error('Error creating internship:', error);
-            setError('Failed to create internship');
+            console.error('Error creating company:', error);
+            setError('Failed to create company');
         }
     };
     useEffect(() => {
-        if (selectedInternship) {
-            setEditedInternship({ ...selectedInternship });
+        if (selectedCompany) {
+            setEditedCompany({ ...selectedCompany });
         }
-    }, [selectedInternship]);
+    }, [selectedCompany]);
 
-    // Infinite scroll handler
-    const handleScroll = useCallback(() => {
-        if (isLoading || !hasMore || !token) return; // Check for token
-
-        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-        if (scrollTop + clientHeight >= scrollHeight - 100) {
-            setPage(prev => prev + 1);
+    const handleDeleteCompany = async(id) => {
+        if (!token) {
+            console.error('No access token available');
+            return;
         }
-    }, [isLoading, hasMore, token]);
+        try {
+            setCompanies(prev => {
+                const updatedCompanies = prev.filter(company => company.id !== id);
+                setSelectedCompany(updatedCompanies.length > 0 ? updatedCompanies[0] : null);
+                return updatedCompanies;
+            });
+            await axios.delete(
+                `http://localhost:8765/user-service/companies/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            setShowCreateModal(false);
 
-    useEffect(() => {
-            window.addEventListener('scroll', handleScroll);
-            return () => window.removeEventListener('scroll', handleScroll);
-        }, [handleScroll]);
+        } catch (error) {
+            console.error('Error deleting company:', error);
+            setError('Failed to deleting company');
+        }
+    }
     return (
         <>
         <Navbar />
@@ -174,8 +176,8 @@ const Companies = () => {
                                     <span>{selectedCompany.location}</span>
                                 </div>
                                 <div className="card-actions">
-                                    <button className="btn btn-edit">Edit</button>
-                                    <button className="btn btn-delete">Delete</button>
+                                    <button className="btn btn-edit" onClick={() => setShowEditModal(true)}>Edit</button>
+                                    <button className="btn btn-delete" onClick={() => handleDeleteCompany(selectedCompany.id)}>Delete</button>
                                 </div>
                             </div>
                             ) : (
@@ -186,10 +188,10 @@ const Companies = () => {
                 </div>
             </div>
             {/* Edit Internship Modal */}
-            {showEditModal && editedInternship && (
+            {showEditModal && editedCompany && (
                 <EditInternshipModal
-                    internship={editedInternship}
-                    onSave={handleSaveInternship}
+                    item={editedCompany}
+                    onSave={handleSaveCompany}
                     onCancel={() => setShowEditModal(false)}
                     onInputChange={handleInputChange}
                     modalType={"company"}
@@ -199,7 +201,7 @@ const Companies = () => {
                 <CreateInternshipModal
                     show={showCreateModal}
                     onClose={() => setShowCreateModal(false)}
-                    onCreate={handleCreateInternship}
+                    onCreate={handleCreateCompany}
                     modalType={"company"}
                 />
             )}

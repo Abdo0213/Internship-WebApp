@@ -18,7 +18,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
         location: '',
         hrId: null
     });
-    const [newHr, setNewRHr] = useState({
+    const [newHr, setNewHr] = useState({
         username: '',
         company: '',
         email: '',
@@ -65,7 +65,6 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                 };
                 const response = await axios.get('http://localhost:8765/user-service/companies', { headers });
                 const data = response.data;
-                console.log(data);
                 // Make sure data is an array
                 if (Array.isArray(data)) {
                     setCompanies(data);
@@ -73,6 +72,10 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                         setNewInternship(prev => ({
                             ...prev,
                             companyName: response.data[0].name
+                        }));
+                        setNewHr(prev => ({
+                            ...prev,
+                            company: response.data[0].name
                         }));
                     }
                 } else {
@@ -82,11 +85,11 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                 console.error('Error fetching HRs:', error);
             }
         };
-        if(role === "ADMIN"){
+        if(role === "ADMIN" && modalType === "internship"){
             fetchHrs();
             fetchCompanies();
         } else {
-            return
+            fetchCompanies();
         }
     }, [token, role]);
 
@@ -99,7 +102,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
             }));
         }
         else if(modalType === "hr"){
-            setNewRHr(prev => ({
+            setNewHr(prev => ({
                 ...prev,
                 [name]: value
             }));
@@ -352,8 +355,8 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                         <div className="form-group">
                             <label>Company</label>
                             <select
-                                name="companyName"
-                                value={newInternship.companyName || ''}
+                                name="company"
+                                value={newHr.company || ''}
                                 onChange={handleInputChange}
                                 required
                             >

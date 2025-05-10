@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -25,4 +26,9 @@ public interface InternshipRepository extends JpaRepository<Internship, Long> {
     Page<Internship> findByHrId(Long hrId, Pageable pageable);
     // Find by HR
     List<Internship> findByHrId(Long hrId);
+    @Query("SELECT h.id FROM Internship h WHERE h.hrId = :hrId")
+    List<Long> findByHrId2(@Param("hrId") Long hrId);
+    @Query("SELECT i.id FROM Internship i WHERE i.hrId IN :hrIds")
+    List<Long> findIdsByHrIdIn(@Param("hrIds") List<Long> hrIds);
+
 }

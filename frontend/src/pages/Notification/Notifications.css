@@ -1,0 +1,141 @@
+/* Container Styles */
+.notification-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Search Controls */
+.notification-controls {
+    margin-bottom: 2rem;
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #f8f8f8;
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #222;
+    background-color: white;
+    box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
+}
+
+/* Notification List */
+.notification-list {
+    border-top: 1px solid #f0f0f0;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Notification Items */
+.notification-item {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.notification-item:hover {
+    background-color: #fafafa;
+}
+
+.notification-item.unread {
+    background-color: #f8f8f8;
+}
+
+.notification-item.read {
+    opacity: 0.9;
+}
+
+.notification-main {
+    width: 100%;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Title Styles - changes based on read state */
+.internship-title {
+    font-weight: 600;
+    margin: 0;
+    color: #222;
+    transition: color 0.2s ease;
+}
+
+.notification-item.read .internship-title {
+    color: #666;
+    font-weight: 500;
+}
+
+/* Status Badges */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* Different status colors */
+.status-badge.accepted {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+}
+
+.status-badge.rejected {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.status-badge.pending {
+    background-color: #fff8e1;
+    color: #f57f17;
+}
+
+.status-badge.under_review {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+/* Meta Information */
+.notification-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.company-name {
+    font-weight: 500;
+}
+
+.application-date {
+    color: #888;
+}

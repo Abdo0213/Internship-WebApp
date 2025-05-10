@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InternshipService {
@@ -78,6 +79,9 @@ public class InternshipService {
             // If no search term, just find by hrId
             return internshipRepository.findByHrId(hrId, pageable);
         }
+    }
+    public List<Long> getInternshipsByHrId(Long hrId) {
+        return internshipRepository.findByHrId2(hrId);
     }
     @Transactional
     public boolean updateInternship(Long id, Internship updatedInternship) {
@@ -142,6 +146,13 @@ public class InternshipService {
     }
     public Long getInternshipCount(){
         return internshipRepository.count();
+    }
+    public void deleteAllByIds(List<Long> ids) {
+        List<Internship> internships = internshipRepository.findAllById(ids);
+        internshipRepository.deleteAll(internships);
+    }
+    public List<Long> findIdsByHrIds(List<Long> hrIds) {
+        return internshipRepository.findIdsByHrIdIn(hrIds); // JPA query
     }
     // Scheduled expiration check (runs every minute)
 }
