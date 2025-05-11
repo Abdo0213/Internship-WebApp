@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './SearchableList.css';
+import style from './SearchableList.module.css';
 
 const SearchableList = ({ items, onItemSelect, selectedItem, displayProperty }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,29 +28,35 @@ const SearchableList = ({ items, onItemSelect, selectedItem, displayProperty }) 
   };
 
   return (
-    <div className="searchable-list">
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
-      />
-      <ul className="items-list">
-        {filteredItems.map(item => (
-          <li
-            key={item.id}
-            onClick={() => onItemSelect(item)}
-            className={selectedItem?.id === item.id ? 'selected' : ''}
-          >
-            {getItemDisplay(item)}
-          </li>
-        ))}
-      </ul>
-      {filteredItems.length === 0 && (
-        <div className="no-results">No matching items found</div>
-      )}
-    </div>
+    <>
+      <div className={style["left-sidebar"]}>
+        <div className={style["search-container"]}>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={style["search-input"]}
+          />
+        </div>
+        <div className={style["internship-list"]}>
+          {filteredItems.map(item => {
+            return (
+              <div
+                key={item.id}
+                onClick={() => onItemSelect(item)}
+                className={`${style["internship-item"]} ${style[selectedItem?.id === item.id ? 'selected' : '']}`}
+              >
+                <h3 className={style["item-title"]}>{getItemDisplay(item)}</h3>
+              </div>
+            );
+          })}
+          {filteredItems.length === 0 && (
+            <div className="no-results">No matching items found</div>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 

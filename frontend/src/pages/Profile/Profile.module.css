@@ -120,22 +120,22 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .user-profile-card {
-    padding: 1.5rem;
-    margin: 1rem;
+        padding: 1.5rem;
+        margin: 1rem;
     }
     
     .form-grid {
-    grid-template-columns: 1fr;
+        grid-template-columns: 1fr;
     }
     
     .user-card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
     }
     
     .button-group {
-    width: 100%;
-    justify-content: flex-end;
+        width: 100%;
+        justify-content: flex-end;
     }
 }

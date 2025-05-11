@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import './HRDash.css';
+import style from './HRDash.module.css';
 import Navbar from "../../components/Navbar/Navbar";
 import EditInternshipModal from '../../components/EditInternshipModal/EditInternshipModal';
 import ApplicationsList from '../../components/ApplicationListbyIntern/ApplicationListbyIntern';
@@ -281,49 +281,49 @@ const HRDash = () => {
     return (
         <>
             <Navbar/>
-            <div className="internship-management-container">
+            <div className={style["internship-management-container"]}>
                 {/* Left Sidebar - Internships List */}
-                <div className="internship-sidebar">
-                    <div className="search-container">
+                <div className={style["internship-sidebar"]}>
+                    <div className={style["search-container"]}>
                         <input
                             type="text"
                             placeholder="Search internships..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-input"
+                            className={style["search-input"]}
                         />
-                        {isLoading && <span className="search-loading">Searching...</span>}
+                        {isLoading && <span className={style["search-loading"]}>Searching...</span>}
                     </div>
 
-                    <div className="internship-list">
+                    <div className={style["internship-list"]}>
                         {isLoading && page === 1 ? (
-                            <div className="loading">Loading...</div>
+                            <div className={style["loading"]}>Loading...</div>
                         ) : error ? (
-                            <div className="error">{error}</div>
+                            <div className={style["error"]}>{error}</div>
                         ) : (
                             internships.map((internship) => (
                                 <div
                                     key={internship.id}
-                                    className={`internship-item ${selectedInternship?.id === internship.id ? 'selected' : ''}`}
+                                    className={`${style["internship-item"]} ${style[selectedInternship?.id === internship.id ? 'selected' : '']}`}
                                     onClick={() => setSelectedInternship(internship)}
                                 >
                                     <h3>{internship.title}</h3>
-                                    <p className="company">{internship.companyName}</p>
-                                    <p className="dates">
+                                    <p className={style["company"]}>{internship.companyName}</p>
+                                    <p className={style["dates"]}>
                                         {new Date(internship.createdAt).toLocaleDateString()}
                                     </p>
                                 </div>
                             ))
                         )}
-                        {isLoading && page > 1 && <div className="loading">Loading more...</div>}
+                        {isLoading && page > 1 && <div className={style["loading"]}>Loading more...</div>}
                     </div>
                 </div>
 
                 {/* Main Content - Internship Details and Applications */}
-                <div className="main-content">
-                    <div className="main-content-header">
+                <div className={style["main-content"]}>
+                    <div className={style["main-content-header"]}>
                         <button
-                            className="new-internship-button"
+                            className={style["new-internship-button"]}
                             onClick={() => setShowCreateModal(true)}
                         >
                             Create New Internship <FaPlus/>
@@ -342,7 +342,7 @@ const HRDash = () => {
                             />
                         </>
                     ) : (
-                        <div className="no-internship-selected">
+                        <div className={style["no-internship-selected"]}>
                             <p>Select an internship from the list or create a new one</p>
                         </div>
                     )}

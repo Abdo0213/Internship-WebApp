@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/authcontext';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import './Navbar.css';
+import style from './Navbar.module.css';
 import { jwtDecode } from 'jwt-decode';
 import { flushSync } from 'react-dom';
 
@@ -48,65 +48,65 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="mono-nav">
-            <div className="nav-container">
-                <div className="nav-logo"><Link to='/'>InternConnect</Link></div>
+        <nav className={style["mono-nav"]}>
+            <div className={style["nav-container"]}>
+                <div className={style["nav-logo"]}><Link to='/'>InternConnect</Link></div>
 
                 {/* Desktop Navigation */}
-                <div className="nav-links">
-                    <button onClick={() => handleScrollTo('about')} className="nav-link">
+                <div className={style["nav-links"]}>
+                    <button onClick={() => handleScrollTo('about')} className={style["nav-link"]}>
                         About
                     </button>
                     {!role ? (
-                        <Link to="/internship" className="nav-link">
+                        <Link to="/internship" className={style["nav-link"]}>
                             Internships
                         </Link>
                     ) : (role === "HR" ? (
-                        <Link to={"/hr"} className="nav-link">
+                        <Link to={"/hr"} className={style["nav-link"]}>
                             Dashboard
                         </Link>
                     ) : (role === "ADMIN") ?
                         <>
-                            <Link to="/admin" className="nav-link">Dashboard</Link>
-                            <Link to="/companies" className="nav-link">Companies</Link>
-                            <Link to="/hrs" className="nav-link">HRs</Link>
-                            <Link to="/internships" className="nav-link">Internships</Link>
+                            <Link to="/admin" className={style["nav-link"]}>Dashboard</Link>
+                            <Link to="/companies" className={style["nav-link"]}>Companies</Link>
+                            <Link to="/hrs" className={style["nav-link"]}>HRs</Link>
+                            <Link to="/internships" className={style["nav-link"]}>Internships</Link>
                         </>
                     : (
                         <>
-                            <Link to="/internship" className="nav-link">
+                            <Link to="/internship" className={style["nav-link"]}>
                                 Internships
                             </Link>
-                            <Link to="/notifications" className="nav-link">
+                            <Link to="/notifications" className={style["nav-link"]}>
                                 Notifications
                             </Link>
                         </>
                     ))}
                     {isAuthenticated ? (
-                        <div className="profile-dropdown">
+                        <div className={style["profile-dropdown"]}>
                             <button
-                                className="profile-button"
+                                className={style["profile-button"]}
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                 aria-label="User menu"
                             >
                                 <img
                                     src={`https://ui-avatars.com/api/?name=${username}&background=random`}
                                     alt="Profile"
-                                    className="profile-photo"
+                                    className={style["profile-photo"]}
                                 />
                             </button>
 
                             {isDropdownOpen && (
-                                <div className="dropdown-menu">
+                                <div className={style["dropdown-menu"]}>
                                     <Link
                                         to="/profile"
-                                        className="dropdown-item"
+                                        className={style["dropdown-item"]}
                                         onClick={() => setIsDropdownOpen(false)}
                                     >
                                         Profile
                                     </Link>
                                     <button
-                                        className="dropdown-item"
+                                        className={style["dropdown-item"]}
                                         onClick={handleLogout}
                                     >
                                         Logout
@@ -115,30 +115,30 @@ const Navbar = () => {
                             )}
                         </div>
                     ) : (
-                        <Link to="/login"><button className="nav-cta">Join US</button></Link>
+                        <Link to="/login"><button className={style["nav-cta"]}>Join US</button></Link>
                     )}
                 </div>
 
                 {/* Mobile Navigation */}
-                <div className="mobile-menu">
+                <div className={style["mobile-menu"]}>
                     <button
-                        className="hamburger"
+                        className={style["hamburger"]}
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        aria-label="Menu"
+                        aria-label={style["Menu"]}
                     >
                         {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
                     </button>
 
                     {isMobileMenuOpen && (
-                        <div className="mobile-dropdown">
-                            <button onClick={() => handleScrollTo('about')} className="mobile-nav-link">
+                        <div className={style["mobile-dropdown"]}>
+                            <button onClick={() => handleScrollTo('about')} className={style["mobile-nav-link"]}>
                                 About
                             </button>
-                            <Link to="/internship" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                            <Link to="/internship" className={style["mobile-nav-link"]} onClick={() => setIsMobileMenuOpen(false)}>
                                 Internships
                             </Link>
                             {isAuthenticated && roles?.includes("STUDENT") && (
-                                <Link to="/notifications" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>
+                                <Link to="/notifications" className={style["mobile-nav-link"]} onClick={() => setIsMobileMenuOpen(false)}>
                                     Notifications
                                 </Link>
                             )}
@@ -146,13 +146,13 @@ const Navbar = () => {
                                 <>
                                     <Link
                                         to="/profile"
-                                        className="mobile-nav-link"
+                                        className={style["mobile-nav-link"]}
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         Profile
                                     </Link>
                                     <button
-                                        className="mobile-nav-link"
+                                        className={style["mobile-nav-link"]}
                                         onClick={handleLogout}
                                     >
                                         Logout
@@ -161,7 +161,7 @@ const Navbar = () => {
                             ) : (
                                 <Link
                                     to="/login"
-                                    className="mobile-nav-cta"
+                                    className={style["mobile-nav-cta"]}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                 >
                                     Join US

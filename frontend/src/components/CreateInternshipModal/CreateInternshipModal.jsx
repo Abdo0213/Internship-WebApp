@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import '../../pages/HRDash/HRDash.css'; // You'll need to create this CSS file
+import style from '../../pages/HRDash/HRDash.module.css'; // You'll need to create this CSS file
+//import style from './CreateInternshipModal.module.css'
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
@@ -139,11 +140,11 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
 
     if(modalType === "internship"){
         return (
-            <div className="modal-overlay">
-                <div className="modal-content">
+            <div className={style["modal-overlay"]}>
+                <div className={style["modal-content"]}>
                     <h2>Create New Internship</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Title</label>
                             <input
                                 type="text"
@@ -154,7 +155,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Stipend</label>
                             <input
                                 type="text"
@@ -165,7 +166,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Type</label>
                             <select
                                 name="type"
@@ -182,7 +183,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                         </div>
                         {role === "ADMIN" ? (
                             <>
-                                <div className="form-group">
+                                <div className={style["form-group"]}>
                                     <label>HR</label>
                                     <select
                                         name="hrId"
@@ -195,7 +196,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="form-group">
+                                <div className={style["form-group"]}>
                                     <label>Company</label>
                                     <select
                                         name="companyName"
@@ -212,7 +213,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                             </>
                             ): null}
 
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Location</label>
                             <input
                                 type="text"
@@ -223,7 +224,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Duration</label>
                             <input
                                 type="text"
@@ -234,7 +235,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Description</label>
                             <textarea
                                 name="description"
@@ -247,9 +248,9 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                         
                         {/* Add more fields as needed */}
                         
-                        <div className="modal-actions">
-                            <button type="button" className='cancel-button' onClick={onClose}>Cancel</button>
-                            <button type="submit" className='submit-button' >Create</button>
+                        <div className={style["modal-actions"]}>
+                            <button type="button" className={style['cancel-button']} onClick={onClose}>Cancel</button>
+                            <button type="submit" className={style['submit-button']} >Create</button>
                         </div>
                     </form>
                 </div>
@@ -257,11 +258,11 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
         );
     } else if (modalType === "company"){
         return (
-            <div className="modal-overlay">
-                <div className="modal-content">
+            <div className={style["modal-overlay"]}>
+                <div className={style["modal-content"]}>
                     <h2>Add New Company</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Name</label>
                             <input
                                 type="text"
@@ -272,7 +273,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Industry</label>
                             <input
                                 type="text"
@@ -283,7 +284,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Location</label>
                             <input
                                 type="text"
@@ -294,9 +295,9 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="modal-actions">
-                            <button type="button" className='cancel-button' onClick={onClose}>Cancel</button>
-                            <button type="submit" className='submit-button' >Create</button>
+                        <div className={style["modal-actions"]}>
+                            <button type="button" className={style['cancel-button']} onClick={onClose}>Cancel</button>
+                            <button type="submit" className={style['submit-button']} >Create</button>
                         </div>
                     </form>
                 </div>
@@ -304,11 +305,11 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
         );
     } else if (modalType === "hr"){
         return (
-            <div className="modal-overlay">
-                <div className="modal-content">
+            <div className={style["modal-overlay"]}>
+                <div className={style["modal-content"]}>
                     <h2>Add New HR</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Full Name</label>
                             <input
                                 type="text"
@@ -319,7 +320,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Username</label>
                             <input
                                 type="text"
@@ -330,7 +331,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Email</label>
                             <input
                                 type="email"
@@ -341,7 +342,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Password</label>
                             <input
                                 type="password"
@@ -352,7 +353,7 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
+                        <div className={style["form-group"]}>
                             <label>Company</label>
                             <select
                                 name="company"
@@ -366,9 +367,9 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
                                 
                             </select>
                         </div>
-                        <div className="modal-actions">
-                            <button type="button" className='cancel-button' onClick={onClose}>Cancel</button>
-                            <button type="submit" className='submit-button' >Create</button>
+                        <div className={style["modal-actions"]}>
+                            <button type="button" className={style['cancel-button']} onClick={onClose}>Cancel</button>
+                            <button type="submit" className={style['submit-button']} >Create</button>
                         </div>
                     </form>
                 </div>

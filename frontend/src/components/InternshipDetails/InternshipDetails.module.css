@@ -1,0 +1,153 @@
+/* ===== Internship Details ===== */
+.internship-details {
+    background-color: var(--white);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--gray-300);
+}
+
+.details-section {
+    margin-bottom: 48px;
+}
+
+.details-section h2 {
+    margin: 0 0 32px 0;
+    font-size: 24px;
+    padding-bottom: 16px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.content-header h2{
+    margin-bottom: 10px;
+    padding: 1rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+.edit-btn {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.edit-btn:hover {
+    background-color: #333333;
+    transform: translateY(-1px);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
+}
+
+.detail-item {
+    margin-bottom: 20px;
+}
+
+.detail-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--gray-700);
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 0;
+    font-weight: 500;
+}
+
+.description-section {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.description-section h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--black);
+    letter-spacing: -0.25px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.description-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--black);
+}
+
+.description-section p {
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 0;
+    white-space: pre-line;
+}
+
+/* Add subtle animation on hover for better UX */
+.description-section:hover h3::after {
+    width: 60px;
+    transition: width 0.3s ease;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 992px) {
+    .details-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .description-section {
+        margin-top: 32px;
+        padding-top: 32px;
+    }
+    
+    .description-section h3 {
+        font-size: 18px;
+    }
+    
+    .description-section p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}

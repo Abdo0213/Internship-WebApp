@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../../../components/Navbar/Navbar';
 import SearchableList from '../../../components/SearchableList/SearchableList';
-import '../Admin.css';
-import './HRsPageAdmin.css';
+import style from './HRsPageAdmin.module.css';
 import axios from 'axios';
 import CreateInternshipModal from '../../../components/CreateInternshipModal/CreateInternshipModal';
 import { FaPlus } from 'react-icons/fa';
@@ -100,20 +99,20 @@ const HRsPageAdmin = () => {
     return (
         <>
             <Navbar />
-            <div className="page-container">
-                <div className="content-container">
-                    <div className="page-header">
+            <div className={style["page-container"]}>
+                <div className={style["content-container"]}>
+                    <div className={style["page-header"]}>
                         <h2>HR Managers</h2>
                         <button
-                            className="btn btn-add"
+                            className={`${style["btn"]} ${style["btn-add"]}`}
                             onClick={() => setShowCreateModal(true)}
                         >
                             Add New HR <FaPlus/>
                         </button>
                     </div>
                     
-                    <div className="two-column-layout">
-                        {<div className="list-column">
+                    <div className={style["two-column-layout"]}>
+                        {<div className={style["list-column"]}>
                             {/* Uncomment and ensure SearchableList can handle object items */}
                             <SearchableList 
                                 items={hrs} 
@@ -123,21 +122,21 @@ const HRsPageAdmin = () => {
                             />
                         </div>}
                         
-                        <div className="detail-column">
+                        <div className={style["detail-column"]}>
                             {selectedHr ? (
-                                <div className="detail-card">
+                                <div className={style["detail-card"]}>
                                     <h3>{selectedHr.user.fname}</h3>
-                                    <div className="detail-item">
-                                        <span className="detail-label">Email:</span>
-                                        <span>{selectedHr.user.email || 'N/A'}</span>
+                                    <div className={style["detail-item"]}>
+                                        <span className={style["detail-label"]}>Email:</span>
+                                        <span className={style["detail-content"]}>{selectedHr.user.email || 'N/A'}</span>
                                     </div>
-                                    <div className="detail-item">
-                                        <span className="detail-label">Company:</span>
-                                        <span>{selectedHr.company.name}</span>
+                                    <div className={style["detail-item"]}>
+                                        <span className={style["detail-label"]}>Company:</span>
+                                        <span className={style["detail-content"]}>{selectedHr.company.name}</span>
                                     </div>
-                                    <div className="card-actions">
+                                    <div className={style["card-actions"]}>
                                         {/*<button className="btn btn-edit">Edit</button>*/}
-                                        <button className="btn btn-delete" onClick={() => handleDeleteHr(selectedHr.id)}>Delete</button>
+                                        <button className={`${style["btn"]} ${style["btn-delete"]}`} onClick={() => handleDeleteHr(selectedHr.id)}>Delete</button>
                                     </div>
                                 </div>
                             ) : (

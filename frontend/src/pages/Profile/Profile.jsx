@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import React, { useState, useEffect } from 'react';
-import './Profile.css'
+import style from './Profile.module.css'
 import Navbar from '../../components/Navbar/Navbar';
 
 
@@ -162,36 +162,36 @@ export default function Profile() {
         setEditingUserId(null);
     };
 
-    if (isLoading) return <div className="text-center py-8">Loading...</div>;
-    if (error) return <div className="text-center py-8 text-red-600">Error: {error}</div>;
+    if (isLoading) return <div className={`${style["text-center"]} ${style["py-8"]}`}>Loading...</div>;
+    if (error) return <div className={`${style["text-center"]} ${style["py-8"]} ${style["text-red-600"]}`}>Error: {error}</div>;
 
     return (
         <>
             <Navbar />
             {user && (
-                <div key={user.id} className="user-profile-card">
-                    <div className="user-card-header">
-                        <h2 className="user-name">
+                <div key={user.id} className={style["user-profile-card"]}>
+                    <div className={style["user-card-header"]}>
+                        <h2 className={style["user-name"]}>
                             {user.fName}
                         </h2>
                         {editingUserId !== user.id ? (
                             <button
                                 onClick={() => handleEditClick(user)}
-                                className="edit-btn transition-effect"
+                                className={`${style["edit-btn"]} ${style["transition-effect"]}`}
                             >
                                 Edit
                             </button>
                         ) : (
-                            <div className="button-group">
+                            <div className={style["button-group"]}>
                                 <button
                                     onClick={() => handleSave(user.id)}
-                                    className="save-btn transition-effect"
+                                    className={`${style["save-btn"]} ${style["transition-effect"]}`}
                                 >
                                     Save
                                 </button>
                                 <button
                                     onClick={handleCancel}
-                                    className="cancel-btn transition-effect"
+                                    className={`${style["cancel-btn"]} ${style["transition-effect"]}`}
                                 >
                                     Cancel
                                 </button>
@@ -199,22 +199,22 @@ export default function Profile() {
                         )}
                     </div>
     
-                    <div className="form-grid">
+                    <div className={style["form-grid"]}>
                         {editingUserId === user.id ? (
                             roleFieldMap[jwtDecode(localStorage.getItem("accessToken")).role]?.map(field => (
-                                <div key={field.key} className="form-field">
-                                    <label className="field-label">
+                                <div key={field.key} className={style["form-field"]}>
+                                    <label className={style["field-label"]}>
                                         {field.label}
                                     </label>
                                     {field.key === 'username' ? (
-                                        <p className="read-only-value">{user[field.key]}</p>
+                                        <p className={style["read-only-value"]}>{user[field.key]}</p>
                                     ) : field.key === 'password' ? (
                                         <input
                                             type="password"
                                             name={field.key}
                                             value={editedUser[field.key] || ''} 
                                             onChange={handleInputChange}
-                                            className="field-input password-input"
+                                            className={`${style["field-input"]} ${style["password-input"]}`}
                                         />
                                     ) : (
                                         <input
@@ -222,7 +222,7 @@ export default function Profile() {
                                             name={field.key}
                                             value={editedUser[field.key] || ''}
                                             onChange={handleInputChange}
-                                            className="field-input"
+                                            className={style["field-input"]}
                                         />
                                     )}
                                 </div>
@@ -230,9 +230,9 @@ export default function Profile() {
                         ) : (
                             roleFieldMap[jwtDecode(localStorage.getItem("accessToken")).role]?.map(field => (
                                 field.key !== 'password' && (
-                                    <div key={field.key} className="form-field">
-                                        <p className="field-label">{field.label}</p>
-                                        <p className="read-only-value">{user[field.key]}</p>
+                                    <div key={field.key} className={style["form-field"]}>
+                                        <p className={style["field-label"]}>{field.label}</p>
+                                        <p className={style["read-only-value"]}>{user[field.key]}</p>
                                     </div>
                                 )
                             ))

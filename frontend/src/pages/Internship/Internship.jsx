@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
-import './Internship.css';
+import style from'./Internship.module.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom'; 
 
@@ -159,69 +159,69 @@ const ApplicationForm = ({ onClose, studentId, internshipId }) => {
     };
     
     return (
-    <div className="overlay">
-        <div className="application-form" ref={formRef}>
-        <div className="form-header">
-            <h2>Internship Application</h2>
-            <button className="close-btn" onClick={onClose}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            </button>
-        </div>
-        
-        <form onSubmit={handleSubmit}>
-            <div className="form-grid">
-            {STUDENT_FIELDS.map(field => {
-                return (
-                <div className={`form-group ${field.type === 'file' ? 'full-width' : ''}`} key={field.key}>
-                    <label htmlFor={field.key}>
-                        {field.label}
-                        {field.required && <span className="required">*</span>}
-                    </label>
-                    {field.type === 'file' ? (
-                        <div className="file-upload">
-                            <input
-                            type="file"
-                            id={field.key}
-                            name={field.key}
-                            accept=".pdf"
-                            onChange={handleFileChange}
-                            required
-                            />
-                            <div className="file-upload-label">
-                            {cvFile ? cvFile.name : 'Choose file...'}
-                            </div>
-                        </div>
-                    ) : (
-                    <input
-                        type={field.type || 'text'}
-                        id={field.key}
-                        name={field.key}
-                        value={formData[field.key] || ''}
-                        onChange={handleChange}
-                        readOnly={!field.editable}
-                        required
-                        className={!field.editable ? 'disabled' : ''}
-                    />
-                    )}
-                </div>
-                );
-            })}
+        <div className={style["overlay"]}>
+            <div className={style["application-form"]} ref={formRef}>
+            <div className={style["form-header"]}>
+                <h2>Internship Application</h2>
+                <button className={style["close-btn"]} onClick={onClose}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </button>
             </div>
             
-            <div className="form-actions">
-            <button type="button" className="cancel-btn" onClick={onClose}>
-                Cancel
-            </button>
-            <button type="submit" className="submit-btn">
-                Submit Application
-            </button>
+            <form onSubmit={handleSubmit}>
+                <div className={style["form-grid"]}>
+                {STUDENT_FIELDS.map(field => {
+                    return (
+                    <div className={`${style["form-group"]} ${style[field.type === 'file' ? 'full-width' : '']}`} key={field.key}>
+                        <label htmlFor={field.key}>
+                            {field.label}
+                            {field.required && <span className={style["required"]}>*</span>}
+                        </label>
+                        {field.type === 'file' ? (
+                            <div className={style["file-upload"]}>
+                                <input
+                                type="file"
+                                id={field.key}
+                                name={field.key}
+                                accept=".pdf"
+                                onChange={handleFileChange}
+                                required
+                                />
+                                <div className={style["file-upload-label"]}>
+                                {cvFile ? cvFile.name : 'Choose file...'}
+                                </div>
+                            </div>
+                        ) : (
+                        <input
+                            type={field.type || 'text'}
+                            id={field.key}
+                            name={field.key}
+                            value={formData[field.key] || ''}
+                            onChange={handleChange}
+                            readOnly={!field.editable}
+                            required
+                            className={style[!field.editable ? 'disabled' : '']}
+                        />
+                        )}
+                    </div>
+                    );
+                })}
+                </div>
+                
+                <div className={style["form-actions"]}>
+                <button type="button" className={style["cancel-btn"]} onClick={onClose}>
+                    Cancel
+                </button>
+                <button type="submit" className={style["submit-btn"]}>
+                    Submit Application
+                </button>
+                </div>
+            </form>
             </div>
-        </form>
         </div>
-    </div>
     );
 };
 
@@ -319,89 +319,89 @@ export default function Internship() {
     return (
         <>
             <Navbar />
-            <div className="page-container">
-                <div className="internship-container">
-                    <div className="left-sidebar">
-                        <div className="search-container">
+            <div className={style["page-container"]}>
+                <div className={style["internship-container"]}>
+                    <div className={style["left-sidebar"]}>
+                        <div className={style["search-container"]}>
                             <input
                             type="text"
                             placeholder="Search internships..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-input"
+                            className={style["search-input"]}
                             />
                         </div>
                         
-                        <div className="internship-list">
+                        <div className={style["internship-list"]}>
                             {internships.map(internship => {
                             return (
                                 <div 
-                                key={`${internship.id}-${internship.created_at}`}
-                                className={`internship-item ${selectedInternship?.id === internship.id ? 'active' : ''}`}
-                                onClick={() => setSelectedInternship(internship)}
-                                >
-                                <h3 className="item-title">{internship.title}</h3>
-                                <p className="item-company">Company: {internship.hrCompanyName}</p>
-                                <p className="item-hr">HR: {internship.hrName}</p>
+                                    key={`${internship.id}-${internship.created_at}`}
+                                    className={`${style["internship-item"]} ${style[selectedInternship?.id === internship.id ? 'active' : '']}`}
+                                    onClick={() => setSelectedInternship(internship)}
+                                    >
+                                    <h3 className={style["item-title"]}>{internship.title}</h3>
+                                    <p className={style["item-company"]}>Company: {internship.hrCompanyName}</p>
+                                    <p className="item-hr">HR: {internship.hrName}</p>
                                 </div>
                             );
                             })}
-                            {isLoading && <div className="loading-message">Loading more internships...</div>}
-                            {error && <div className="error-message">{error}</div>}
+                            {isLoading && <div className={style["loading-message"]}>Loading more internships...</div>}
+                            {error && <div className={style["error-message"]}>{error}</div>}
                             {!hasMore && !isLoading && internships.length > 0 && (
-                            <div className="end-message">No more internships to load</div>
+                            <div className={style["end-message"]}>No more internships to load</div>
                             )}
                         </div>
                     </div>
 
-                    <div className="right-sidebar">
+                    <div className={style["right-sidebar"]}>
                     {selectedInternship ? (
-                            <div className="internship-details">
-                                <div className="detail-header">
-                                    <h1 className="detail-title">{selectedInternship.title}</h1>
-                                    <span className={`status-badge ${selectedInternship.status.toLowerCase()}`}>
+                            <div className={style["internship-details"]}>
+                                <div className={style["detail-header"]}>
+                                    <h1 className={style["detail-title"]}>{selectedInternship.title}</h1>
+                                    <span className={`${style["status-badge"]} ${style[selectedInternship.status.toLowerCase()]}`}>
                                     {selectedInternship.status}
                                     </span>
                                 </div>
                             
-                                <div className="detail-meta">
-                                    <div className="meta-row">
-                                        <div className="meta-item">
-                                            <span className="meta-label">Company:</span>
-                                            <span className="meta-value">{selectedInternship.hrCompanyName}</span>
+                                <div className={style["detail-meta"]}>
+                                    <div className={style["meta-row"]}>
+                                        <div className={style["meta-item"]}>
+                                            <span className={style["meta-label"]}>Company:</span>
+                                            <span className={style["meta-value"]}>{selectedInternship.hrCompanyName}</span>
                                         </div>
-                                        <div className="meta-item">
-                                            <span className="meta-label">Type:</span>
-                                            <span className="meta-value">{selectedInternship.type}</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="meta-row">
-                                        <div className="meta-item">
-                                            <span className="meta-label">HR Contact:</span>
-                                            <span className="meta-value">{selectedInternship.hrName}</span>
-                                        </div>
-                                        <div className="meta-item">
-                                            <span className="meta-label">Stipend:</span>
-                                            <span className="meta-value">{selectedInternship.stipend}</span>
+                                        <div className={style["meta-item"]}>
+                                            <span className={style["meta-label"]}>Type:</span>
+                                            <span className={style["meta-value"]}>{selectedInternship.type}</span>
                                         </div>
                                     </div>
                                     
-                                    <div className="meta-row">
-                                        <div className="meta-item">
-                                            <span className="meta-label">Location:</span>
-                                            <span className="meta-value">{selectedInternship.location}</span>
+                                    <div className={style["meta-row"]}>
+                                        <div className={style["meta-item"]}>
+                                            <span className={style["meta-label"]}>HR Contact:</span>
+                                            <span className={style["meta-value"]}>{selectedInternship.hrName}</span>
                                         </div>
-                                        <div className="meta-item">
-                                            <span className="meta-label">Duration:</span>
-                                            <span className="meta-value">{selectedInternship.duration}</span>
+                                        <div className={style["meta-item"]}>
+                                            <span className={style["meta-label"]}>Stipend:</span>
+                                            <span className={style["meta-value"]}>{selectedInternship.stipend}</span>
                                         </div>
                                     </div>
                                     
-                                    <div className="meta-row">
-                                        <div className="meta-item">
-                                            <span className="meta-label">Posted:</span>
-                                            <span className="meta-value">
+                                    <div className={style["meta-row"]}>
+                                        <div className={style["meta-item"]}>
+                                            <span className={style["meta-label"]}>Location:</span>
+                                            <span className={style["meta-value"]}>{selectedInternship.location}</span>
+                                        </div>
+                                        <div className={style["meta-item"]}>
+                                            <span className={style["meta-label"]}>Duration:</span>
+                                            <span className={style["meta-value"]}>{selectedInternship.duration}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className={style["meta-row"]}>
+                                        <div className={style["meta-item"]}>
+                                            <span className={style["meta-label"]}>Posted:</span>
+                                            <span className={style["meta-value"]}>
                                                 {new Date(selectedInternship.createdAt).toLocaleDateString(undefined, {
                                                     year: 'numeric',
                                                     month: 'long',
@@ -412,20 +412,20 @@ export default function Internship() {
                                     </div>
                                 </div>
                                 
-                                <div className="detail-section">
-                                    <h2 className="section-title">Description</h2>
-                                    <p className="section-content">{selectedInternship.description}</p>
+                                <div className={style["detail-section"]}>
+                                    <h2 className={style["section-title"]}>Description</h2>
+                                    <p className={style["section-content"]}>{selectedInternship.description}</p>
                                 </div>
                                 
-                                <div className="detail-section">
-                                    <h2 className="section-title">Requirements</h2>
-                                    <p className="section-content">{selectedInternship.requirements || "Not specified"}</p>
+                                <div className={style["detail-section"]}>
+                                    <h2 className={style["section-title"]}>Requirements</h2>
+                                    <p className={style["section-content"]}>{selectedInternship.requirements || "Not specified"}</p>
                                 </div>
                                 
-                                <button className="apply-button" onClick={() => setShowApplication(true)}>Apply Now</button>
+                                <button className={style["apply-button"]} onClick={() => setShowApplication(true)}>Apply Now</button>
                             </div>
                         ) : (
-                            <div className="no-selection">
+                            <div className={style["no-selection"]}>
                                 <p>Select an internship to view details</p>
                             </div>
                         )}

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../../../components/Navbar/Navbar';
 import SearchableList from '../../../components/SearchableList/SearchableList';
-import '../Admin.css';
-import './Companies.css';
+import style from './Companies.module.css';
 import axios from 'axios';
 import EditInternshipModal from '../../../components/EditInternshipModal/EditInternshipModal';
 import CreateInternshipModal from '../../../components/CreateInternshipModal/CreateInternshipModal';
@@ -142,20 +141,20 @@ const Companies = () => {
     return (
         <>
         <Navbar />
-            <div className="page-container">
-                <div className="content-container">
-                    <div className="page-header">
+            <div className={style["page-container"]}>
+                <div className={style["content-container"]}>
+                    <div className={style["page-header"]}>
                         <h2>Companies</h2>
                         <button
-                            className="btn btn-add"
+                            className={`${style["btn"]} ${style["btn-add"]}`}
                             onClick={() => setShowCreateModal(true)}
                         >
                             Add New Company <FaPlus/>
                         </button>
                     </div>
                     
-                    <div className="two-column-layout">
-                        <div className="list-column">
+                    <div className={style["two-column-layout"]}>
+                        <div className={style["list-column"]}>
                             <SearchableList 
                                 items={companies} 
                                 onItemSelect={setSelectedCompany} 
@@ -163,21 +162,21 @@ const Companies = () => {
                             />
                         </div>
                         
-                        <div className="detail-column">
+                        <div className={style["detail-column"]}>
                             {selectedCompany ? (
-                            <div className="detail-card">
+                            <div className={style["detail-card"]}>
                                 <h3>{selectedCompany.name}</h3>
-                                <div className="detail-item">
-                                    <span className="detail-label">Industry:</span>
-                                    <span>{selectedCompany.industry}</span>
+                                <div className={style["detail-item"]}>
+                                    <span className={style["detail-label"]}>Industry:</span>
+                                    <span className={style["detail-content"]}>{selectedCompany.industry}</span>
                                 </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Location:</span>
-                                    <span>{selectedCompany.location}</span>
+                                <div className={style["detail-item"]}>
+                                    <span className={style["detail-label"]}>Location:</span>
+                                    <span className={style["detail-content"]}>{selectedCompany.location}</span>
                                 </div>
-                                <div className="card-actions">
-                                    <button className="btn btn-edit" onClick={() => setShowEditModal(true)}>Edit</button>
-                                    <button className="btn btn-delete" onClick={() => handleDeleteCompany(selectedCompany.id)}>Delete</button>
+                                <div className={style["card-actions"]}>
+                                    <button className={`${style["btn"]} ${style["btn-edit"]}`} onClick={() => setShowEditModal(true)}>Edit</button>
+                                    <button className={`${style["btn"]} ${style["btn-delete"]}`} onClick={() => handleDeleteCompany(selectedCompany.id)}>Delete</button>
                                 </div>
                             </div>
                             ) : (

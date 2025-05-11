@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../../components/Navbar/Navbar';
 import SearchableList from '../../../components/SearchableList/SearchableList';
 import '../Admin.css';
-import './InternshipsPageAdmin.css';
+import style from './InternshipsPageAdmin.module.css';
 import axios from 'axios';
 import InternshipDetails from '../../../components/InternshipDetails/InternshipDetails';
 import { FaPlus } from 'react-icons/fa';

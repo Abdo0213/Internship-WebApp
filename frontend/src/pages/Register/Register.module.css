@@ -124,14 +124,18 @@
 }
 
 .auth-link-button {
-    color: black;
+    color: #333;
     font-weight: 500;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .auth-link-button:hover {
-    color: #1a1a1b;
+    color: #000;
     text-decoration: underline;
 }
 

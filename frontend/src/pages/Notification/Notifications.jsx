@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Notifications.css';
+import style from './Notifications.module.css';
 import Navbar from '../../components/Navbar/Navbar';
 
 const Notification = () => {
@@ -81,8 +81,8 @@ const Notification = () => {
         return (
             <>
                 <Navbar />
-                <div className="loading-spinner">
-                    <div className="spinner"></div>
+                <div className={style["loading-spinner"]}>
+                    <div className={style["spinner"]}></div>
                     <p>Loading notifications...</p>
                 </div>
             </>
@@ -92,41 +92,41 @@ const Notification = () => {
     return (
         <>
             <Navbar />
-            <div className="notification-container">
-                <div className="notification-controls">
-                    <div className="search-container">
+            <div className={style["notification-container"]}>
+                <div className={style["notification-controls"]}>
+                    <div className={style["search-container"]}>
                         <input
                             type="text"
                             placeholder="Search by internship title..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="search-input"
+                            className={style["search-input"]}
                         />
                     </div>
                 </div>
                 
-                <div className="notification-list">
+                <div className={style["notification-list"]}>
                     {filteredNotifications.length === 0 ? (
-                        <div className="empty-state">
+                        <div className={style["empty-state"]}>
                             <p>No notifications found</p>
                         </div>
                     ) : (
                         filteredNotifications.map(notification => (
                             <div 
                                 key={notification.id}
-                                className={`notification-item ${notification.read ? 'read' : 'unread'}`}
+                                className={`${style["notification-item"]} ${notification.read ? style['read'] : style['unread']}`}
                                 onClick={() => !notification.read && markAsRead(notification.id)}
                             >
-                                <div className="notification-main">
-                                    <div className="notification-header">
-                                        <h3 className="internship-title">{notification.internshipTitle}</h3>
-                                        <span className={`status-badge ${getStatusBadgeClass(notification.application.status)}`}>
+                                <div className={style["notification-main"]}>
+                                    <div className={style["notification-header"]}>
+                                        <h3 className={style["internship-title"]}>{notification.internshipTitle}</h3>
+                                        <span className={`${style['status-badge']} ${style[getStatusBadgeClass(notification.application.status)]}`}>
                                             {notification.application.status}
                                         </span>
                                     </div>
-                                    <p className="notification-meta">
-                                        <span className="company-name">{notification.application.internship.companyName}</span>
-                                        <span className="application-date">
+                                    <p className={style["notification-meta"]}>
+                                        <span className={style["company-name"]}>{notification.application.internship.companyName}</span>
+                                        <span className={style["application-date"]}>
                                             Applied on: {new Date(notification.application.appliedAt).toLocaleDateString()}
                                         </span>
                                     </p>

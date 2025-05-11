@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import "./Register.css"
+import style from "./Register.module.css"
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -110,61 +110,61 @@ export default function Register() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2 className="auth-title">Create Account</h2>
+    <div className={style["auth-container"]}>
+      <div className={style["auth-card"]}>
+        <h2 className={style["auth-title"]}>Create Account</h2>
         
-        {error && <div className="auth-error">{error}</div>}
+        {error && <div className={style["auth-error"]}>{error}</div>}
         
-        <form onSubmit={handleRegister} className="auth-form">
-        <div className="form-group">
+        <form onSubmit={handleRegister} className={style["auth-form"]}>
+        <div className={style["form-group"]}>
           <input
             type="text"
             name="fName"
             value={formData.fName}
             onChange={handleChange}
             required
-            className="auth-input full-width"
+            className={`${style["auth-input"]} ${style["full-width"]}`}
             placeholder="Enter Full Name"
           />
         </div>
-          <div className="form-group">
+          <div className={style["form-group"]}>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
               required
-              className="auth-input full-width"
+              className={`${style["auth-input"]} ${style["full-width"]}`}
               placeholder="Choose a username"
             />
           </div>
           
-          <div className="form-group">
+          <div className={style["form-group"]}>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
-              className="auth-input full-width"
+              className={`${style["auth-input"]} ${style["full-width"]}`}
               placeholder="Enter your email"
             />
           </div>
           
-          <div className="form-group">
+          <div className={style["form-group"]}>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               required
-              className="auth-input full-width"
+              className={`${style["auth-input"]} ${style["full-width"]}`}
               placeholder="Create a password"
             />
           </div>
           
-          <div className="form-group">
+          <div className={style["form-group"]}>
               
               <div className="file-upload">
                   <input
@@ -174,23 +174,22 @@ export default function Register() {
                   onChange={handleFileChange}
                   required
                   />
-                  <div className="file-upload-label">
-                  {formData.cv != '' ? formData.cv : 'Choose file...'}
+                  <div className={style["file-upload-label"]}>
+                  {formData.cv !== '' ? formData.cv : 'Choose file...'}
                   </div>
               </div>
             </div>
-            {fileError && <div className="auth-error">{fileError}</div>}
+            {fileError && <div className={style["auth-error"]}>{fileError}</div>}
 
-          <button type="submit" className="auth-button primary full-width">
+          <button type="submit" className={`${style["auth-button"]} ${style["primary"]} ${style["full-width"]}`}>
             Sign Up
           </button>
         </form>
         
-        <div className="auth-footer">
-          <p>Already have an account?</p>
-          <Link to="/login" className="auth-link-button">
+        <div className={style["auth-footer"]}>
+          <p>Already have an account? <Link to="/login" className={style["auth-link-button"]}>
             Login
-          </Link>
+          </Link></p>
         </div>
       </div>
     </div>

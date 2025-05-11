@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './DashboardBox.css';
+import style from './DashboardBox.module.css';
 
 const DashboardBox = ({ title, count, addLink, viewLink }) => {
     return (
-        <div className="dashboard-box">
+        <div className={style["dashboard-box"]}>
         <h3>{title}</h3>
-        <div className="count">{count}</div>
-        <div className="box-actions">
-            <Link to={addLink} className="btn btn-add">Add New</Link>
-            <Link to={viewLink} className="btn btn-view">View All</Link>
+        <div className={style["count"]}>{count}</div>
+        <div className={style["box-actions"]}>
+            <Link to={viewLink} className={`${style["btn"]} ${style["btn-view"]}`}>View All</Link>
         </div>
         </div>
     );

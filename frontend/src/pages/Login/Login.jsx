@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom'; // Added useLocation
 import axios from 'axios';
 import { useAuth } from '../../context/authcontext';
-import "./Login.css"
+import style from "./Login.module.css"
+import { jwtDecode } from 'jwt-decode';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -19,14 +20,17 @@ export default function Login() {
   // Redirect if already logged in
   useEffect(() => {
     if (isAuthenticated ) {
-      const userData = JSON.parse(localStorage.getItem('userData'));
-        const role = userData.roles?.[0];
-        // Navigate based on role
-        if (role === 'editor') {
-            navigate('/editor');
-        } else {
-            navigate('/dashboard');
-          }
+      const role = jwtDecode(localStorage.getItem("accessToken")).role;
+      console.log(role);
+      
+      // Navigate based on role
+      if (role === 'AMDIN') {
+          navigate('/admin');
+      } else if (role === "HR"){
+          navigate('/hr');
+      } else {
+        navigate('/');
+      }
     }
   }, [isAuthenticated, navigate]);
 
@@ -63,24 +67,24 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2 className="auth-title">Login to Your Account</h2>
+    <div className={style["auth-container"]}>
+      <div className={style["auth-card"]}>
+        <h2 className={style["auth-title"]}>Login to Your Account</h2>
         
         {error && (
-          <div className="auth-error">
+          <div className={style["auth-error"]}>
             <p>{error}</p>
             {error.includes('invalid') && (
-              <p className="auth-error-hint">
+              <p className={style["auth-error-hint"]}>
                 Forgot your password? <Link to="/reset-password">Reset it here</Link>
               </p>
             )}
           </div>
         )}
         
-        <form onSubmit={handleLogin} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="username" className="auth-label">Username</label>
+        <form onSubmit={handleLogin} className={style["auth-form"]}>
+          <div className={style["form-group"]}>
+            <label htmlFor="username" className={style["auth-label"]}>Username</label>
             <input
               id="username"
               type="text"
@@ -88,15 +92,15 @@ export default function Login() {
               value={formData.username}
               onChange={handleChange}
               required
-              className="auth-input full-width"
+              className={`${style['auth-input']} ${style['full-width']}`}
               placeholder="Enter your username"
               autoComplete="username"
               disabled={isLoading}
             />
           </div>
           
-          <div className="form-group">
-            <label htmlFor="password" className="auth-label">Password</label>
+          <div className={style["form-group"]}>
+            <label htmlFor="password" className={style["auth-label"]}>Password</label>
             <input
               id="password"
               type="password"
@@ -104,7 +108,7 @@ export default function Login() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="auth-input full-width"
+              className={`${style['auth-input']} ${style['full-width']}`}
               placeholder="Enter your password"
               autoComplete="current-password"
               disabled={isLoading}
@@ -113,21 +117,21 @@ export default function Login() {
           
           <button 
             type="submit" 
-            className="auth-button primary full-width"
+            className={`${style['auth-button']} ${style['primary']} ${style['full-width']}`}
             disabled={isLoading}
           >
             {isLoading ? (
-              <span className="auth-button-loading">Logging in...</span>
+              <span className={style["auth-button-loading"]}>Logging in...</span>
             ) : (
               'Login'
             )}
           </button>
         </form>
         
-        <div className="auth-footer">
-          <div className="auth-footer-links">
-            <p>Don't have an account? <Link to="/register" className="auth-link-button">Sign Up</Link></p>
-            <p><Link to="/forgot-password" className="auth-link-button">Forgot password?</Link></p>
+        <div className={style["auth-footer"]}>
+          <div className={style["auth-footer-links"]}>
+            <p>Don't have an account? <Link to="/register" className={style["auth-link-button"]}>Sign Up</Link></p>
+            <p><Link to="/forgot-password" className={style["auth-link-button"]}>Forgot password?</Link></p>
           </div>
         </div>
       </div>

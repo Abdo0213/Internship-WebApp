@@ -247,7 +247,16 @@
     font-weight: 700;
     border-bottom: 2px solid var(--gray-200);
 }
-
+.edit-btn {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
 .details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

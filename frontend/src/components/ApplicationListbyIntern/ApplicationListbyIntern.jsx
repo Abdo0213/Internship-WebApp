@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import '../../pages/HRDash/HRDash.css';
+import style from '../../pages/HRDash/HRDash.module.css';
 
 const ApplicationsList = ({ applications, onStatusChange }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <div className="applications-section">
+        <div className={style["applications-section"]}>
             <div 
-                className="section-header" 
+                className={style["section-header"]} 
                 onClick={() => setIsExpanded(!isExpanded)}
                 style={{ cursor: 'pointer' }}
             >
                 <h2>Applications</h2>
-                <span className="toggle-arrow">
+                <span className={style["toggle-arrow"]}>
                     {isExpanded ? <FiChevronUp size={24} /> : <FiChevronDown size={24} />}
                 </span>
             </div>
             
             {!isExpanded ? null : applications.length === 0 ? (
-                <p className="no-applications">No applications found</p>
+                <p className={style["no-applications"]}>No applications found</p>
             ) : (
-                <div className="applications-list">
+                <div className={style["applications-list"]}>
                     {applications.map((application) => (
-                        <div key={application.id} className="application-card">
-                            <div className="student-info">
+                        <div key={application.id} className={style["application-card"]}>
+                            <div className={style["student-info"]}>
                                 <h3>{application.studentName}</h3>
-                                <div className="student-details">
+                                <div className={style["student-details"]}>
                                     <p><strong>College:</strong> {application.studentCollege}</p>
                                     <p><strong>Faculty:</strong> {application.studentFaculty}</p>
                                     <p><strong>Grade:</strong> {application.studentGrade}</p>
@@ -38,26 +38,26 @@ const ApplicationsList = ({ applications, onStatusChange }) => {
                                 </div>
                             </div>
                             
-                            <div className="application-meta">
-                                <div className={`status-badge ${application.status.toLowerCase()}`}>
+                            <div className={style["application-meta"]}>
+                                <div className={`${style["status-badge"]} ${style[application.status.toLowerCase()]}`}>
                                     {application.status}
                                 </div>
-                                <p className="applied-date">
+                                <p className={style["applied-date"]}>
                                     Applied: {new Date(application.appliedAt).toLocaleDateString()}
                                 </p>
                             </div>
                             
                             {application.status === "PENDING" && (
-                                <div className="application-actions">
+                                <div className={style["application-actions"]}>
                                     <button 
-                                        className="accept-btn"
+                                        className={style["accept-btn"]}
                                         onClick={() => onStatusChange(application.id, 'ACCEPTED')}
                                         disabled={application.status === 'ACCEPTED'}
                                     >
                                         Accept
                                     </button>
                                     <button 
-                                        className="reject-btn"
+                                        className={style["reject-btn"]}
                                         onClick={() => onStatusChange(application.id, 'REJECTED')}
                                         disabled={application.status === 'REJECTED'}
                                     >

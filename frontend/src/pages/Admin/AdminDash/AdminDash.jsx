@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DashboardBox from '../../../components/DashboardBox/DashboardBox';
 import Navbar from '../../../components/Navbar/Navbar';
-import '../Admin.css';
-import './AdminDash.css';
+import style from './AdminDash.module.css';
 import axios from 'axios';
 
 const AdminDash = () => {
@@ -43,31 +42,31 @@ const AdminDash = () => {
     }, [token]);
 
     return (
-        <div className="dashboard-page">
-        <Navbar />
-        <div className="dashboard-container">
-            <h2>Admin Dashboard</h2>
-            <div className="dashboard-boxes">
-            <DashboardBox 
-                title="Companies" 
-                count={stats.companies} 
-                addLink="/companies/add" 
-                viewLink="/companies" 
-            />
-            <DashboardBox 
-                title="HRs" 
-                count={stats.hrs} 
-                addLink="/hrs/add" 
-                viewLink="/hrs" 
-            />
-            <DashboardBox 
-                title="Internships" 
-                count={stats.internships} 
-                addLink="/internships/add" 
-                viewLink="/internships" 
-            />
+        <div className={style["dashboard-page"]}>
+            <Navbar />
+            <div className={style["dashboard-container"]}>
+                <h2>Admin Dashboard</h2>
+                <div className={style["dashboard-boxes"]}>
+                    <DashboardBox 
+                        title="Companies" 
+                        count={stats.companies} 
+                        addLink="/companies/add" 
+                        viewLink="/companies" 
+                    />
+                    <DashboardBox 
+                        title="HRs" 
+                        count={stats.hrs} 
+                        addLink="/hrs/add" 
+                        viewLink="/hrs" 
+                    />
+                    <DashboardBox 
+                        title="Internships" 
+                        count={stats.internships} 
+                        addLink="/internships/add" 
+                        viewLink="/internships" 
+                    />
+                </div>
             </div>
-        </div>
         </div>
     );
 };

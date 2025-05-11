@@ -201,7 +201,7 @@
 
 .auth-link-button:hover {
     color: #000;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .auth-link-button svg {

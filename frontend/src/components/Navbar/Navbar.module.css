@@ -179,9 +179,9 @@
 
 .mobile-dropdown {
     position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
+    top: 70px;
+    right: 0;
+    width: 100px;
     background-color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -202,6 +202,12 @@
     text-align: left;
     cursor: pointer;
     font-size: 1rem;
+    padding-left: 20px;
+}
+
+.mobile-nav-link:hover{
+    background-color: #f8f8f8;
+    color: #333;
 }
 
 .mobile-nav-cta {
@@ -230,6 +236,9 @@
     .mobile-menu {
         display: block;
     }
+    .mobile-dropdown {
+        width: 40%;
+    }
     
     .profile-dropdown {
         display: none;
@@ -239,5 +248,8 @@
 @media (min-width: 769px) {
     .mobile-menu {
         display: none !important;
+    }
+    .mobile-dropdown {
+        width: 40%;
     }
 }
