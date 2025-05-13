@@ -165,19 +165,19 @@ export default function Register() {
           </div>
           
           <div className={style["form-group"]}>
-              
-              <div className="file-upload">
+              <div className={style["file-upload"]}>
                   <input
-                  type="file"
-                  id="cvUpload"
-                  accept=".pdf"
-                  onChange={handleFileChange}
-                  required
+                    type="file"
+                    id="cvUpload"
+                    accept=".pdf"
+                    onChange={handleFileChange}
+                    required
                   />
                   <div className={style["file-upload-label"]}>
-                  {formData.cv !== '' ? formData.cv : 'Choose file...'}
+                    {formData.cv !== '' ? formData.cv : 'Choose file...'}
                   </div>
               </div>
+              
             </div>
             {fileError && <div className={style["auth-error"]}>{fileError}</div>}
 

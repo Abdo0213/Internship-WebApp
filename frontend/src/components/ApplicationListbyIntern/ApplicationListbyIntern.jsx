@@ -31,9 +31,19 @@ const ApplicationsList = ({ applications, onStatusChange }) => {
                                     <p><strong>Faculty:</strong> {application.studentFaculty}</p>
                                     <p><strong>Grade:</strong> {application.studentGrade}</p>
                                     <p><strong>CV:</strong> 
-                                        <a href={`/path/to/cvs/${application.studentCV}`} target="_blank" rel="noopener noreferrer">
+                                    {(application.studentCV === "Abdelrahman Ahmed.pdf") ? 
+                                        <a href={`/uploads/Abdelrahman Ahmed.pdf`} target="_blank" rel="noopener noreferrer">
                                             {application.studentCV}
                                         </a>
+                                    :(application.studentCV === "Mohammed Ayman.pdf") ? 
+                                        <a href={`/uploads/Mohammed Ayman.pdf`} target="_blank" rel="noopener noreferrer">
+                                            {application.studentCV}
+                                        </a>
+                                    :
+                                        <a href={`/uploads/Resume_Abdelrahman_Ahmed.pdf`} target="_blank" rel="noopener noreferrer">
+                                            {application.studentCV}
+                                        </a>
+                                    }
                                     </p>
                                 </div>
                             </div>

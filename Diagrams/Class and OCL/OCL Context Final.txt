@@ -8,15 +8,17 @@ context User
 context Student
   inv: self.applications->forAll(a | a.student = self)
   inv: self.notifications->forAll(n | n.recipient = self)
+  inv YearOfGraduationNotEmpty: not self.yearOfGraduation.oclIsUndefined() and self.yearOfGraduation <> ''
+
 
 context Student::updateStudent()
   pre: self.user.role.name = 'STUDENT'
 
 context Student::applyToInternship(internship: Internship): Application
   pre: not self.applications->exists(a | a.internship = internship)
+  pre: internship.status = Status::ACTIVE 
   post: result.oclIsNew()
-  post: result.student = self
-  post: result.internship = internship
+  post: self.user.applications->exists(a | a.internship = internship and a.studentId = self.user.id)
   post: result.status = 'Pending'
 
 
@@ -27,6 +29,7 @@ context HR
 context HR::postInternship(title: String, description: String, deadline: Date): Internship
   pre: self.company <> null
   post: result.oclIsNew()
+  post: internship.status = Status::ACTIVE
   post: result.postedBy = self
   post: result.company = self.company
 

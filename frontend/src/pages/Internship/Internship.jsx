@@ -191,7 +191,7 @@ const ApplicationForm = ({ onClose, studentId, internshipId }) => {
                                 required
                                 />
                                 <div className={style["file-upload-label"]}>
-                                {cvFile ? cvFile.name : 'Choose file...'}
+                                    {cvFile ? cvFile.name : 'Choose file...'}
                                 </div>
                             </div>
                         ) : (

@@ -110,6 +110,16 @@ export default function Profile() {
         }));
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        // Store just the filename in formData
+        setEditedUser(prev => ({
+            ...prev,
+            cv: file.name
+        }));
+        console.log(editedUser.cv);
+    };
+
     const handleSave = async (userId) => {
         try {
             const token = localStorage.getItem("accessToken");
@@ -161,6 +171,7 @@ export default function Profile() {
     const handleCancel = () => {
         setEditingUserId(null);
     };
+    
 
     if (isLoading) return <div className={`${style["text-center"]} ${style["py-8"]}`}>Loading...</div>;
     if (error) return <div className={`${style["text-center"]} ${style["py-8"]} ${style["text-red-600"]}`}>Error: {error}</div>;
@@ -202,39 +213,60 @@ export default function Profile() {
                     <div className={style["form-grid"]}>
                         {editingUserId === user.id ? (
                             roleFieldMap[jwtDecode(localStorage.getItem("accessToken")).role]?.map(field => (
-                                <div key={field.key} className={style["form-field"]}>
-                                    <label className={style["field-label"]}>
-                                        {field.label}
+                            <div key={field.key} className={style["form-field"]}>
+                                <label className={style["field-label"]}>
+                                {field.label}
+                                </label>
+                                {field.key === 'username' ? (
+                                <p className={style["read-only-value"]}>{user[field.key]}</p>
+                                ) : field.key === 'password' ? (
+                                <input
+                                    type="password"
+                                    name={field.key}
+                                    value={editedUser[field.key] || ''} 
+                                    onChange={handleInputChange}
+                                    className={`${style["field-input"]} ${style["password-input"]}`}
+                                />
+                                ) : field.key === 'cv' ? (
+                                <div className={style["file-upload"]}>
+                                    <input
+                                    type="file"
+                                    id="cv-upload"
+                                    name="cv"
+                                    accept=".pdf"
+                                    onChange={handleFileChange}
+                                    className={style["file-input"]}
+                                    />
+                                    <label htmlFor="cv-upload" className={style["file-upload-label"]}>
+                                        {'Choose file...'}
                                     </label>
-                                    {field.key === 'username' ? (
-                                        <p className={style["read-only-value"]}>{user[field.key]}</p>
-                                    ) : field.key === 'password' ? (
-                                        <input
-                                            type="password"
-                                            name={field.key}
-                                            value={editedUser[field.key] || ''} 
-                                            onChange={handleInputChange}
-                                            className={`${style["field-input"]} ${style["password-input"]}`}
-                                        />
-                                    ) : (
-                                        <input
-                                            type={field.key === 'password' ? 'password' : 'text'}
-                                            name={field.key}
-                                            value={editedUser[field.key] || ''}
-                                            onChange={handleInputChange}
-                                            className={style["field-input"]}
-                                        />
+                                    {editedUser[field.key] && (
+                                    <span className={style["file-info"]}>
+                                        Current: {editedUser[field.key]}
+                                    </span>
                                     )}
                                 </div>
+                                ) : (
+                                <input
+                                    type={field.key === 'password' ? 'password' : 'text'}
+                                    name={field.key}
+                                    value={editedUser[field.key] || ''}
+                                    onChange={handleInputChange}
+                                    className={style["field-input"]}
+                                />
+                                )}
+                            </div>
                             ))
                         ) : (
                             roleFieldMap[jwtDecode(localStorage.getItem("accessToken")).role]?.map(field => (
-                                field.key !== 'password' && (
-                                    <div key={field.key} className={style["form-field"]}>
-                                        <p className={style["field-label"]}>{field.label}</p>
-                                        <p className={style["read-only-value"]}>{user[field.key]}</p>
-                                    </div>
-                                )
+                            field.key !== 'password' && (
+                                <div key={field.key} className={style["form-field"]}>
+                                <p className={style["field-label"]}>{field.label}</p>
+                                <p className={style["read-only-value"]}>
+                                    {field.key === 'cv' ? (user.cv || 'No file uploaded') : user[field.key]}
+                                </p>
+                                </div>
+                            )
                             ))
                         )}
                     </div>

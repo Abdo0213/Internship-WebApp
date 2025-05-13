@@ -139,3 +139,46 @@
         justify-content: flex-end;
     }
 }
+
+.file-input {
+    position: absolute;
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    overflow: hidden;
+}
+
+.file-upload {
+    position: relative;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-label {
+    padding: 0.75rem;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    transition: all 0.2s;
+}
+
+.file-upload:hover .file-upload-label {
+    border-color: #3498db;
+    background-color: #f0f7fc;
+}
+
+.file-info {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: #666;
+}
