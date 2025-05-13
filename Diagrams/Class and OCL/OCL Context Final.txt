@@ -1,0 +1,84 @@
+context User
+  inv usernameUnique: User.allInstances()->isUnique(username)
+  inv emailUnique: User.allInstances()->isUnique(email)
+  inv: self.oclIsKindOf(Student) or self.oclIsKindOf(HR) or self.oclIsKindOf(Admin)
+  inv: self.password.length() >= 8
+
+
+context Student
+  inv: self.applications->forAll(a | a.student = self)
+  inv: self.notifications->forAll(n | n.recipient = self)
+
+context Student::updateStudent()
+  pre: self.user.role.name = 'STUDENT'
+
+context Student::applyToInternship(internship: Internship): Application
+  pre: not self.applications->exists(a | a.internship = internship)
+  post: result.oclIsNew()
+  post: result.student = self
+  post: result.internship = internship
+  post: result.status = 'Pending'
+
+
+context HR
+  inv: self.internships->forAll(i | i.postedBy = self)
+  inv: self.company <> null
+
+context HR::postInternship(title: String, description: String, deadline: Date): Internship
+  pre: self.company <> null
+  post: result.oclIsNew()
+  post: result.postedBy = self
+  post: result.company = self.company
+
+context HR::updateApplicationStatus(application: Application, newStatus: String)
+  pre: application.internship.postedBy = self
+  pre: newStatus in Set{'Accepted', 'Rejected'}
+  post: application.status = newStatus
+  post: application.student.notifications->exists(n | n.message = 'Your application status has changed to ' + newStatus and n.isRead = false)
+
+
+context Admin
+  inv: self.companies->forAll(c | c.addedBy = self)
+  inv: self.hrs->forAll(h | h.addedBy = self)
+
+context Admin::addCompany(name: String, description: String): Company
+  post: result.addedBy = self
+  post: result.oclIsNew()
+
+context Admin::addHR(user: User, company: Company): HR
+  pre: company <> null
+  post: result.company = company
+  post: result.addedBy = self
+post: result.oclIsNew()
+
+ context Company
+  inv nameUnique: Company.allInstances()->isUnique(name)
+  inv: self.hrs->forAll(h | h.company = self)
+  inv: self.internships->forAll(i | i.company = self)
+
+context Internship
+  inv: self.postedBy <> null
+  inv: self.company <> null
+  inv: self.postDate <= Date.now()
+  inv: self.deadline >= Date.now() or self.deadline = null
+  inv: self.applications->forAll(a | a.internship = self)
+
+context Internship::createInternship(hrId: Long): Internship
+  pre: HR.allInstances()->exists(h | h.id = hrId)
+  post: result.oclIsNew()
+  post: Internship.allInstances()->includes(result)
+
+context Application
+  inv studentExists: Student.allInstances()->exists(id = studentId)
+  inv: self.student <> null
+  inv: self.internship <> null
+  inv: self.status in Set{'Pending', 'Accepted', 'Rejected'}
+  inv: self.applicationDate <= Date.now()
+
+
+context Notification
+  inv: self.sentDate <= Date.now()
+  inv: self.isRead implies self.readDate >= self.sentDate
+
+context Notification::markAsRead()
+  post: isRead = true

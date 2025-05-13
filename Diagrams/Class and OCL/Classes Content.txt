@@ -1,0 +1,320 @@
+public class Admin {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
+}
+public class Company {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true, nullable = false)
+    private String name;
+    private String industry;
+    private String location;
+}
+public class Hr {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+}
+public class Role {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+}
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String phone;
+    private String college;
+    private String faculty;
+    private String grade;
+    private String cv;
+    private String yearOfGraduation;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
+}
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    private String fname;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+}
+public class Application {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Student reference (ID only)
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
+
+    // Internship reference (ID only)
+    @ManyToOne
+    @JoinColumn(name = "internship_id", nullable = false)
+    private Internship internship;
+
+    // Application status
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.PENDING;
+
+    // Timestamps
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime appliedAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @Column(length = 50)
+    private String resumeUrl;
+}
+public class Internship {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Core Information
+    @Column(nullable = false, length = 100)
+    private String title;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String description;
+
+    @Column(nullable = false, length = 100)
+    private String companyName;
+
+    // Time Management
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ACTIVE;
+
+    // Location/Type
+    @Column(nullable = false, length = 50)
+    private String location;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private InternshipType type;
+
+    // Duration/Compensation
+    @Column(nullable = false, length = 20)
+    private String duration;
+
+    @Column(length = 50)
+    private String stipend;
+
+    // HR Reference (ID only)
+    @Column(name = "hr_id", nullable = false)
+    private Long hrId;
+
+    // Enums
+    public enum Status {
+        ACTIVE, EXPIRED, FILLED
+    }
+
+    public enum InternshipType {
+        FULL_TIME, PART_TIME, REMOTE, HYBRID
+    }
+}
+public class Notification {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Student reference (ID only)
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
+
+    @ManyToOne
+    @JoinColumn(name = "application_id", nullable = false)
+    private Application application;
+
+    // Application status
+    @Column(nullable = false)
+    private boolean isRead = false;
+    // Timestamps
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private String internshipTitle;
+}
+public class ApplicationService {
+	private final ApplicationRepository applicationRepository;
+	private final InternshipRepository internshipRepository;
+	private final UserServiceClient userServiceClient;
+	public ApplicationService(ApplicationRepository applicationRepository, InternshipRepository 	internshipRepository, UserServiceClient userServiceClient){}
+	public List<Application> getStudentApplications(Long studentId){}
+	public Application getOneApplication(Long id){}
+	public List<Application> getApplicationsByHr(Long hrId){}
+	public List<Application> getApplicationsByInternship(Long internshipId){}
+	public List<Long> getApplicationsIdByInternship(Long internshipId){}
+	public Application createApplication(Long studentId, Long internshipId, String authToken){}
+	public Application updateApplication(Long id, Application.Status status){}
+	public void deleteAllByIds(List<Long> ids){}
+	public List<Long> findIdsByInternshipIds(List<Long> internshipIds){}
+}
+public class InternshipService {
+	private final InternshipRepository internshipRepository;
+	private final UserServiceClient userServiceClient;
+	public InternshipService(InternshipRepository internshipRepository, UserServiceClient hrServiceClient){}
+	public Internship createInternship(Internship internship, String authToken){}
+	public List<Internship> getActiveInternships(){}
+	public Page<Internship> getAllInternships(int page, int size, String search){}
+	public Internship getOneInternship(Long id){}
+	public Page<Internship> getInternshipsByHr(Long hrId, Pageable pageable, String search){}
+	public List<Long> getInternshipsByHrId(Long hrId){}
+	public boolean updateInternship(Long id, Internship updatedInternship){}
+	public boolean deleteInternship(Long id){}
+	public Long getInternshipCount(){}
+	public void deleteAllByIds(List<Long> ids){}
+	public List<Long> findIdsByHrIds(List<Long> hrIds){}
+}
+public class NotificationService {
+
+private final NotificationRepository notificationRepository;
+public NotificationService(NotificationRepository notificationRepository){}
+public Page<Notification> getNotificationsByStudentId(Long studentId, Pageable pageable){}
+public Optional<Notification> getNotificationByIdAndStudentId(Long id, Long studentId){}
+public Notification markAsRead(Long id, Long studentId){}
+public void createNotification(Notification notification){}
+public Page<Notification> searchByInternshipTitle(Long studentId, String searchTerm, Pageable pageable){}
+public void deleteNotificationsByApplicationIds(List<Long> applicationIds){}
+}
+public class AdminService {
+    private final AdminRepository adminRepository;
+    private final UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    public AdminService(AdminRepository adminRepository, UserService userService){}
+    public Admin getOneAdmin(Long id){}
+    public boolean updateAdmin(Long id, User updatedAdmin){}
+}
+public class AuthService {
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    public Map<String, String> authenticate(String username, String password){}
+    public void registerUser(String username, String password, String email, String fName, String cv){}
+}
+public class CompanyService {
+
+    private final CompanyRepository companyRepository;
+    public CompanyService(CompanyRepository companyRepository, UserService userService){}
+    public Company getCompanyByName(String name){}
+    public List<Company> getAllCompanies(){}
+    public Company getCompanyById(Long id){}
+    public Company addCompany(CompanyDto dto){}
+    public Company updateCompany(Long id, CompanyDto updatedDto){}
+    public Boolean deleteCompany(Long id){}
+    public Long getCompanyCount(){}
+}
+public class HrService {
+
+    private final HrRepository hrRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CompanyRepository companyRepository;
+    private final RoleRepository roleRepository;
+    public HrService(HrRepository hrRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, CompanyRepository companyRepository, RoleRepository roleRepository){}
+    public List<Hr> getAllHr(){}
+    public List<Long> getHrByCompanyId(Long companyId){}
+    public Hr getHrById(Long id){}
+    public boolean updateHr(Long id, User updatedHr){}
+    public Hr addHr(HrDto hrDto){}
+    public boolean hrExists(Long id){}
+    public boolean DeleteHr(Long id){}
+    public void deleteAllByIds(List<Long> ids){]
+    public Long getHrCount(){}
+}
+public class StudentService {
+    private final StudentRepository studentRepository;
+    private final UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public StudentService(StudentRepository studentRepository, UserService userService){}
+    public Student getUserByUsername(String username){}
+    public List<Student> getAllStudents(){}
+    public Student getStudentById(Long id){}
+    public boolean updateStudent(Long id, StudentDto updatedStudent){}
+    public boolean studentExists(Long id){}
+}
+public class UserService {
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository){}
+    public User getUserByUsername(String username){}
+    public User getUserById(Long id){}
+    public Boolean AddUser(String username, String password, String email, String FName, String roleName){}
+    public Boolean UpdateUser(Long id, String userName, String password, String email, String FName, String roleName){}
+    public Boolean DeleteUser(Long id){}
+}
+
+
+these are the classes I want sequence diagram for the main function of the internship application 
+and I use microservice and I have two user microservice and internship microservice 
+and I access them with api gateway
+
+
+
+
+

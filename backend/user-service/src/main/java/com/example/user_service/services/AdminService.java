@@ -18,18 +18,15 @@ public class AdminService {
     private final UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     public AdminService(AdminRepository adminRepository, UserService userService) {
         this.adminRepository = adminRepository;
         this.userService = userService;
     }
-
     public Admin getOneAdmin(Long id) {
 
         return adminRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
     }
-
     public boolean updateAdmin(Long id, User updatedAdmin) {
         Optional<Admin> existingAdminOpt = adminRepository.findById(id);
 

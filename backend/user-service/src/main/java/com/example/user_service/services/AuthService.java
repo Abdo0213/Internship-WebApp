@@ -32,8 +32,6 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private CompanyRepository companyRepository;
-    @Autowired
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;

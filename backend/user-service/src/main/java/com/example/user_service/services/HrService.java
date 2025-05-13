@@ -44,7 +44,6 @@ public class HrService {
     public Hr getHrById(Long id) {
         return hrRepository.findById(id).orElse(null);
     }
-
     @Transactional
     public boolean updateHr(Long id, User updatedHr) {
         Optional<Hr> optionalHr = hrRepository.findById(id);

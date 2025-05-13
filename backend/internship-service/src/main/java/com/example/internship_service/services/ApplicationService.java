@@ -29,14 +29,11 @@ public class ApplicationService {
     public List<Application> getStudentApplications(Long studentId) {
         return applicationRepository.findByStudentId(studentId);
     }
-
     // Get single application by ID
     public Application getOneApplication(Long id) {
         return applicationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Application not found with ID: " + id));
     }
-
-
     // Get all applications for internships posted by specific HR
     public List<Application> getApplicationsByHr(Long hrId) {
         // First get all internships by this HR
@@ -73,9 +70,6 @@ public class ApplicationService {
 
         return applicationRepository.save(application);
     }
-
-
-
     // Update application status (e.g., PENDING → ACCEPTED/REJECTED)
     public Application updateApplication(Long id, Application.Status status) {
         Application application = getOneApplication(id);
