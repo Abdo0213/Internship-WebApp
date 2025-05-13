@@ -191,10 +191,10 @@ const InternshipsPage = () => {
     return (
         <>
             <Navbar />
-            <div className="page-container">
-                <div className="content-container">
-                    <div className="two-column-layout">
-                        <div className="list-column">
+            <div className={style["page-container"]}>
+                <div className={style["content-container"]}>
+                    <div className={style["two-column-layout"]}>
+                        <div className={style["list-column"]}>
                             <SearchableList 
                             items={internships} 
                             onItemSelect={setSelectedInternship} 
@@ -202,10 +202,10 @@ const InternshipsPage = () => {
                             />
                         </div>
                         
-                        <div className="main-content">
-                            <div className="main-content-header">
+                        <div className={style["detail-column"]}>
+                            <div className={style["main-content-header"]}>
                                 <button
-                                    className="new-internship-button"
+                                    className={style["new-internship-button"]}
                                     onClick={() => setShowCreateModal(true)}
                                 >
                                     Create New Internship <FaPlus/>
@@ -217,13 +217,13 @@ const InternshipsPage = () => {
                                         internship={selectedInternship}
                                         onEditClick={() => setShowEditModal(true)}
                                     />
-                                    <div className="card-actions">
+                                    <div className={style["card-actions"]}>
                                         {/*<button className="btn btn-edit">Edit</button>*/}
-                                        <button className="btn btn-delete" onClick={() => handleDeleteInternship(selectedInternship.id)}>Delete</button>
+                                        <button className={`${style["btn"]} ${style["btn-delete"]}`} onClick={() => handleDeleteInternship(selectedInternship.id)}>Delete</button>
                                     </div>
                                 </>
                             ) : (
-                                <div className="no-internship-selected">
+                                <div className={style["no-internship-selected"]}>
                                     <p>Select an internship from the list or create a new one</p>
                                 </div>
                             )}

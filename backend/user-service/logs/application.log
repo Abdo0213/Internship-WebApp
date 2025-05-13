@@ -400,3 +400,46 @@
 2025-05-13 15:38:40 [http-nio-8080-exec-1] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyController::getAllCompanies executed successfully in 4 ms
 2025-05-13 15:38:40 [http-nio-8080-exec-5] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyService::getAllCompanies executed successfully in 5 ms
 2025-05-13 15:38:40 [http-nio-8080-exec-5] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyController::getAllCompanies executed successfully in 5 ms
+2025-05-13 15:42:25 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-13 15:47:25 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-13 15:52:25 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-13 15:54:01 [http-nio-8080-exec-4] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyService::getAllCompanies executed successfully in 7 ms
+2025-05-13 15:54:01 [http-nio-8080-exec-4] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyController::getAllCompanies executed successfully in 7 ms
+2025-05-13 15:54:01 [http-nio-8080-exec-9] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyService::getAllCompanies executed successfully in 6 ms
+2025-05-13 15:54:01 [http-nio-8080-exec-9] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyController::getAllCompanies executed successfully in 6 ms
+2025-05-13 15:54:01 [http-nio-8080-exec-7] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getAllHr executed successfully in 6 ms
+2025-05-13 15:54:01 [http-nio-8080-exec-7] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getAllHr executed successfully in 8 ms
+2025-05-13 15:54:01 [http-nio-8080-exec-8] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getAllHr executed successfully in 4 ms
+2025-05-13 15:54:01 [http-nio-8080-exec-8] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getAllHr executed successfully in 5 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-10] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-10] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-6] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-6] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-1] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-1] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-5] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-5] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-3] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-3] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-2] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-2] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-4] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-4] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-9] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-9] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-7] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 5 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-7] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 5 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-8] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-8] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-10] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 2 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-10] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 2 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-6] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrById executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-6] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getPublicInfoHr executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-1] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrCount executed successfully in 5 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-1] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getCount executed successfully in 5 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-5] INFO  c.e.user_service.aop.LoggingAspect - Method HrService::getHrCount executed successfully in 21 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-5] INFO  c.e.user_service.aop.LoggingAspect - Method HrController::getCount executed successfully in 22 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-3] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyService::getCompanyCount executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-3] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyController::getCount executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-2] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyService::getCompanyCount executed successfully in 2 ms
+2025-05-13 15:54:02 [http-nio-8080-exec-2] INFO  c.e.user_service.aop.LoggingAspect - Method CompanyController::getCount executed successfully in 2 ms

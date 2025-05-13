@@ -12,6 +12,8 @@ import Internship from './pages/Internship/Internship';
 import Companies from './pages/Admin/Companies/Companies';
 import HRsPageAdmin from './pages/Admin/HRsPageAdmin/HRsPageAdmin';
 import InternshipsPage from './pages/Admin/InternshipsPageAdmin/InternshipsPageAdmin';
+import Unauthorized from './context/Unauthorized';
+import ProtectedRoute from './context/ProtectedRoute';
 
 function App() {
     return (
@@ -21,36 +23,67 @@ function App() {
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/" element={<Landing />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/admin" element={<AdminDash />} />
-          <Route path="/hr" element={<HRDash />} />
           <Route path="/internship" element={<Internship />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/companies" element={<Companies />} />
-          <Route path="/hrs" element={<HRsPageAdmin />} />
-          <Route path="/internships" element={<InternshipsPage />} />
-          {/*<Route path="/unauthorized" element={<Unauthorized />} />
-          
-          {/* Protected Routes 
           <Route 
-            path="/" 
+            path="/notifications" 
             element={
-              <ProtectedRoute requiredRoles={['user']}>
-                <Navigate to="/dashboard" replace />
+              <ProtectedRoute requiredRoles={['STUDENT']}>
+                <Notifications />
               </ProtectedRoute>
             } 
           />
-          
           <Route 
-            path="/logout" 
+            path="/admin" 
             element={
-              <ProtectedRoute requiredRoles={['user', 'editor']}>
-                <Logout />
+              <ProtectedRoute requiredRoles={['ADMIN']}>
+                <AdminDash />
               </ProtectedRoute>
             } 
-          />*/}
-          
+          />
+          <Route 
+            path="/hr" 
+            element={
+              <ProtectedRoute requiredRoles={['HR']}>
+                <HRDash />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute requiredRoles={['STUDENT','ADMIN','HR']}>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/companies" 
+            element={
+              <ProtectedRoute requiredRoles={['ADMIN']}>
+                <Companies />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/hrs" 
+            element={
+              <ProtectedRoute requiredRoles={['ADMIN']}>
+                <HRsPageAdmin />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/internships" 
+            element={
+              <ProtectedRoute requiredRoles={['ADMIN']}>
+                <InternshipsPage />
+              </ProtectedRoute>
+            } 
+          />
+
+
           {/* Fallback route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

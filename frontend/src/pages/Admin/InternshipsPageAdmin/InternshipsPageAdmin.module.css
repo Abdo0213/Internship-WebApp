@@ -1,3 +1,46 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-container {
+    padding: 2rem;
+    flex: 1;
+}
+
+.two-column-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+.main-content-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.new-internship-button {
+    padding: 12px 24px;
+    background-color: var(--black);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-size: 15px;
+}
+
+.new-internship-button:hover {
+    background-color: var(--gray-700);
+    transform: translateY(-1px);
+}
+
 .list-column, .detail-column {
     background-color: white;
     border-radius: 8px;
@@ -31,4 +74,59 @@
     display: flex;
     gap: 1rem;
     margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-add {
+    background-color: #000;
+    color: white;
+}
+
+.btn-add:hover {
+    background-color: #333;
+}
+
+.btn-view {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.btn-view:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-edit {
+    background-color: #000;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #333;
+}
+
+.btn-delete {
+    background-color: #fff;
+    color: #ff4444;
+    border: 1px solid #ff4444;
+}
+
+.btn-delete:hover {
+    background-color: #ffeeee;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        padding: 32px;
+    }
 }

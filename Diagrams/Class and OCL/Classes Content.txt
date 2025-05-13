@@ -313,8 +313,3 @@ public class UserService {
 these are the classes I want sequence diagram for the main function of the internship application 
 and I use microservice and I have two user microservice and internship microservice 
 and I access them with api gateway
-
-
-
-
-

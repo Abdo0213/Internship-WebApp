@@ -361,3 +361,16 @@ com.example.internship_service.exception.JwtAuthenticationException: Insufficien
 2025-05-13 15:38:40 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 53 ms
 2025-05-13 15:38:40 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 6 ms
 2025-05-13 15:38:40 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 60 ms
+2025-05-13 15:42:32 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-13 15:47:32 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-13 15:52:33 [AsyncResolver-bootstrap-executor-%d] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-13 15:54:02 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 6 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 58 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 4 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 51 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-6] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 7 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-6] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 55 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-7] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getInternshipCount executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-7] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getCount executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-8] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getInternshipCount executed successfully in 3 ms
+2025-05-13 15:54:02 [http-nio-8081-exec-8] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getCount executed successfully in 3 ms
