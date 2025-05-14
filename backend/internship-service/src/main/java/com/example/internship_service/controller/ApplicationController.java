@@ -137,15 +137,18 @@ public class ApplicationController {
         return ResponseEntity.ok(updatedApplication);
     }
     @DeleteMapping("/bulk")
-    public ResponseEntity<String> deleteHrInBulk(@RequestBody List<Long> applicationIds) {
+    public ResponseEntity<String> deleteApplicationsInBulk(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody List<Long> applicationIds) {
         try {
             // First delete associated notifications
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", authHeader);
             HttpEntity<List<Long>> request = new HttpEntity<>(applicationIds, headers);
 
             ResponseEntity<Void> notificationResponse = restTemplate.exchange(
-                    "http://localhost:8765/internship-service/api/notifications/bulk",
+                    "http://localhost:8765/internship-service/notifications/bulk",
                     HttpMethod.DELETE,
                     request,
                     Void.class

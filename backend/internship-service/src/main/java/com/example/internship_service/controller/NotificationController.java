@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,8 +99,18 @@ public class NotificationController {
     }
     @DeleteMapping("/bulk")
     @JwtValidation(requiredRoles = {"admin", "hr"})
-    public ResponseEntity<Void> deleteNotificationsByApplicationIds(@RequestBody List<Long> applicationIds) {
-        notificationService.deleteNotificationsByApplicationIds(applicationIds);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteNotificationsByApplicationIds(
+            @RequestBody List<Long> applicationIds,
+            @RequestHeader HttpHeaders headers) {
+
+        System.out.println("Received headers: " + headers);
+        System.out.println("Application IDs: " + applicationIds);
+
+        try {
+            notificationService.deleteNotificationsByApplicationIds(applicationIds);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
     }
 }

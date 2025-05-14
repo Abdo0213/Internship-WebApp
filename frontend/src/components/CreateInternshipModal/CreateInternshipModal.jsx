@@ -118,9 +118,12 @@ const CreateInternshipModal = ({ show, onClose, onCreate, modalType }) => {
 
     const handleSubmit = (e) => {
         if(modalType === "internship"){
+            const selectedHr = hrs.find(hr => hr.id === parseInt(newInternship.hrId, 10));
+            console.log(selectedHr);
             const submissionData = {
                 ...newInternship,
-                hrId: parseInt(newInternship.hrId, 10)
+                hrId: parseInt(newInternship.hrId, 10),
+                companyName: selectedHr ? selectedHr.company.name : '' // or null if not found
             };
             e.preventDefault();
             onCreate(submissionData);

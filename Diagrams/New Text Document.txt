@@ -1,0 +1,220 @@
+Here are 15 example internships with the fields you requested (Title, Stipend, Description, Type, Location, and Duration):
+
+1. Frontend Developer Intern
+Stipend: $2,500/month
+
+Description: Work on React.js and Next.js projects, collaborate with UI/UX designers, and build responsive web applications.
+
+Type: Full-time
+
+Location: San Francisco, CA
+
+Duration: 3 months
+
+2. Data Science Intern
+Stipend: $3,000/month
+
+Description: Analyze large datasets, build machine learning models, and create data visualizations using Python and SQL.
+
+Type: Remote
+
+Location: Anywhere (Remote)
+
+Duration: 6 months
+
+3. Marketing Intern
+Stipend: $1,800/month
+
+Description: Assist in social media campaigns, SEO optimization, and content creation for digital marketing strategies.
+
+Type: Hybrid
+
+Location: New York, NY
+
+Duration: 4 months
+
+4. Backend Developer Intern
+Stipend: $2,800/month
+
+Description: Develop REST APIs, optimize database queries, and work with Node.js, Django, or Spring Boot.
+
+Type: Full-time
+
+Location: Austin, TX
+
+Duration: 3 months
+
+5. Cybersecurity Intern
+Stipend: $3,200/month
+
+Description: Conduct vulnerability assessments, penetration testing, and security audits for enterprise systems.
+
+Type: Remote
+
+Location: Anywhere (Remote)
+
+Duration: 6 months
+
+6. UX/UI Design Intern
+Stipend: $2,000/month
+
+Description: Create wireframes, prototypes, and user research studies using Figma and Adobe XD.
+
+Type: Hybrid
+
+Location: Seattle, WA
+
+Duration: 4 months
+
+7. DevOps Intern
+Stipend: $2,700/month
+
+Description: Automate CI/CD pipelines, manage cloud infrastructure (AWS/GCP), and work with Docker/Kubernetes.
+
+Type: Full-time
+
+Location: Boston, MA
+
+Duration: 3 months
+
+8. AI Research Intern
+Stipend: $3,500/month
+
+Description: Research NLP/computer vision models, fine-tune LLMs, and publish findings in AI conferences.
+
+Type: Remote
+
+Location: Anywhere (Remote)
+
+Duration: 6 months
+
+9. Product Management Intern
+Stipend: $2,300/month
+
+Description: Assist in product roadmaps, user stories, and Agile sprint planning for tech products.
+
+Type: Hybrid
+
+Location: Chicago, IL
+
+Duration: 4 months
+
+10. Mobile App Developer Intern
+Stipend: $2,600/month
+
+Description: Build iOS/Android apps using Swift, Kotlin, or Flutter and collaborate with cross-functional teams.
+
+Type: Full-time
+
+Location: Los Angeles, CA
+
+Duration: 3 months
+
+11. Cloud Engineering Intern
+Stipend: $3,100/month
+
+Description: Deploy serverless architectures, optimize cloud costs, and implement IaC (Terraform).
+
+Type: Remote
+
+Location: Anywhere (Remote)
+
+Duration: 6 months
+
+12. Content Writing Intern
+Stipend: $1,500/month
+
+Description: Write blog posts, technical documentation, and SEO-friendly content for tech companies.
+
+Type: Part-time
+
+Location: Remote
+
+Duration: 3 months
+
+13. Blockchain Developer Intern
+Stipend: $3,400/month
+
+Description: Develop smart contracts (Solidity), DApps, and contribute to DeFi/NFT projects.
+
+Type: Full-time
+
+Location: Miami, FL
+
+Duration: 3 months
+
+14. HR & Recruitment Intern
+Stipend: $1,700/month
+
+Description: Screen resumes, coordinate interviews, and assist in employer branding initiatives.
+
+Type: Hybrid
+
+Location: Denver, CO
+
+Duration: 4 months
+
+15. Game Development Intern
+Stipend: $2,400/month
+
+Description: Design game mechanics, develop Unity/Unreal Engine prototypes, and optimize gameplay.
+
+Type: Full-time
+
+Location: Orlando, FL
+
+Duration: 3 months
+
+
+
+
+
+1. TechNova Solutions
+Industry: Information Technology (Software Development)
+
+Location: Information Technology (Software Development)
+
+2. GreenEarth Energy
+Industry: Renewable Energy (Solar/Wind)
+
+Location: Austin, TX
+
+3. MediCare Pharmaceuticals
+Industry: Healthcare (Pharmaceuticals)
+
+Location: Boston, MA
+
+4. FinEdge Capital
+Industry: Financial Services (Investment Banking)
+
+Location: New York, NY
+
+5. AutoDynamic Motors
+Industry: Automotive (Electric Vehicles)
+
+Location: Detroit, MI
+
+6. EduGrow Academy
+Industry: Education (EdTech)
+
+Location: Chicago, IL
+
+7. AgriGrow Farms
+Industry: Agriculture (Sustainable Farming)
+
+Location: Des Moines, IA
+
+8. AeroVision Aerospace
+Industry: Aerospace & Defense
+
+Location: Seattle, WA
+
+9. RetailHub Marketplace
+Industry: E-Commerce (Online Retail)
+
+Location: Atlanta, GA
+
+10. CyberShield Security
+Industry: Cybersecurity
+
+Location: Washington, D.C.
