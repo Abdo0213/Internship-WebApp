@@ -54,3 +54,206 @@
 2025-05-14 00:01:49 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-05-14 00:01:49 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
 2025-05-14 00:01:49 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-05-14 05:49:16 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Starting InternshipServiceApplication using Java 21.0.2 with PID 22332 (D:\Work\Internship-WebApp\backend\internship-service\target\classes started by Body in D:\Work\Internship-WebApp\backend\internship-service)
+2025-05-14 05:49:16 [restartedMain] INFO  c.e.i.InternshipServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-14 05:49:19 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-14 05:49:19 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-14 05:49:19 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-14 05:49:20 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-14 05:49:20 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1d6ab167
+2025-05-14 05:49:20 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-14 05:49:22 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-14 05:49:22 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-05-14 05:49:22 [restartedMain] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 35cf6d53-c667-4017-98ae-9c1550a846d5
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-14 05:49:23 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2025-05-14 05:49:23 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2025-05-14 05:49:23 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-05-14 05:49:24 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-05-14 05:49:24 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2025-05-14 05:49:24 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-05-14 05:49:24 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1747190964278 with initial instances count: 0
+2025-05-14 05:49:24 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1747190964291, current=UP, previous=STARTING]
+2025-05-14 05:49:24 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/192.168.1.10:internship-service:8081: registering service...
+2025-05-14 05:49:24 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Started InternshipServiceApplication in 8.066 seconds (process running for 8.79)
+2025-05-14 05:49:24 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/192.168.1.10:internship-service:8081 - registration status: 204
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: false
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-05-14 05:49:54 [DiscoveryClient-CacheRefreshExecutor-%d] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-05-14 05:50:07 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-14 05:50:07 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 216 ms
+2025-05-14 05:50:08 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 762 ms
+2025-05-14 05:50:08 [http-nio-8081-exec-1] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-14 05:50:08 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 10 ms
+2025-05-14 05:50:08 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 173 ms
+2025-05-14 05:50:08 [http-nio-8081-exec-3] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 8 ms
+2025-05-14 05:50:08 [http-nio-8081-exec-3] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 187 ms
+2025-05-14 05:50:08 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 12 ms
+2025-05-14 05:50:08 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 148 ms
+2025-05-14 05:50:11 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 8 ms
+2025-05-14 05:50:11 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 47 ms
+2025-05-14 05:50:14 [http-nio-8081-exec-6] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 5 ms
+2025-05-14 05:50:14 [http-nio-8081-exec-6] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 5 ms
+2025-05-14 05:50:43 [http-nio-8081-exec-7] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 8 ms
+2025-05-14 05:50:43 [http-nio-8081-exec-7] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 136 ms
+2025-05-14 05:50:43 [http-nio-8081-exec-8] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 8 ms
+2025-05-14 05:50:43 [http-nio-8081-exec-8] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 141 ms
+2025-05-14 05:50:43 [http-nio-8081-exec-9] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 8 ms
+2025-05-14 05:50:43 [http-nio-8081-exec-9] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 124 ms
+2025-05-14 05:50:44 [http-nio-8081-exec-10] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getInternshipCount executed successfully in 26 ms
+2025-05-14 05:50:44 [http-nio-8081-exec-10] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getCount executed successfully in 26 ms
+2025-05-14 05:50:44 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getInternshipCount executed successfully in 5 ms
+2025-05-14 05:50:44 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getCount executed successfully in 5 ms
+2025-05-14 05:50:46 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 8 ms
+2025-05-14 05:50:46 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 123 ms
+2025-05-14 05:50:46 [http-nio-8081-exec-3] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 7 ms
+2025-05-14 05:50:46 [http-nio-8081-exec-3] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 127 ms
+2025-05-14 05:50:46 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 14 ms
+2025-05-14 05:50:47 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 141 ms
+2025-05-14 05:51:04 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1747191064797, current=DOWN, previous=UP]
+2025-05-14 05:51:04 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/192.168.1.10:internship-service:8081: registering service...
+2025-05-14 05:51:04 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/192.168.1.10:internship-service:8081 - registration status: 204
+2025-05-14 05:51:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-14 05:51:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-14 05:51:04 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-05-14 12:04:32 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Starting InternshipServiceApplication using Java 21.0.2 with PID 400 (D:\Work\Internship-WebApp\backend\internship-service\target\classes started by Body in D:\Work\Internship-WebApp\backend\internship-service)
+2025-05-14 12:04:32 [restartedMain] INFO  c.e.i.InternshipServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-14 12:04:35 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-14 12:04:35 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-14 12:04:35 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-14 12:04:35 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-14 12:04:35 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@41f3a71e
+2025-05-14 12:04:35 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-14 12:04:37 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-14 12:04:37 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-05-14 12:04:38 [restartedMain] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a9079bfe-76b6-49ac-bf04-d67692914feb
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-14 12:04:39 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2025-05-14 12:04:39 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2025-05-14 12:04:39 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1747213479705 with initial instances count: 2
+2025-05-14 12:04:39 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1747213479713, current=UP, previous=STARTING]
+2025-05-14 12:04:39 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081: registering service...
+2025-05-14 12:04:39 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Started InternshipServiceApplication in 7.328 seconds (process running for 8.005)
+2025-05-14 12:04:39 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081 - registration status: 204
+2025-05-14 12:05:52 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-14 12:05:52 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getInternshipsByHr executed successfully in 116 ms
+2025-05-14 12:05:52 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getByHr executed successfully in 118 ms
+2025-05-14 12:05:52 [http-nio-8081-exec-1] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-14 12:05:52 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getInternshipsByHr executed successfully in 18 ms
+2025-05-14 12:05:52 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getByHr executed successfully in 18 ms
+2025-05-14 12:05:52 [http-nio-8081-exec-3] INFO  c.e.i.aop.LoggingAspect - Method ApplicationService::getApplicationsByInternship executed successfully in 13 ms
+2025-05-14 12:05:52 [http-nio-8081-exec-3] INFO  c.e.i.aop.LoggingAspect - Method ApplicationController::getApplicationsByInternship executed successfully in 13 ms
+2025-05-14 12:05:52 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method ApplicationService::getApplicationsByInternship executed successfully in 6 ms
+2025-05-14 12:05:52 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method ApplicationController::getApplicationsByInternship executed successfully in 6 ms
+2025-05-14 12:06:14 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::createInternship executed successfully in 265 ms
+2025-05-14 12:06:14 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::createInternship executed successfully in 265 ms
+2025-05-14 12:06:14 [http-nio-8081-exec-6] INFO  c.e.i.aop.LoggingAspect - Method ApplicationService::getApplicationsByInternship executed successfully in 11 ms
+2025-05-14 12:06:14 [http-nio-8081-exec-6] INFO  c.e.i.aop.LoggingAspect - Method ApplicationController::getApplicationsByInternship executed successfully in 11 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-7] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 25 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-7] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 197 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-8] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 14 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-8] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 178 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-9] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 12 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-9] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 164 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-10] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 11 ms
+2025-05-14 12:06:34 [http-nio-8081-exec-10] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 147 ms
+2025-05-14 12:06:49 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1747213609560, current=DOWN, previous=UP]
+2025-05-14 12:06:49 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081: registering service...
+2025-05-14 12:06:49 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081 - registration status: 204
+2025-05-14 12:06:49 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-14 12:06:49 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-14 12:06:49 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
+2025-05-14 12:06:52 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Unregistering ...
+2025-05-14 12:06:52 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081 - deregister  status: 200
+2025-05-14 12:06:52 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2025-05-14 12:07:07 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Starting InternshipServiceApplication using Java 21.0.2 with PID 20816 (D:\Work\Internship-WebApp\backend\internship-service\target\classes started by Body in D:\Work\Internship-WebApp\backend\internship-service)
+2025-05-14 12:07:07 [restartedMain] INFO  c.e.i.InternshipServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-14 12:07:09 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-14 12:07:09 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-14 12:07:09 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-14 12:07:10 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-14 12:07:10 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1831f147
+2025-05-14 12:07:10 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-14 12:07:12 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-14 12:07:12 [restartedMain] WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
+2025-05-14 12:07:12 [restartedMain] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 331b1e2f-fe78-4f9e-8611-5d3c67954162
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-05-14 12:07:13 [restartedMain] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2025-05-14 12:07:13 [restartedMain] INFO  c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application is null : false
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2025-05-14 12:07:13 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2025-05-14 12:07:14 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - The response status is 200
+2025-05-14 12:07:14 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2025-05-14 12:07:14 [restartedMain] INFO  c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-05-14 12:07:14 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1747213634072 with initial instances count: 2
+2025-05-14 12:07:14 [restartedMain] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1747213634081, current=UP, previous=STARTING]
+2025-05-14 12:07:14 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081: registering service...
+2025-05-14 12:07:14 [restartedMain] INFO  c.e.i.InternshipServiceApplication - Started InternshipServiceApplication in 7.141 seconds (process running for 7.805)
+2025-05-14 12:07:14 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081 - registration status: 204
+2025-05-14 12:07:52 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-14 12:07:52 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 110 ms
+2025-05-14 12:07:52 [http-nio-8081-exec-1] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 232 ms
+2025-05-14 12:07:52 [http-nio-8081-exec-1] WARN  o.s.d.w.c.SpringDataJacksonConfiguration$PageModule$WarningLoggingModifier - Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-05-14 12:07:52 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 7 ms
+2025-05-14 12:07:52 [http-nio-8081-exec-2] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 106 ms
+2025-05-14 12:07:52 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 7 ms
+2025-05-14 12:07:52 [http-nio-8081-exec-5] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 104 ms
+2025-05-14 12:07:52 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method InternshipService::getAllInternships executed successfully in 7 ms
+2025-05-14 12:07:52 [http-nio-8081-exec-4] INFO  c.e.i.aop.LoggingAspect - Method InternshipController::getAllInternships executed successfully in 106 ms
+2025-05-14 12:11:06 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=56s298ms989µs800ns).
+2025-05-14 12:11:22 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1747213882748, current=DOWN, previous=UP]
+2025-05-14 12:11:22 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081: registering service...
+2025-05-14 12:11:22 [DiscoveryClient-InstanceInfoReplicator-%d] INFO  c.netflix.discovery.DiscoveryClient - DiscoveryClient_INTERNSHIP-SERVICE/DESKTOP-GLE1GGK:internship-service:8081 - registration status: 204
+2025-05-14 12:11:22 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-14 12:11:22 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-14 12:11:22 [SpringApplicationShutdownHook] INFO  c.netflix.discovery.DiscoveryClient - Shutting down DiscoveryClient ...
